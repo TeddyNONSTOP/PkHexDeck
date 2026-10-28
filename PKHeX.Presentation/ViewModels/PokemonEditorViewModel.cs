@@ -1,0 +1,1226 @@
+
+using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using PKHeX.Application.Abstractions;
+using PKHeX.Core;
+using PKHeX.Presentation.Localization;
+
+namespace PKHeX.Presentation.ViewModels;
+
+public partial class PokemonEditorViewModel : ViewModelBase
+{
+    private PKM _pk;
+    private readonly SaveFile _sav;
+    private readonly ISpriteRenderer _spriteRenderer;
+    private readonly IDialogService _dialogService;
+    private readonly IWindowService _windowService;
+    private readonly IAutoLegalityService? _autoLegalityService;
+    private readonly bool _haXMode;
+    private bool _isLoading; // Flag to prevent modifying _pk during load
+    private bool _abilitySelectionChanged;
+    private bool _synchronizingAbilityChoice;
+
+    // Data sources (mostly filtered by SaveFile context)
+    [ObservableProperty] private IReadOnlyList<ComboItem> _speciesList;
+    [ObservableProperty] private IReadOnlyList<ComboItem> _moveList;
+    [ObservableProperty] private IReadOnlyList<ComboItem> _natureList;
+    [ObservableProperty] private IReadOnlyList<ComboItem> _ballList;
+    [ObservableProperty] private IReadOnlyList<ComboItem> _itemList;
+    [ObservableProperty] private IReadOnlyList<ComboItem> _originGameList;
+    [ObservableProperty] private IReadOnlyList<ComboItem> _relearnMoveDataSource;
+    [ObservableProperty] private IReadOnlyList<ComboItem> _languageList;
+
+    public string HyperTrainedHpAutomationName => GetHyperTrainedAutomationName("PokemonEditor_StatHp");
+    public string HyperTrainedAtkAutomationName => GetHyperTrainedAutomationName("PokemonEditor_StatAtk");
+    public string HyperTrainedDefAutomationName => GetHyperTrainedAutomationName("PokemonEditor_StatDef");
+    public string HyperTrainedSpaAutomationName => GetHyperTrainedAutomationName("PokemonEditor_StatSpa");
+    public string HyperTrainedSpdAutomationName => GetHyperTrainedAutomationName("PokemonEditor_StatSpd");
+    public string HyperTrainedSpeAutomationName => GetHyperTrainedAutomationName("PokemonEditor_StatSpe");
+
+    public string HpIvAutomationName => GetStatValueAutomationName("PokemonEditor_StatHp", "PokemonEditor_ColIVs");
+    public string HpEvAutomationName => GetStatValueAutomationName("PokemonEditor_StatHp", "PokemonEditor_ColEVs");
+    public string AtkIvAutomationName => GetStatValueAutomationName("PokemonEditor_StatAtk", "PokemonEditor_ColIVs");
+    public string AtkEvAutomationName => GetStatValueAutomationName("PokemonEditor_StatAtk", "PokemonEditor_ColEVs");
+    public string DefIvAutomationName => GetStatValueAutomationName("PokemonEditor_StatDef", "PokemonEditor_ColIVs");
+    public string DefEvAutomationName => GetStatValueAutomationName("PokemonEditor_StatDef", "PokemonEditor_ColEVs");
+    public string SpaIvAutomationName => GetStatValueAutomationName("PokemonEditor_StatSpa", "PokemonEditor_ColIVs");
+    public string SpaEvAutomationName => GetStatValueAutomationName("PokemonEditor_StatSpa", "PokemonEditor_ColEVs");
+    public string SpdIvAutomationName => GetStatValueAutomationName("PokemonEditor_StatSpd", "PokemonEditor_ColIVs");
+    public string SpdEvAutomationName => GetStatValueAutomationName("PokemonEditor_StatSpd", "PokemonEditor_ColEVs");
+    public string SpeIvAutomationName => GetStatValueAutomationName("PokemonEditor_StatSpe", "PokemonEditor_ColIVs");
+    public string SpeEvAutomationName => GetStatValueAutomationName("PokemonEditor_StatSpe", "PokemonEditor_ColEVs");
+
+    public string Move1AutomationName => GetMoveAutomationName("PokemonEditor_CurrentMoves", 1);
+    public string Move2AutomationName => GetMoveAutomationName("PokemonEditor_CurrentMoves", 2);
+    public string Move3AutomationName => GetMoveAutomationName("PokemonEditor_CurrentMoves", 3);
+    public string Move4AutomationName => GetMoveAutomationName("PokemonEditor_CurrentMoves", 4);
+    public string Pp1AutomationName => GetMoveFieldAutomationName("PokemonEditor_CurrentMoves", "PokemonEditor_Pp", 1);
+    public string Pp2AutomationName => GetMoveFieldAutomationName("PokemonEditor_CurrentMoves", "PokemonEditor_Pp", 2);
+    public string Pp3AutomationName => GetMoveFieldAutomationName("PokemonEditor_CurrentMoves", "PokemonEditor_Pp", 3);
+    public string Pp4AutomationName => GetMoveFieldAutomationName("PokemonEditor_CurrentMoves", "PokemonEditor_Pp", 4);
+    public string PpUps1AutomationName => GetMoveFieldAutomationName("PokemonEditor_CurrentMoves", "PokemonEditor_Ups", 1);
+    public string PpUps2AutomationName => GetMoveFieldAutomationName("PokemonEditor_CurrentMoves", "PokemonEditor_Ups", 2);
+    public string PpUps3AutomationName => GetMoveFieldAutomationName("PokemonEditor_CurrentMoves", "PokemonEditor_Ups", 3);
+    public string PpUps4AutomationName => GetMoveFieldAutomationName("PokemonEditor_CurrentMoves", "PokemonEditor_Ups", 4);
+    public string RelearnMove1AutomationName => GetMoveAutomationName("PokemonEditor_RelearnMoves", 1);
+    public string RelearnMove2AutomationName => GetMoveAutomationName("PokemonEditor_RelearnMoves", 2);
+    public string RelearnMove3AutomationName => GetMoveAutomationName("PokemonEditor_RelearnMoves", 3);
+    public string RelearnMove4AutomationName => GetMoveAutomationName("PokemonEditor_RelearnMoves", 4);
+
+    public string AbilityTooltip => SelectedAbilityIndex >= 0 && SelectedAbilityIndex < AbilityList.Count
+        ? AbilityList[SelectedAbilityIndex].Text : GetComboTooltip(AbilityList, Ability);
+    public string HeldItemTooltip => GetComboTooltip(ItemList, HeldItem);
+    public string BallTooltip => GetComboTooltip(BallList, Ball);
+    public string LanguageTooltip => GetComboTooltip(LanguageList, Language);
+    public string MetDateTooltip => MetDate?.ToString("D") ?? LocalizedStrings.Instance["PokemonEditor_SelectDate"];
+    public string EggDateTooltip => EggDate?.ToString("D") ?? LocalizedStrings.Instance["PokemonEditor_SelectDate"];
+
+    private static string GetHyperTrainedAutomationName(string statKey) =>
+        $"{LocalizedStrings.Instance["StatsHyperTrained"]} {LocalizedStrings.Instance[statKey]}";
+
+    private static string GetStatValueAutomationName(string statKey, string valueKey) =>
+        $"{LocalizedStrings.Instance[statKey]} {LocalizedStrings.Instance[valueKey]}";
+
+    private static string GetMoveAutomationName(string sectionKey, int slot) =>
+        $"{LocalizedStrings.Instance[sectionKey]}: {LocalizedStrings.Instance["PokemonEditor_Move"]} {slot}";
+
+    private static string GetMoveFieldAutomationName(string sectionKey, string fieldKey, int slot) =>
+        $"{LocalizedStrings.Instance[sectionKey]}: {LocalizedStrings.Instance[fieldKey]} {slot}";
+
+    private static string GetComboTooltip(IEnumerable<ComboItem> items, int value) =>
+        items.FirstOrDefault(item => item.Value == value)?.Text ?? value.ToString();
+
+    private void NotifyHyperTrainedAutomationNames()
+    {
+        OnPropertyChanged(nameof(HyperTrainedHpAutomationName));
+        OnPropertyChanged(nameof(HyperTrainedAtkAutomationName));
+        OnPropertyChanged(nameof(HyperTrainedDefAutomationName));
+        OnPropertyChanged(nameof(HyperTrainedSpaAutomationName));
+        OnPropertyChanged(nameof(HyperTrainedSpdAutomationName));
+        OnPropertyChanged(nameof(HyperTrainedSpeAutomationName));
+        OnPropertyChanged(nameof(HpIvAutomationName));
+        OnPropertyChanged(nameof(HpEvAutomationName));
+        OnPropertyChanged(nameof(AtkIvAutomationName));
+        OnPropertyChanged(nameof(AtkEvAutomationName));
+        OnPropertyChanged(nameof(DefIvAutomationName));
+        OnPropertyChanged(nameof(DefEvAutomationName));
+        OnPropertyChanged(nameof(SpaIvAutomationName));
+        OnPropertyChanged(nameof(SpaEvAutomationName));
+        OnPropertyChanged(nameof(SpdIvAutomationName));
+        OnPropertyChanged(nameof(SpdEvAutomationName));
+        OnPropertyChanged(nameof(SpeIvAutomationName));
+        OnPropertyChanged(nameof(SpeEvAutomationName));
+        OnPropertyChanged(nameof(Move1AutomationName));
+        OnPropertyChanged(nameof(Move2AutomationName));
+        OnPropertyChanged(nameof(Move3AutomationName));
+        OnPropertyChanged(nameof(Move4AutomationName));
+        OnPropertyChanged(nameof(Pp1AutomationName));
+        OnPropertyChanged(nameof(Pp2AutomationName));
+        OnPropertyChanged(nameof(Pp3AutomationName));
+        OnPropertyChanged(nameof(Pp4AutomationName));
+        OnPropertyChanged(nameof(PpUps1AutomationName));
+        OnPropertyChanged(nameof(PpUps2AutomationName));
+        OnPropertyChanged(nameof(PpUps3AutomationName));
+        OnPropertyChanged(nameof(PpUps4AutomationName));
+        OnPropertyChanged(nameof(RelearnMove1AutomationName));
+        OnPropertyChanged(nameof(RelearnMove2AutomationName));
+        OnPropertyChanged(nameof(RelearnMove3AutomationName));
+        OnPropertyChanged(nameof(RelearnMove4AutomationName));
+        OnPropertyChanged(nameof(AbilityTooltip));
+        OnPropertyChanged(nameof(HeldItemTooltip));
+        OnPropertyChanged(nameof(BallTooltip));
+        OnPropertyChanged(nameof(LanguageTooltip));
+        OnPropertyChanged(nameof(MetDateTooltip));
+        OnPropertyChanged(nameof(EggDateTooltip));
+    }
+    
+    public IReadOnlyList<ComboItem> GenderList => [
+        new ComboItem(LocalizedStrings.Instance["Pokedex8Editor_GenderMale"], 0),
+        new ComboItem(LocalizedStrings.Instance["Pokedex8Editor_GenderFemale"], 1),
+        new ComboItem(LocalizedStrings.Instance["Pokedex8Editor_GenderGenderless"], 2)
+    ];
+
+    /// <summary>
+    /// Gender choices valid for the edited Pokémon. Form-gender-specific species (such as
+    /// Meowstic) cannot be genderless; trainer gender fields still use <see cref="GenderList"/>.
+    /// </summary>
+    public IReadOnlyList<ComboItem> PokemonGenderList => SpeciesCategory.IsFormGenderSpecific((ushort)Species)
+        ? [GenderList[0], GenderList[1]]
+        : GenderList;
+
+    // Dynamic lists
+    [ObservableProperty]
+    private ObservableCollection<ComboItem> _abilityList = [];
+
+    // The raw Ability/AbilityList API remains ID-based. The picker uses list indices so
+    // identical ability IDs in slots 1, 2 and H remain distinct choices.
+    [ObservableProperty]
+    private IReadOnlyList<ComboItem> _abilityChoices = [];
+
+    [ObservableProperty]
+    private int _selectedAbilityIndex = -1;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasForms))]
+    private ObservableCollection<ComboItem> _formList = [];
+
+    [ObservableProperty]
+    private byte[]? _sprite;
+
+    [ObservableProperty]
+    private string _title = LocalizedStrings.Instance["PokemonEditor_DefaultTitle"];
+
+    // Basic Info
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(RerollPidCommand))]
+    [NotifyPropertyChangedFor(nameof(Title), nameof(Sprite), nameof(FormList), nameof(AbilityList), nameof(Ability), nameof(Stat_HP), nameof(Stat_ATK), nameof(Stat_DEF), nameof(Stat_SPA), nameof(Stat_SPD), nameof(Stat_SPE), nameof(Base_HP), nameof(Base_ATK), nameof(Base_DEF), nameof(Base_SPA), nameof(Base_SPD), nameof(Base_SPE), nameof(ShowLegalityStatus))]
+    private int _species;
+
+    [ObservableProperty]
+    private string _version = string.Empty;
+
+    [ObservableProperty]
+    private bool _isNicknamed;
+
+    [ObservableProperty]
+    private uint _id32;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(RerollPidCommand))]
+    [NotifyPropertyChangedFor(nameof(Sprite), nameof(Stat_HP), nameof(Stat_ATK), nameof(Stat_DEF), nameof(Stat_SPA), nameof(Stat_SPD), nameof(Stat_SPE), nameof(Base_HP), nameof(Base_ATK), nameof(Base_DEF), nameof(Base_SPA), nameof(Base_SPD), nameof(Base_SPE))]
+    private int _form;
+
+    [ObservableProperty]
+    private string _nickname = string.Empty;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Title), nameof(Stat_HP), nameof(Stat_ATK), nameof(Stat_DEF), nameof(Stat_SPA), nameof(Stat_SPD), nameof(Stat_SPE), nameof(Exp), nameof(ExpPercent))]
+    private int _level;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(RerollPidCommand))]
+    [NotifyPropertyChangedFor(nameof(Stat_HP), nameof(Stat_ATK), nameof(Stat_DEF), nameof(Stat_SPA), nameof(Stat_SPD), nameof(Stat_SPE))]
+    private int _nature;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Stat_HP), nameof(Stat_ATK), nameof(Stat_DEF), nameof(Stat_SPA), nameof(Stat_SPD), nameof(Stat_SPE))]
+    private int _ability;
+
+    [ObservableProperty]
+    private int _heldItem;
+
+    [ObservableProperty]
+    private int _ball;
+
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(RerollPidCommand))]
+    private int _gender;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Sprite))]
+    private bool _isShiny;
+
+    [ObservableProperty]
+    private bool _isEgg;
+
+    [ObservableProperty]
+    private bool _isFatefulEncounter;
+
+    [ObservableProperty]
+    private int _sid;
+
+    [ObservableProperty]
+    private int _language;
+
+    public bool HasForms => FormList.Count > 1;
+    public bool HasMoveShop => _pk is IMoveShop8 && _pk is IMoveShop8Mastery;
+    public bool IsHaXMode => _haXMode;
+    public PKM TargetPKM => _pk;
+
+    public PokemonEditorViewModel(PKM pk, SaveFile sav, ISpriteRenderer spriteRenderer, IDialogService dialogService, IWindowService windowService, bool haXMode = false, IAutoLegalityService? autoLegalityService = null)
+    {
+        _pk = pk.Clone(); // Always work on a copy
+        _sav = sav;
+        _spriteRenderer = spriteRenderer;
+        _dialogService = dialogService;
+        _windowService = windowService;
+        _autoLegalityService = autoLegalityService;
+        _haXMode = haXMode;
+
+        var filtered = GameInfo.FilteredSources;
+        SpeciesList = filtered.Species;
+        MoveList = filtered.Moves;
+        NatureList = filtered.Natures;
+        BallList = filtered.Balls;
+        ItemList = filtered.Items;
+        OriginGameList = filtered.Games;
+        RelearnMoveDataSource = filtered.Relearn;
+        LanguageList = GameInfo.Sources.LanguageDataSource(sav.Generation, sav.Context);
+        LoadFromPKM();
+    }
+
+    /// <summary>
+    /// Loads an entity into the editor, adapting it to the open save file's entity format first.
+    /// </summary>
+    /// <remarks>
+    /// Every dropdown in this editor (species, moves, items, balls, abilities) comes from
+    /// <see cref="GameInfo.FilteredSources"/>, which is scoped to the <em>save file</em>. The entity
+    /// being edited therefore has to be in that save's own format, or the editor offers values the
+    /// entity cannot physically store and the write silently truncates.
+    /// <para>
+    /// Sources such as the Encounter Database hand back the encounter's <em>native</em> format
+    /// (<c>IEncounterConvertible.ConvertToPKM</c> returns a <see cref="PK2"/> for a Gen 2 wild slot,
+    /// even when the open save is Gen 7+). <c>PK2.Species</c> is a single byte, so selecting Ambipom
+    /// (424) stored <c>424 &amp; 0xFF</c> = 168 and the preview rendered Ariados while the title said
+    /// Ambipom — GitHub issue #234.
+    /// </para>
+    /// Mirrors upstream PKHeX's <c>PKMEditor.LoadFieldsFromPKM</c> (and the file-import path's
+    /// <c>SaveExtensions.GetCompatible</c>): convert to the save's format, or refuse the load and
+    /// report why rather than editing a foreign-format entity.
+    /// </remarks>
+    /// <returns><see langword="true"/> if the entity was loaded; <see langword="false"/> if it could
+    /// not be adapted to the save's format, in which case the editor keeps its current entity.</returns>
+    public bool LoadPKM(PKM pk)
+    {
+        ArgumentNullException.ThrowIfNull(pk);
+
+        var target = _sav.BlankPKM;
+        if (!EntityConverter.TryMakePKMCompatible(pk, target, out var result, out var compatible))
+        {
+            _ = _dialogService.ShowErrorAsync(
+                LocalizedStrings.Instance["PokemonEditor_ImportFailedTitle"],
+                result.GetDisplayString(pk, target.GetType()));
+            return false;
+        }
+
+        _pk = compatible.Clone(); // Always work on a copy
+        LoadFromPKM();
+        return true;
+    }
+
+    /// <summary>Raised when a dropped OS file turns out to be a save file, so the host can open it.</summary>
+    public event Action<string>? SaveFileDropRequested;
+
+    /// <summary>
+    /// Handles OS file(s) dropped directly onto the editor panel. A Pokémon entity file loads
+    /// into the editor (without writing to any box/party slot); a save file is routed through the
+    /// host's "open save" path. Reuses the same detection/conversion pipeline as folder import.
+    /// </summary>
+    public async Task HandleFileDropAsync(IReadOnlyList<string> paths)
+    {
+        foreach (var path in paths)
+        {
+            var result = new ImportEntityFileUseCase().Execute(_sav, path);
+            switch (result.Kind)
+            {
+                case EntityFileDropKind.SaveFile:
+                    SaveFileDropRequested?.Invoke(path);
+                    return;
+                case EntityFileDropKind.Entity:
+                    LoadPKM(result.Entity!);
+                    return;
+            }
+        }
+
+        if (paths.Count > 0)
+            await _dialogService.ShowErrorAsync(LocalizedStrings.Instance["PokemonEditor_ImportFailedTitle"], LocalizedStrings.Instance["PokemonEditor_NoSupportedFileFound"]);
+    }
+
+    public void RefreshLanguage()
+    {
+        OnPropertyChanged(nameof(GenderList));
+        OnPropertyChanged(nameof(PokemonGenderList));
+        var filtered = GameInfo.FilteredSources;
+        SpeciesList = filtered.Species;
+        MoveList = filtered.Moves;
+        NatureList = filtered.Natures;
+        BallList = filtered.Balls;
+        ItemList = filtered.Items;
+        OriginGameList = filtered.Games;
+        RelearnMoveDataSource = filtered.Relearn;
+        LanguageList = GameInfo.Sources.LanguageDataSource(_sav.Generation, _sav.Context);
+        NotifyHyperTrainedAutomationNames();
+
+        // Notify that the PKM name etc might have changed
+        LoadFromPKM();
+
+        // Replacing a dropdown's items clears its visual selection even when the stored value
+        // did not change. Reapply values after all localized lists have been replaced.
+        foreach (var property in new[]
+        {
+            nameof(Species), nameof(Form), nameof(Gender), nameof(Nature), nameof(StatAlignment),
+            nameof(Ability), nameof(HeldItem), nameof(Ball), nameof(Language), nameof(OriginGame),
+            nameof(MetLocation), nameof(EggLocation), nameof(Move1), nameof(Move2), nameof(Move3),
+            nameof(Move4), nameof(RelearnMove1), nameof(RelearnMove2), nameof(RelearnMove3),
+            nameof(RelearnMove4), nameof(OriginalTrainerGender), nameof(HandlingTrainerGender),
+        })
+            OnPropertyChanged(property);
+    }
+
+    private void LoadFromPKM()
+    {
+        _abilitySelectionChanged = false;
+        _isLoading = true;
+        try
+        {
+            // Set input limits before assigning values so bindings preserve Gen 1/2 stat experience.
+            OnPropertyChanged(nameof(MaxEV));
+            Species = _pk.Species;
+            Form = _pk.Form;
+
+            // Populate dynamic lists before setting their selected values
+            UpdateFormList(false);
+            UpdateAbilityList(false);
+
+            Ability = _pk.Ability;
+            Nickname = _pk.Nickname;
+            IsNicknamed = _pk.IsNicknamed;
+            Level = _pk.CurrentLevel;
+            Nature = (int)_pk.Nature;
+            HeldItem = _pk.HeldItem;
+            Ball = _pk.Ball;
+            Gender = _pk.Gender;
+            IsShiny = _pk.IsShiny;
+            IsEgg = _pk.IsEgg;
+
+            Id32 = _pk.ID32;
+            Version = _pk.Version.ToString();
+
+            Move1 = _pk.Move1;
+            Move2 = _pk.Move2;
+            Move3 = _pk.Move3;
+            Move4 = _pk.Move4;
+
+            RelearnMove1 = _pk.RelearnMove1;
+            RelearnMove2 = _pk.RelearnMove2;
+            RelearnMove3 = _pk.RelearnMove3;
+            RelearnMove4 = _pk.RelearnMove4;
+
+            Pp1 = _pk.Move1_PP;
+            Pp2 = _pk.Move2_PP;
+            Pp3 = _pk.Move3_PP;
+            Pp4 = _pk.Move4_PP;
+            PpUps1 = _pk.Move1_PPUps;
+            PpUps2 = _pk.Move2_PPUps;
+            PpUps3 = _pk.Move3_PPUps;
+            PpUps4 = _pk.Move4_PPUps;
+
+            IvHP = _pk.IV_HP;
+            IvATK = _pk.IV_ATK;
+            IvDEF = _pk.IV_DEF;
+            IvSPA = _pk.IV_SPA;
+            IvSPD = _pk.IV_SPD;
+            IvSPE = _pk.IV_SPE;
+
+            EvHP = _pk.EV_HP;
+            EvATK = _pk.EV_ATK;
+            EvDEF = _pk.EV_DEF;
+            EvSPA = _pk.EV_SPA;
+            EvSPD = _pk.EV_SPD;
+            EvSPE = _pk.EV_SPE;
+
+            // Hyper Training (Partial)
+            if (_pk is IHyperTrain ht)
+            {
+                HyperTrainedHP = ht.HT_HP;
+                HyperTrainedATK = ht.HT_ATK;
+                HyperTrainedDEF = ht.HT_DEF;
+                HyperTrainedSPA = ht.HT_SPA;
+                HyperTrainedSPD = ht.HT_SPD;
+                HyperTrainedSPE = ht.HT_SPE;
+            }
+
+            IsFatefulEncounter = _pk.FatefulEncounter;
+            Happiness = _pk.CurrentFriendship;
+            Sid = (int)_pk.DisplaySID;
+
+            Pid = _pk.PID.ToString("X8");
+            EncryptionConstant = _pk.EncryptionConstant.ToString("X8");
+            Exp = _pk.EXP;
+            // Blank Gen 1/2 entities do not carry a language in their own bytes. Use the
+            // loaded save's language so default names are encoded instead of being cleared
+            // when the editor prepares the entity for saving.
+            Language = _pk.Language != 0 || _pk.Species != 0 ? _pk.Language : _sav.Language;
+            PkrsStrain = _pk.PokerusStrain;
+            PkrsDays = _pk.PokerusDays;
+
+            OriginGame = (int)_pk.Version;
+            UpdateMetDataLists(false);
+            MetLocation = _pk.MetLocation;
+            EggLocation = _pk.EggLocation;
+            MetLevel = _pk.MetLevel;
+
+            OriginalTrainerName = _pk.OriginalTrainerName;
+            TrainerID = _pk.DisplayTID;
+            OriginalTrainerGender = _pk.OriginalTrainerGender;
+
+            StatHPCurrent = _pk.Stat_HPCurrent;
+            StatHPMax = _pk.Stat_HPMax;
+            HaXStatHP = _pk.Stat_HPMax;
+            HaXStatATK = _pk.Stat_ATK;
+            HaXStatDEF = _pk.Stat_DEF;
+            HaXStatSPA = _pk.Stat_SPA;
+            HaXStatSPD = _pk.Stat_SPD;
+            HaXStatSPE = _pk.Stat_SPE;
+            StatusCondition = _pk.Status_Condition;
+            StatAlignment = (int)_pk.StatAlignment;
+
+            // Trust any year in a broad valid range (Gen 3+ era: 2000–2199, with pre-2000 fallback)
+            MetDate = _pk.MetDate is { } md && md.Year > 1900 && md.Year < 2200
+                ? md.ToDateTime(TimeOnly.MinValue)
+                : null;
+            EggDate = _pk.EggMetDate is { } ed && ed.Year > 1900 && ed.Year < 2200
+                ? ed.ToDateTime(TimeOnly.MinValue)
+                : null;
+
+            OriginalTrainerFriendship = _pk.OriginalTrainerFriendship;
+            HandlingTrainerFriendship = _pk.HandlingTrainerFriendship;
+            CurrentHandler = _pk.CurrentHandler;
+            HandlingTrainerName = _pk.HandlingTrainerName;
+            HandlingTrainerGender = _pk.HandlingTrainerGender;
+            LoadMetadata();
+            
+            _isLoading = false;
+
+            // Force notifications for list-bound properties that were set while loading was suppressed
+            OnPropertyChanged(nameof(MetLocation));
+            OnPropertyChanged(nameof(EggLocation));
+            OnPropertyChanged(nameof(Ability));
+            OnPropertyChanged(nameof(MetDate));
+            OnPropertyChanged(nameof(EggDate));
+            OnPropertyChanged(nameof(ShowStatAlignment));
+            OnPropertyChanged(nameof(HasHyperTraining));
+            OnPropertyChanged(nameof(CanHyperTrain));
+            OnPropertyChanged(nameof(Tsv));
+            OnPropertyChanged(nameof(PokemonGenderList));
+            UpdateFormArgument();
+
+            // Misc
+            AbilityNumber = _pk.AbilityNumber;
+            SynchronizeAbilityChoice(useStoredSlot: true);
+            HpType = _pk.HPType;
+            IsPokerusInfected = _pk.IsPokerusInfected;
+            IsPokerusCured = _pk.IsPokerusCured;
+
+            // Contest Stats (Partial)
+            if (_pk is IContestStatsReadOnly cs)
+            {
+                ContestCool = cs.ContestCool;
+                ContestBeauty = cs.ContestBeauty;
+                ContestCute = cs.ContestCute;
+                ContestSmart = cs.ContestSmart;
+                ContestTough = cs.ContestTough;
+                ContestSheen = cs.ContestSheen;
+            }
+
+            // Markings (Partial)
+            if (_pk is IAppliedMarkings3 m3)
+            {
+                MarkingCircle = m3.MarkingCircle;
+                MarkingTriangle = m3.MarkingTriangle;
+                MarkingSquare = m3.MarkingSquare;
+                MarkingHeart = m3.MarkingHeart;
+            }
+            if (_pk is IAppliedMarkings4 m4)
+            {
+                MarkingStar = m4.MarkingStar;
+                MarkingDiamond = m4.MarkingDiamond;
+            }
+            else if (_pk is IAppliedMarkings7 m7)
+            {
+                // For Gen 7+, convert color to boolean (any color = marked)
+                MarkingCircle = m7.MarkingCircle != MarkingColor.None;
+                MarkingTriangle = m7.MarkingTriangle != MarkingColor.None;
+                MarkingSquare = m7.MarkingSquare != MarkingColor.None;
+                MarkingHeart = m7.MarkingHeart != MarkingColor.None;
+                MarkingStar = m7.MarkingStar != MarkingColor.None;
+                MarkingDiamond = m7.MarkingDiamond != MarkingColor.None;
+            }
+
+            // Memories (Partial)
+            if (_pk is IMemoryOT mot)
+            {
+                OtMemory = mot.OriginalTrainerMemory;
+                OtMemoryIntensity = mot.OriginalTrainerMemoryIntensity;
+                OtMemoryFeeling = mot.OriginalTrainerMemoryFeeling;
+                OtMemoryVariable = mot.OriginalTrainerMemoryVariable;
+            }
+            if (_pk is IMemoryHT mht)
+            {
+                HtMemory = mht.HandlingTrainerMemory;
+                HtMemoryIntensity = mht.HandlingTrainerMemoryIntensity;
+                HtMemoryFeeling = mht.HandlingTrainerMemoryFeeling;
+                HtMemoryVariable = mht.HandlingTrainerMemoryVariable;
+            }
+
+        UpdateTitle();
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+
+        OnPropertyChanged(nameof(IVTotal));
+        OnPropertyChanged(nameof(EVTotal));
+        OnPropertyChanged(nameof(CharacteristicText));
+        OnPropertyChanged(nameof(ExpPercent));
+        UpdateSprite();
+        Validate();
+        LoadRibbons();
+        OnPropertyChanged(nameof(CanEditHandlingTrainer));
+        OnPropertyChanged(nameof(HandlerList));
+        RerollPidCommand.NotifyCanExecuteChanged();
+    }
+
+    [ObservableProperty]
+    private int _statusCondition;
+
+    partial void OnFormChanged(int value)
+    {
+        if (_isLoading) return;
+        if (SpeciesCategory.IsFormGenderSpecific((ushort)Species) && value >= 0)
+        {
+            var formGender = value & 1;
+            if (Gender != formGender)
+                Gender = formGender;
+        }
+        RecalculateStats();
+        UpdateAbilityList();
+        _abilitySelectionChanged = true;
+        UpdateFormArgument();
+        UpdateSprite();
+        Validate();
+    }
+
+    partial void OnIsShinyChanged(bool value)
+    {
+        if (_isLoading) return;
+        if (value) _pk.SetShiny(); else _pk.SetUnshiny();
+        SyncPidFieldsFromEntity();
+        OnPropertyChanged(nameof(CharacteristicText));
+        UpdateSprite();
+        Validate();
+    }
+
+    partial void OnPidChanged(string value)
+    {
+        if (_isLoading) return;
+        if (uint.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out var pid))
+        {
+            _pk.PID = pid;
+            _isLoading = true;
+            IsShiny = _pk.IsShiny;
+            _isLoading = false;
+            OnPropertyChanged(nameof(CharacteristicText));
+            UpdateSprite();
+            Validate();
+        }
+    }
+
+    partial void OnEncryptionConstantChanged(string value)
+    {
+        if (_isLoading) return;
+        if (uint.TryParse(value, System.Globalization.NumberStyles.HexNumber, null, out var ec))
+        {
+            _pk.EncryptionConstant = ec;
+            OnPropertyChanged(nameof(CharacteristicText));
+            Validate();
+        }
+    }
+
+    private void SetNicknameState(bool isNicknamed)
+    {
+        _pk.IsNicknamed = isNicknamed;
+        if (IsNicknamed == isNicknamed)
+            return;
+
+        _isLoading = true;
+        IsNicknamed = isNicknamed;
+        _isLoading = false;
+    }
+
+    private void UpdateDefaultNickname()
+    {
+        _pk.Species = (ushort)Species;
+        _pk.Language = Language;
+        var nickname = _pk.ClearNickname() ?? string.Empty;
+
+        _isLoading = true;
+        Nickname = nickname;
+        IsNicknamed = false;
+        _isLoading = false;
+    }
+
+    private void ApplyNicknameEdit()
+    {
+        _pk.Species = (ushort)Species;
+        _pk.Language = Language;
+        var nickname = Nickname ?? string.Empty;
+
+        if (nickname.Length == 0)
+        {
+            UpdateDefaultNickname();
+            return;
+        }
+
+        _pk.SetNickname(nickname);
+        SetNicknameState(SpeciesName.IsNicknamedAnyLanguage((ushort)Species, nickname, _pk.Context));
+    }
+
+    partial void OnNicknameChanged(string value)
+    {
+        if (_isLoading) return;
+        ApplyNicknameEdit();
+        Validate();
+    }
+
+    partial void OnIsNicknamedChanged(bool value)
+    {
+        if (_isLoading) return;
+        if (value)
+        {
+            _pk.Nickname = Nickname ?? string.Empty;
+            _pk.IsNicknamed = true;
+        }
+        else
+        {
+            UpdateDefaultNickname();
+        }
+        Validate();
+    }
+
+    partial void OnLanguageChanged(int value)
+    {
+        if (_isLoading) return;
+        OnPropertyChanged(nameof(LanguageTooltip));
+        _pk.Language = value;
+        if (!IsNicknamed)
+            UpdateDefaultNickname();
+        Validate();
+    }
+    partial void OnLevelChanged(int value) { if (!_isLoading) { Exp = Experience.GetEXP((byte)value, _pk.PersonalInfo.EXPGrowth); RecalculateStats(); Validate(); OnPropertyChanged(nameof(CanHyperTrain)); } }
+    partial void OnNatureChanged(int value) { if (!_isLoading) { RecalculateStats(); Validate(); } }
+    partial void OnAbilityChanged(int value)
+    {
+        if (_isLoading || _synchronizingAbilityChoice) return;
+        SynchronizeAbilityChoice();
+        _abilitySelectionChanged = true;
+        Validate();
+    }
+
+    partial void OnSelectedAbilityIndexChanged(int value)
+    {
+        if (_isLoading || _synchronizingAbilityChoice)
+            return;
+        if (!CanChooseAbilityIndex(value))
+        {
+            SynchronizeAbilityChoice(useStoredSlot: true);
+            return;
+        }
+        _synchronizingAbilityChoice = true;
+        try { Ability = AbilityList[value].Value; }
+        finally { _synchronizingAbilityChoice = false; }
+        OnPropertyChanged(nameof(AbilityTooltip));
+        _abilitySelectionChanged = true;
+        Validate();
+    }
+
+    partial void OnAbilityListChanging(ObservableCollection<ComboItem> value)
+    {
+        AbilityList.CollectionChanged -= OnAbilityEntriesChanged;
+    }
+
+    partial void OnAbilityListChanged(ObservableCollection<ComboItem> value)
+    {
+        value.CollectionChanged += OnAbilityEntriesChanged;
+        RebuildAbilityChoices();
+    }
+
+    private void OnAbilityEntriesChanged(object? sender, NotifyCollectionChangedEventArgs e) => RebuildAbilityChoices();
+
+    private void RebuildAbilityChoices()
+    {
+        AbilityChoices = AbilityList.Select((entry, index) => new ComboItem(entry.Text, index))
+            .Where(entry => CanChooseAbilityIndex(entry.Value)).ToArray();
+        if (!_isLoading)
+            SynchronizeAbilityChoice(preserveIndex: true);
+    }
+
+    private bool CanChooseAbilityIndex(int index)
+    {
+        if (index < 0 || index >= AbilityList.Count)
+            return false;
+        if (_haXMode || _pk is not G3PKM || index != 1)
+            return true;
+        // Normal Gen 3 single-ability species cannot retain a second selection through
+        // Core's RefreshAbility. Preserve an already stored bit, including the three
+        // species for which Core deliberately permits either identical-ability bit.
+        return AbilityList[0].Value != AbilityList[1].Value || IsGen3AbilityBitException
+            || _pk.AbilityNumber == 2;
+    }
+
+    private bool IsGen3AbilityBitException => _pk is G3PKM
+        && Species is (int)Core.Species.Granbull or (int)Core.Species.Vibrava or (int)Core.Species.Flygon;
+
+    private void SynchronizeAbilityChoice(bool useStoredSlot = false, bool preserveIndex = false)
+    {
+        var preferred = useStoredSlot && !_haXMode ? _pk.AbilityNumber switch
+        {
+            1 => 0,
+            2 => 1,
+            4 => 2,
+            _ => -1,
+        } : preserveIndex ? SelectedAbilityIndex : -1;
+        var index = CanChooseAbilityIndex(preferred) && AbilityList[preferred].Value == Ability
+            ? preferred : AbilityList.ToList().FindIndex(entry => entry.Value == Ability);
+        _synchronizingAbilityChoice = true;
+        try { SelectedAbilityIndex = index; }
+        finally { _synchronizingAbilityChoice = false; }
+        OnPropertyChanged(nameof(AbilityTooltip));
+    }
+    partial void OnHeldItemChanged(int value)
+    {
+        OnPropertyChanged(nameof(HeldItemTooltip));
+        if (!_isLoading) Validate();
+    }
+    partial void OnBallChanged(int value)
+    {
+        OnPropertyChanged(nameof(BallTooltip));
+        if (!_isLoading) Validate();
+    }
+    partial void OnGenderChanged(int value)
+    {
+        if (_isLoading)
+            return;
+
+        if (SpeciesCategory.IsFormGenderSpecific((ushort)Species))
+        {
+            if (value is not (0 or 1))
+            {
+                // These species have no genderless representation. Normalize an external or
+                // stale Genderless selection back to the gender represented by the current form.
+                Gender = Form & 1;
+                return;
+            }
+
+            // The low bit identifies the gender for form lists that contain additional variants;
+            // preserve that variant while switching between male and female.
+            var targetForm = Form >= 2 && FormList.Any(f => f.Value == value + 2) ? value + 2 : value;
+            if (Form != targetForm)
+                Form = targetForm;
+        }
+
+        Validate();
+    }
+
+    private void UpdateAbilityList(bool preserveSelection = true)
+    {
+        var currentAbility = Ability;
+        var pi = _sav.Personal.GetFormEntry((ushort)Species, (byte)Form);
+        AbilityList = new ObservableCollection<ComboItem>(_haXMode
+            ? GameInfo.FilteredSources.Abilities
+            : GameInfo.FilteredSources.GetAbilityList(pi));
+        OnPropertyChanged(nameof(AbilityTooltip));
+
+        if (_isLoading || !preserveSelection) return;
+
+        Ability = AbilityList.Any(a => a.Value == currentAbility)
+            ? currentAbility
+            : AbilityList.Count > 0 ? AbilityList[0].Value : 0;
+    }
+
+    /// <summary>
+    /// Keeps the stored ability slot in sync with the selected ability ID.
+    ///
+    /// Gen 6+ legality validation treats these as a pair. HaX mode can expose
+    /// IDs outside the current species' personal data, so those values remain
+    /// direct assignments instead of being rejected or remapped.
+    /// </summary>
+    private void ApplyAbility()
+    {
+        var abilityIndex = !_haXMode && SelectedAbilityIndex >= 0 && SelectedAbilityIndex < _pk.PersonalInfo.AbilityCount
+            && _pk.PersonalInfo.GetAbilityAtIndex(SelectedAbilityIndex) == Ability
+            ? SelectedAbilityIndex : _pk.PersonalInfo.GetIndexOfAbility(Ability);
+        var previousPid = _pk.PID;
+        if (abilityIndex >= 0)
+        {
+            var changePid = !_haXMode && abilityIndex < 2 && _pk.Format is 3 or 4 or 5
+                && _pk.Version != GameVersion.CXD && _pk.PIDAbility >= 0 && _pk.PIDAbility != abilityIndex;
+            if (changePid)
+            {
+                // Core's generator intentionally searches until all legacy constraints
+                // match. Reject infeasible imported/user-edited values before that search.
+                if (!CanGenerateAbilityPid())
+                {
+                    _synchronizingAbilityChoice = true;
+                    try { Ability = _pk.Ability; }
+                    finally { _synchronizingAbilityChoice = false; }
+                    _abilitySelectionChanged = false;
+                    AbilityNumber = _pk.AbilityNumber;
+                    SynchronizeAbilityChoice(useStoredSlot: true);
+                    return;
+                }
+                _pk.Gender = (byte)Gender;
+                _pk.SetAbilityIndex(abilityIndex);
+            }
+            // Core preserves these species' existing bits in RefreshAbility. Explicit
+            // edits still need the bit itself, after any mainline PID correction above.
+            if (IsGen3AbilityBitException)
+                _pk.AbilityNumber = 1 << abilityIndex;
+            else if (!changePid)
+                _pk.RefreshAbility(abilityIndex);
+        }
+        else
+            _pk.Ability = Ability;
+
+        if (_pk.PID != previousPid)
+        {
+            // The legacy slot is derived from PID. Preserve the requested shiny state
+            // before syncing the text fields that PreparePKM parses later in this call.
+            if (IsShiny && !_pk.IsShiny) _pk.SetShiny();
+            else if (!IsShiny && _pk.IsShiny) _pk.SetUnshiny();
+            SyncPidFieldsFromEntity();
+        }
+        AbilityNumber = _pk.AbilityNumber;
+        if (!_haXMode)
+        {
+            SynchronizeAbilityChoice(useStoredSlot: true);
+            RebuildAbilityChoices();
+        }
+    }
+
+    private bool CanGenerateAbilityPid()
+    {
+        if (_pk.Species == 0 || _pk.Species > _pk.MaxSpeciesID || !(_pk.Gen3 || _pk.Gen4 || _pk.Gen5))
+            return false;
+        if ((_pk.Gen3 || _pk.Gen4) && (uint)_pk.Nature >= 25)
+            return false;
+        var ratio = PersonalTable.B2W2[_pk.Species].Gender;
+        return PersonalInfo.IsSingleGender(ratio) || Gender is 0 or 1;
+    }
+
+    private void UpdateFormList(bool preserveSelection = true)
+    {
+        var currentForm = Form;
+        var species = (ushort)Species;
+        var hasFormSelection = FormInfo.HasFormSelection(_sav.Personal.GetFormEntry(species, 0), species, _pk.Format);
+        var forms = hasFormSelection
+            ? FormConverter.GetFormList(species, GameInfo.Strings.Types, GameInfo.Strings.forms, GameInfo.GenderSymbolASCII, _sav.Context)
+            : [];
+
+        var newList = new ObservableCollection<ComboItem>();
+        for (int i = 0; i < forms.Length; i++)
+            newList.Add(new ComboItem(string.IsNullOrWhiteSpace(forms[i]) ? $"Form {i}" : forms[i], i));
+
+        if (newList.Count == 0)
+            newList.Add(new ComboItem("Normal", 0));
+
+        FormList = newList;
+
+        // During a load, preserve the value assigned from the PKM even though the caller marks
+        // the list as non-preserving to suppress normal species-change side effects. Outside a
+        // load, preserveSelection retains the user's current form when the list is rebuilt.
+        var selectedForm = (preserveSelection || _isLoading) && FormList.Any(f => f.Value == currentForm)
+            ? currentForm
+            : FormList.Count > 0 ? FormList[0].Value : 0;
+
+        // Avalonia's ComboBox binds its selected item after ItemsSource changes. During a load,
+        // Form already has the right numeric value, so assigning the same value would not raise
+        // PropertyChanged and the newly-created list would remain visually unselected.
+        if (Form == selectedForm)
+            OnPropertyChanged(nameof(Form));
+        else
+            Form = selectedForm;
+    }
+
+    /// <summary>Re-renders the editor preview sprite (e.g. after the sprite style changes).</summary>
+    public void RefreshSprite() => UpdateSprite();
+
+    private void UpdateSprite()
+    {
+        _pk.Species = (ushort)Species;
+        _pk.Form = (byte)Form;
+        if (IsShiny && !_pk.IsShiny) _pk.SetShiny();
+        else if (!IsShiny && _pk.IsShiny) _pk.SetUnshiny();
+        SyncPidFieldsFromEntity();
+        Sprite = _spriteRenderer.GetSprite(_pk);
+    }
+
+    private void SyncPidFieldsFromEntity()
+    {
+        _isLoading = true;
+        Pid = _pk.PID.ToString("X8");
+        EncryptionConstant = _pk.EncryptionConstant.ToString("X8");
+        _isLoading = false;
+    }
+
+    private void UpdateTitle()
+    {
+        var speciesName = StringResourceLookup.Species((ushort)Species);
+        // The header already establishes the Pokémon editor context. Keep the persistent entity
+        // title to the species name so the compact header remains readable at its minimum width.
+        Title = Species == 0 ? LocalizedStrings.Instance["PokemonEditor_EmptySlot"] : speciesName;
+    }
+
+    [RelayCommand]
+    private void ToggleShiny()
+    {
+        IsShiny = !IsShiny;
+    }
+
+    private bool CanRerollPid()
+    {
+        // Match EntityPID's early return before applying any legacy-only constraints.
+        var origin = (GameVersion)OriginGame;
+        if (origin is 0 or >= GameVersion.X)
+            return true;
+
+        // The legacy generator searches until every constraint matches. Reject inputs
+        // without a solution before entering that unbounded search, without fixing them.
+        if (Species <= 0 || Species > PersonalTable.B2W2.MaxSpeciesID)
+            return false;
+        if ((origin.IsGen3() || origin.IsGen4()) && (uint)Nature >= 25)
+            return false;
+        if (origin is GameVersion.FR or GameVersion.LG && Species == (int)Core.Species.Unown && (uint)Form >= 28)
+            return false;
+        return PersonalInfo.IsSingleGender(PersonalTable.B2W2[Species].Gender) || Gender is 0 or 1;
+    }
+
+    [RelayCommand(CanExecute = nameof(CanRerollPid))]
+    private void RerollPid()
+    {
+        // ICommand.Execute may be invoked directly even when CanExecute is false.
+        if (!CanRerollPid())
+            return;
+        var rnd = new Random();
+        // Keep the current shiny state, and from Gen 8 the square/star type, like Core's SetShiny search.
+        // Gen 1/2 shininess comes from IVs, so the PID cannot change it.
+        bool keepShiny = _pk.Format >= 3;
+        bool wasShiny = _pk.IsShiny;
+        bool wasSquare = wasShiny && _pk.ShinyXor == 0;
+        uint newPid;
+        do
+        {
+            newPid = EntityPID.GetRandomPID(rnd, (ushort)Species, (byte)Gender, (GameVersion)OriginGame, (Nature)Nature, (byte)Form, _pk.PID);
+            _pk.PID = newPid;
+        }
+        while (keepShiny && (_pk.IsShiny != wasShiny || (wasShiny && _pk.Format >= 8 && (_pk.ShinyXor == 0) != wasSquare)));
+        _isLoading = true;
+        Pid = newPid.ToString("X8");
+        IsShiny = _pk.IsShiny;
+        _isLoading = false;
+        UpdateSprite();
+        Validate();
+    }
+
+    public PKM PreparePKM()
+    {
+        ApplyMetadata();
+        _pk.Species = (ushort)Species;
+        _pk.Form = (byte)Form;
+        _pk.Language = Language;
+        _pk.Nickname = Nickname ?? string.Empty;
+        _pk.IsNicknamed = IsNicknamed;
+        _pk.Stat_Level = (byte)Level;
+        _pk.StatAlignment = (Nature)StatAlignment;
+        _pk.Nature = (Nature)Nature;
+        if (_abilitySelectionChanged)
+            ApplyAbility();
+        else
+            _pk.Ability = Ability;
+        _pk.HeldItem = HeldItem;
+        _pk.Ball = (byte)Ball;
+        _pk.Gender = (byte)Gender;
+        _pk.IsEgg = IsEgg;
+
+        if (IsShiny && !_pk.IsShiny)
+            _pk.SetShiny();
+        else if (!IsShiny && _pk.IsShiny)
+            _pk.SetUnshiny();
+
+        _pk.Move1 = (ushort)Move1;
+        _pk.Move2 = (ushort)Move2;
+        _pk.Move3 = (ushort)Move3;
+        _pk.Move4 = (ushort)Move4;
+
+        _pk.RelearnMove1 = (ushort)RelearnMove1;
+        _pk.RelearnMove2 = (ushort)RelearnMove2;
+        _pk.RelearnMove3 = (ushort)RelearnMove3;
+        _pk.RelearnMove4 = (ushort)RelearnMove4;
+
+        _pk.Move1_PP = Pp1;
+        _pk.Move2_PP = Pp2;
+        _pk.Move3_PP = Pp3;
+        _pk.Move4_PP = Pp4;
+        _pk.Move1_PPUps = PpUps1;
+        _pk.Move2_PPUps = PpUps2;
+        _pk.Move3_PPUps = PpUps3;
+        _pk.Move4_PPUps = PpUps4;
+
+        _pk.IV_HP = IvHP;
+        _pk.IV_ATK = IvATK;
+        _pk.IV_DEF = IvDEF;
+        _pk.IV_SPA = IvSPA;
+        _pk.IV_SPD = IvSPD;
+        _pk.IV_SPE = IvSPE;
+
+        _pk.EV_HP = EvHP;
+        _pk.EV_ATK = EvATK;
+        _pk.EV_DEF = EvDEF;
+        _pk.EV_SPA = EvSPA;
+        _pk.EV_SPD = EvSPD;
+        _pk.EV_SPE = EvSPE;
+
+        _pk.OriginalTrainerName = OriginalTrainerName;
+        _pk.OriginalTrainerGender = (byte)OriginalTrainerGender;
+        _pk.OriginalTrainerFriendship = (byte)OriginalTrainerFriendship;
+        _pk.HandlingTrainerName = HandlingTrainerName;
+        _pk.HandlingTrainerGender = (byte)HandlingTrainerGender;
+        _pk.HandlingTrainerFriendship = (byte)HandlingTrainerFriendship;
+        _pk.CurrentHandler = (byte)CurrentHandler;
+        _pk.DisplayTID = (uint)TrainerID;
+        _pk.DisplaySID = (uint)Sid;
+        _pk.CurrentFriendship = (byte)Happiness;
+        _pk.FatefulEncounter = IsFatefulEncounter;
+
+        if (uint.TryParse(Pid, System.Globalization.NumberStyles.HexNumber, null, out var pid))
+            _pk.PID = pid;
+        if (uint.TryParse(EncryptionConstant, System.Globalization.NumberStyles.HexNumber, null, out var ec))
+            _pk.EncryptionConstant = ec;
+
+        _pk.EXP = (uint)Exp;
+        _pk.Language = Language;
+        _pk.PokerusStrain = PkrsStrain;
+        _pk.PokerusDays = PkrsDays;
+
+        _pk.Version = (GameVersion)OriginGame;
+        _pk.MetLocation = (ushort)MetLocation;
+        _pk.EggLocation = (ushort)EggLocation;
+        _pk.MetLevel = (byte)MetLevel;
+
+        _pk.MetDate = MetDate is { } md ? new DateOnly(md.Year, md.Month, md.Day) : null;
+        _pk.EggMetDate = EggDate is { } ed ? new DateOnly(ed.Year, ed.Month, ed.Day) : null;
+
+        if (_pk is IContestStats cs)
+        {
+            cs.ContestCool = (byte)ContestCool;
+            cs.ContestBeauty = (byte)ContestBeauty;
+            cs.ContestCute = (byte)ContestCute;
+            cs.ContestSmart = (byte)ContestSmart;
+            cs.ContestTough = (byte)ContestTough;
+            cs.ContestSheen = (byte)ContestSheen;
+        }
+
+        if (_pk is IAppliedMarkings3 m3)
+        {
+            m3.MarkingCircle = MarkingCircle;
+            m3.MarkingTriangle = MarkingTriangle;
+            m3.MarkingSquare = MarkingSquare;
+            m3.MarkingHeart = MarkingHeart;
+        }
+        if (_pk is IAppliedMarkings4 m4)
+        {
+            m4.MarkingStar = MarkingStar;
+            m4.MarkingDiamond = MarkingDiamond;
+        }
+        else if (_pk is IAppliedMarkings7 m7)
+        {
+            // For Gen 7+, set Blue color if marked, None if not
+            m7.MarkingCircle = MarkingCircle ? MarkingColor.Blue : MarkingColor.None;
+            m7.MarkingTriangle = MarkingTriangle ? MarkingColor.Blue : MarkingColor.None;
+            m7.MarkingSquare = MarkingSquare ? MarkingColor.Blue : MarkingColor.None;
+            m7.MarkingHeart = MarkingHeart ? MarkingColor.Blue : MarkingColor.None;
+            m7.MarkingStar = MarkingStar ? MarkingColor.Blue : MarkingColor.None;
+            m7.MarkingDiamond = MarkingDiamond ? MarkingColor.Blue : MarkingColor.None;
+        }
+
+        if (_pk is IMemoryOT mot)
+        {
+            mot.OriginalTrainerMemory = (byte)OtMemory;
+            mot.OriginalTrainerMemoryIntensity = (byte)OtMemoryIntensity;
+            mot.OriginalTrainerMemoryFeeling = (byte)OtMemoryFeeling;
+            mot.OriginalTrainerMemoryVariable = (ushort)OtMemoryVariable;
+        }
+        if (_pk is IMemoryHT mht)
+        {
+            mht.HandlingTrainerMemory = (byte)HtMemory;
+            mht.HandlingTrainerMemoryIntensity = (byte)HtMemoryIntensity;
+            mht.HandlingTrainerMemoryFeeling = (byte)HtMemoryFeeling;
+            mht.HandlingTrainerMemoryVariable = (ushort)HtMemoryVariable;
+        }
+
+        if (_pk is IFormArgument && _formArgumentType != FormArgumentType.None)
+            _pk.ChangeFormArgument((uint)FormArgumentValue);
+
+        if (_haXMode)
+            ApplyHaXStats();
+        else
+            _pk.ResetPartyStats();
+        
+        return _pk.Clone();
+    }
+
+    [RelayCommand]
+    private async Task OpenRibbonEditorAsync()
+    {
+        var vm = new RibbonEditorViewModel(_pk);
+        var view = vm;
+        await _windowService.ShowDialogAsync(view, LocalizedStrings.Instance["PokemonEditor_RibbonEditorTitle"]);
+        LoadRibbons();
+        OnPropertyChanged(nameof(RibbonCount));
+        Validate();
+    }
+
+    [RelayCommand]
+    private async Task OpenMemoryEditorAsync()
+    {
+        var vm = new MemoryEditorViewModel(_pk);
+        var view = vm;
+        await _windowService.ShowDialogAsync(view, LocalizedStrings.Instance["PokemonEditor_MemoryEditorTitle"]);
+        LoadFromPKM();
+    }
+
+    [RelayCommand]
+    private async Task OpenMoveShopEditorAsync()
+    {
+        if (!HasMoveShop)
+            return;
+
+        var vm = new MoveShopEditorViewModel(_pk);
+        await _windowService.ShowDialogAsync(vm, LocalizedStrings.Instance["MoveShopEditor_Title"]);
+        LoadFromPKM();
+    }
+
+    [RelayCommand]
+    private async Task OpenTechRecordEditorAsync()
+    {
+        if (_pk is not ITechRecord tr) return;
+
+        var vm = new TechRecordEditorViewModel(tr, _pk);
+        var view = vm;
+        await _windowService.ShowDialogAsync(view, LocalizedStrings.Instance["PokemonEditor_TechnicalRecordEditorTitle"]);
+        LoadFromPKM();
+    }
+
+    public bool CanOpenTechRecord => _pk is ITechRecord;
+
+    partial void OnSpeciesChanged(int value)
+    {
+        if (_isLoading) return;
+        if (!IsNicknamed)
+            UpdateDefaultNickname();
+        RecalculateStats();
+        UpdateFormList();
+        UpdateAbilityList();
+        _abilitySelectionChanged = true;
+        UpdateFormArgument();
+        UpdateSprite(); // sets _pk.Species so the new growth rate is used below
+        UpdateTitle();
+        OnPropertyChanged(nameof(ExpPercent));
+        OnPropertyChanged(nameof(CanOpenTechRecord));
+        OnPropertyChanged(nameof(PokemonGenderList));
+    }
+}

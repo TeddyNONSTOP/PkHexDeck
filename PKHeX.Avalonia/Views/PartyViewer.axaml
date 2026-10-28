@@ -1,0 +1,308 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:models="clr-namespace:PKHeX.Presentation.Models;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.PartyViewer"
+             x:DataType="vm:PartyViewerViewModel"
+             Focusable="True">
+
+    <UserControl.KeyBindings>
+        <KeyBinding Gesture="Up" Command="{Binding MoveSelectionCommand}" CommandParameter="Up" />
+        <KeyBinding Gesture="Down" Command="{Binding MoveSelectionCommand}" CommandParameter="Down" />
+        <KeyBinding Gesture="Enter" Command="{Binding ActivateSlotCommand}" />
+        <KeyBinding Gesture="Space" Command="{Binding ActivateSlotCommand}" />
+        <!-- Keyboard-only slot operations, mirroring the tunneled modifier clicks. -->
+        <KeyBinding Gesture="Ctrl+C" Command="{Binding ViewSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+        <KeyBinding Gesture="Ctrl+V" Command="{Binding SetSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+        <KeyBinding Gesture="Delete" Command="{Binding DeleteSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+    </UserControl.KeyBindings>
+
+    <Border Classes="view-container">
+        <DockPanel>
+            <Grid DockPanel.Dock="Top"
+                  ColumnDefinitions="*,42,42,Auto,Auto"
+                  Height="40"
+                  Margin="{DynamicResource UiDensityViewSectionMargin}">
+                <TextBlock Grid.Column="0"
+                           Text="{loc:Loc PartyViewer_Title}"
+                           Classes="view-title"
+                           VerticalAlignment="Center" />
+                <Button Grid.Column="1"
+                        Command="{Binding OpenDetachedToolCommand}"
+                        ToolTip.Tip="{loc:Loc PartyViewer_PopOut}"
+                        AutomationProperties.Name="{loc:Loc PartyViewer_PopOut}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center">
+                    <Path Data="M 3,13 L 13,3 M 6,3 H 13 V 10"
+                          Stroke="{DynamicResource ThemeTextSecondaryBrush}"
+                          StrokeThickness="1.5"
+                          Width="16" Height="16" />
+                </Button>
+                <Button Grid.Column="2"
+                        Command="{Binding MoveToBoxCommand}"
+                        CommandParameter="{Binding SelectedSlot}"
+                        ToolTip.Tip="{loc:Loc Slot_MoveSelectedToBoxTooltip}"
+                        AutomationProperties.Name="{loc:Loc Slot_MoveSelectedToBoxTooltip}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        IsVisible="{Binding CanMoveToBox}"
+                        IsEnabled="{Binding SelectedSlot.IsEmpty, Converter={StaticResource ObjectFalseConverter}}">
+                    <Path Data="M 14,8 H 3 M 8,3 L 3,8 L 8,13"
+                          Stroke="{DynamicResource ThemeTextSecondaryBrush}"
+                          StrokeThickness="1.5"
+                          Width="16" Height="16" />
+                </Button>
+
+                <!-- Organizer: multi-select mode toggle and the bulk-actions menu for the marks. -->
+                <ToggleButton Grid.Column="3"
+                              Classes="organizer-toggle"
+                              Width="42"
+                              IsVisible="{Binding SupportsOrganizer}"
+                              IsChecked="{Binding IsSelectionModeEnabled, Mode=OneWay}"
+                              Command="{Binding ToggleSelectionModeCommand}"
+                              ToolTip.Tip="{loc:Loc Organizer_SelectionModeTooltip}"
+                              AutomationProperties.Name="{loc:Loc Organizer_SelectionMode}"
+                              Background="Transparent"
+                              BorderThickness="0"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center">
+                    <Path Data="M 2,2 H 8 V 8 H 2 Z M 3.5,5 L 5,6.5 L 7,3.5 M 10,5 H 15 M 2,11 H 8 V 15 H 2 Z M 10,13 H 15"
+                          Stroke="{DynamicResource ThemeTextSecondaryBrush}"
+                          StrokeThickness="1.3"
+                          Width="16" Height="16" />
+                </ToggleButton>
+                <Button Grid.Column="4"
+                        IsVisible="{Binding IsSelectionModeEnabled}"
+                        ToolTip.Tip="{loc:Loc Organizer_ActionsTooltip}"
+                        AutomationProperties.Name="{loc:Loc Organizer_ActionsButton}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Padding="6,0"
+                        MinWidth="42"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Spacing="3">
+                        <Path Data="M 3,4 H 13 M 3,8 H 13 M 3,12 H 13"
+                              Stroke="{DynamicResource ThemeTextSecondaryBrush}"
+                              StrokeThickness="1.5"
+                              Width="16" Height="16"
+                              VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding MarkedCount}"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource ThemeTextSecondaryBrush}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                    <Button.Flyout>
+                        <MenuFlyout Placement="BottomEdgeAlignedRight">
+                            <MenuItem Header="{loc:Loc Organizer_ClearMarks}" Command="{Binding ClearMarksCommand}" />
+                            <Separator />
+                            <MenuItem Header="{loc:Loc Organizer_MoveToParty}" Command="{Binding BulkMoveHereCommand}" />
+                            <MenuItem Header="{loc:Loc Organizer_CopyToParty}" Command="{Binding BulkCopyHereCommand}" />
+                            <MenuItem Header="{loc:Loc Organizer_Duplicate}" Command="{Binding BulkDuplicateCommand}" />
+                            <MenuItem Header="{loc:Loc Organizer_Legalize}" Command="{Binding BulkLegalizeCommand}" IsVisible="{Binding CanBulkLegalize}" />
+                            <Separator />
+                            <MenuItem Header="{loc:Loc Organizer_Export}" Command="{Binding BulkExportCommand}" />
+                            <MenuItem Header="{loc:Loc Organizer_SendToBank}" Command="{Binding BulkSendToBankCommand}" IsVisible="{Binding CanBulkSendToBank}" />
+                            <Separator />
+                            <MenuItem Header="{loc:Loc Organizer_ReleaseMarked}" Command="{Binding BulkReleaseCommand}" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+
+            <Panel DockPanel.Dock="Bottom" Margin="{DynamicResource UiDensityViewFooterMargin}">
+                <TextBlock Text="{loc:Loc PartyViewer_Footer}"
+                           Foreground="{DynamicResource ThemeTextMutedBrush}"
+                           FontSize="10"
+                           HorizontalAlignment="Center"
+                           IsVisible="{Binding !IsSelectionModeEnabled}" />
+                <TextBlock Text="{Binding MarkedCountText}"
+                           Foreground="{DynamicResource CompactAccentTextBrush}"
+                           FontSize="10"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           IsVisible="{Binding IsSelectionModeEnabled}" />
+            </Panel>
+
+            <Border Classes="editor-section-padded compact-party-viewer"
+                    Padding="{DynamicResource CompactPanePadding}">
+                <ItemsControl ItemsSource="{Binding Slots}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2" Rows="3" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:PartySlotData">
+                            <Button Classes="party-slot compact-slot"
+                                    PointerMoved="OnSlotPointerMoved"
+                                    DragDrop.AllowDrop="True"
+                                    DragDrop.Drop="OnSlotDrop"
+                                    DragDrop.DragOver="OnSlotDragOver"
+                                    DragDrop.DragLeave="OnSlotDragLeave"
+                                    ToolTip.Tip="{Binding ToolTipSummary}"
+                                    AutomationProperties.Name="{Binding AccessibleName}"
+                                    Click="OnSlotClicked"
+                                    DoubleTapped="OnSlotDoubleTapped"
+                                    Tag="{Binding}"
+                                    Padding="6"
+                                    Margin="{DynamicResource CompactSlotGap}"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    Classes.selected="{Binding IsSelected}"
+                                    Classes.marked="{Binding IsMarked}">
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="{loc:Loc PartyViewer_ViewMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).ViewSlotCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                        <MenuItem Header="{loc:Loc PartyViewer_SetMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).SetSlotCommand}"
+                                                  IsVisible="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).IsEditingAllowed}"
+                                                  CommandParameter="{Binding}" />
+                                        <MenuItem Header="{loc:Loc Slot_MoveToBoxMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).MoveToBoxCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsVisible="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).CanMoveToBox}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                        <MenuItem Header="{loc:Loc Slot_SendToBankMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).SendToBankCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsVisible="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).CanSendToBank}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                        <MenuItem Header="{loc:Loc Slot_LegalizeMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).LegalizeSlotCommand}"
+                                                  IsVisible="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).IsEditingAllowed}"
+                                                  CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                        <Separator />
+                                        <MenuItem Header="{loc:Loc PartyViewer_DeleteMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:PartyViewerViewModel)DataContext).DeleteSlotCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+
+                                <Button.Styles>
+                                    <Style Selector="Button.party-slot">
+                                        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundElevatedBrush}" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderDefaultBrush}" />
+                                        <Setter Property="BorderThickness" Value="1" />
+                                        <Setter Property="CornerRadius" Value="{DynamicResource UiDensityControlRadius}" />
+                                        <Setter Property="MinHeight" Value="64" />
+                                        <Setter Property="FocusAdorner" Value="{x:Null}" />
+                                        <!-- Keep the root hit-testable so clicks and drops reach this Button. -->
+                                        <Setter Property="Template">
+                                            <ControlTemplate>
+                                                <Border Name="PART_Border"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="{TemplateBinding CornerRadius}">
+                                                    <ContentPresenter Name="PART_ContentPresenter"
+                                                                      Content="{TemplateBinding Content}"
+                                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                      Padding="{TemplateBinding Padding}"
+                                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter>
+                                    </Style>
+                                    <Style Selector="Button.party-slot:pointerover">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlBorderHoverBrush}" />
+                                    </Style>
+                                    <Style Selector="Button.party-slot.selected">
+                                        <Setter Property="Background" Value="{DynamicResource CompactSelectionBrush}" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource CompactSelectionBorderBrush}" />
+                                        <Setter Property="BorderThickness" Value="2" />
+                                    </Style>
+                                    <Style Selector="Button.party-slot.marked">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource CompactAccentBrush}" />
+                                        <Setter Property="BorderThickness" Value="2" />
+                                    </Style>
+                                    <Style Selector="Button.party-slot:focus-visible">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource CompactFocusBrush}" />
+                                        <Setter Property="BorderThickness" Value="2" />
+                                    </Style>
+                                </Button.Styles>
+
+                                <!-- Content stays hit-test-transparent so the Button remains the slot
+                                     target for pointer routing and drag/drop. -->
+                                <Panel IsHitTestVisible="False">
+                                    <Border Classes="party-slot-empty"
+                                            IsVisible="{Binding IsEmpty}">
+                                        <TextBlock Text="{loc:Loc PartyViewer_Empty}"
+                                                   Foreground="{DynamicResource ThemeTextMutedBrush}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
+                                    </Border>
+
+                                    <Grid RowDefinitions="*,Auto" IsVisible="{Binding !IsEmpty}">
+                                        <Panel Grid.Row="0" HorizontalAlignment="Center">
+                                            <Image Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}"
+                                                   Width="56" Height="48"
+                                                   Stretch="Uniform"
+                                                   RenderOptions.BitmapInterpolationMode="HighQuality" />
+
+
+                                        </Panel>
+                                        <DockPanel Grid.Row="1" Margin="0,3,0,0">
+                                            <Border DockPanel.Dock="Right"
+                                                    Background="{DynamicResource ThemeBackgroundCardBrush}"
+                                                    CornerRadius="3"
+                                                    Padding="4,1">
+                                                <TextBlock Text="{Binding Level, StringFormat='Lv.{0}'}"
+                                                           Foreground="{DynamicResource ThemeTextSecondaryBrush}"
+                                                           FontSize="10" />
+                                            </Border>
+                                            <TextBlock Text="{Binding Nickname}"
+                                                       Foreground="{DynamicResource ThemeTextPrimaryBrush}"
+                                                       FontWeight="SemiBold"
+                                                       FontSize="11"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       VerticalAlignment="Center" />
+                                        </DockPanel>
+                                    </Grid>
+
+                                    <TextBlock Text="{Binding Slot, StringFormat='{}{0}'}"
+                                               Foreground="{DynamicResource ThemeTextMutedBrush}"
+                                               FontSize="9"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Top"
+                                               Margin="5,4,0,0" />
+                                    <Path Data="M 6,0 L 12,11 L 0,11 Z M 6.5,9.5 H 5.5 V 8.5 H 6.5 V 9.5 Z M 6.5,7.5 H 5.5 V 3.5 H 6.5 V 7.5 Z"
+                                          Fill="{DynamicResource ThemeShinyBrush}"
+                                          HorizontalAlignment="Right"
+                                          VerticalAlignment="Top"
+                                          IsVisible="{Binding !IsLegal}"
+                                          Margin="0,2,2,0"
+                                          Width="12" Height="11" />
+                                    <!-- Organizer mark badge: sits left of the upper-right legality warning so both stay visible -->
+                                    <Border Classes="organizer-mark" VerticalAlignment="Top" Margin="0,2,17,0" IsVisible="{Binding IsMarked}">
+                                        <Path />
+                                    </Border>
+                                </Panel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+        </DockPanel>
+    </Border>
+</UserControl>

@@ -1,0 +1,162 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:conv="using:PKHeX.Avalonia.Converters"
+        xmlns:strings="clr-namespace:PKHeX.Presentation.Localization;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+
+    <UserControl.Resources>
+        <conv:SpritePreferenceLabelConverter x:Key="SpritePrefLabel"/>
+        <conv:AppThemeLabelConverter x:Key="AppThemeLabel"/>
+        <conv:AppDensityLabelConverter x:Key="AppDensityLabel"/>
+        <conv:GamepadInputModeLabelConverter x:Key="GamepadModeLabel"/>
+    </UserControl.Resources>
+
+    <Grid RowDefinitions="Auto,*,54" Background="{DynamicResource ThemeBackgroundBaseBrush}">
+        <Border x:Name="SettingsHeader" Grid.Row="0" Background="{DynamicResource ThemeBackgroundCardBrush}" BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,0,0,1" Padding="20,10">
+            <StackPanel Spacing="4">
+                <TextBlock Text="{loc:Loc Settings_Title}" FontSize="20" FontWeight="SemiBold" />
+
+            </StackPanel>
+        </Border>
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20,16" Spacing="16"><Border BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,16">
+                    <StackPanel Spacing="{DynamicResource UiDensityViewStackSpacing}">
+                        <TextBlock Text="{loc:Loc Settings_Appearance}" FontSize="13" FontWeight="SemiBold" />
+                        <Grid ColumnDefinitions="100,*" ColumnSpacing="0" RowDefinitions="Auto,Auto,Auto" RowSpacing="10">
+                            <StackPanel Grid.Row="0" VerticalAlignment="Center" Spacing="2">
+                                <TextBlock Text="{loc:Loc Settings_Theme}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" />
+
+                            </StackPanel>
+                            <ComboBox FontSize="11" Grid.Row="0" Grid.Column="1" MinWidth="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" AutomationProperties.Name="{loc:Loc Settings_Theme}" ToolTip.Tip="{loc:Loc Settings_Theme_Desc}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:CompileBindings="False"><TextBlock><TextBlock.Text><MultiBinding Converter="{StaticResource AppThemeLabel}"><Binding /><Binding Source="{x:Static strings:LocalizedStrings.Instance}" Path="CurrentLanguage" /></MultiBinding></TextBlock.Text></TextBlock></DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <StackPanel Grid.Row="1" VerticalAlignment="Center" Spacing="2">
+                                <TextBlock Text="{loc:Loc Settings_Density}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" />
+
+                            </StackPanel>
+                            <ComboBox FontSize="11" Grid.Row="1" Grid.Column="1" MinWidth="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding Densities}" SelectedItem="{Binding SelectedDensity}" AutomationProperties.Name="{loc:Loc Settings_Density}" ToolTip.Tip="{loc:Loc Settings_Density_Desc}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:CompileBindings="False"><TextBlock Text="{Binding Converter={StaticResource AppDensityLabel}}" /></DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <StackPanel Grid.Row="2" VerticalAlignment="Center" Spacing="2">
+                                <TextBlock Text="{loc:Loc Settings_Language}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" />
+
+                            </StackPanel>
+                            <ComboBox FontSize="11" Grid.Row="2" Grid.Column="1" MinWidth="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" x:CompileBindings="False" ItemsSource="{Binding LanguageService.AvailableLanguages}" SelectedItem="{Binding LanguageService.CurrentLanguageOption, Mode=TwoWay}" AutomationProperties.Name="{loc:Loc Settings_Language}" ToolTip.Tip="{loc:Loc Settings_Language_Desc}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+<Border x:Name="ControllerSection" BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,16">
+                    <StackPanel Spacing="{DynamicResource UiDensityViewStackSpacing}">
+                        <TextBlock Text="{loc:Loc Settings_Controller}" FontSize="13" FontWeight="SemiBold" />
+                        <Grid ColumnDefinitions="100,*" ColumnSpacing="0" RowDefinitions="Auto,Auto" RowSpacing="6">
+                            <StackPanel Grid.Row="0" VerticalAlignment="Center" Spacing="2">
+                                <TextBlock Text="{loc:Loc Settings_GamepadMode}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <ComboBox FontSize="11" Grid.Row="0" Grid.Column="1" MinWidth="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding GamepadModes}" SelectedItem="{Binding SelectedGamepadMode}" AutomationProperties.Name="{loc:Loc Settings_GamepadMode}" ToolTip.Tip="{loc:Loc Settings_GamepadMode_Desc}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:CompileBindings="False"><TextBlock Text="{Binding Converter={StaticResource GamepadModeLabel}}" /></DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{loc:Loc Settings_GamepadMode_Help}" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeTextMutedBrush}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+<Border BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,16">
+                    <StackPanel Spacing="{DynamicResource UiDensityViewStackSpacing}">
+                        <TextBlock Text="{loc:Loc Settings_EditorBehavior}" FontSize="13" FontWeight="SemiBold" />
+                        <Grid ColumnDefinitions="*,150" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="10">
+                            <StackPanel Grid.Row="0" VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_UpdatePokedex}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <ToggleSwitch FontSize="11" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" IsChecked="{Binding SetUpdateDex}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}" AutomationProperties.Name="{loc:Loc Settings_UpdatePokedex}" ToolTip.Tip="{loc:Loc Settings_UpdatePokedex_Desc}" />
+                            <StackPanel Grid.Row="1" VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_AdaptPKM}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <ToggleSwitch FontSize="11" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" IsChecked="{Binding SetUpdatePKM}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}" AutomationProperties.Name="{loc:Loc Settings_AdaptPKM}" ToolTip.Tip="{loc:Loc Settings_AdaptPKM_Desc}" />
+                            <StackPanel Grid.Row="2" VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_WarnClosingModified}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <ToggleSwitch FontSize="11" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" IsChecked="{Binding WarnClosingModified}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}" AutomationProperties.Name="{loc:Loc Settings_WarnClosingModified}" ToolTip.Tip="{loc:Loc Settings_WarnClosingModified_Desc}" />
+                            <StackPanel Grid.Row="5" VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_PreviewTransfers}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <ToggleSwitch x:Name="PreviewTransfersToggle" FontSize="11" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" IsChecked="{Binding PreviewTransfers}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}" AutomationProperties.Name="{loc:Loc Settings_PreviewTransfers}" ToolTip.Tip="{loc:Loc Settings_PreviewTransfers_Desc}" />
+                            <StackPanel Grid.Row="3" VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_ForceHaX}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <ToggleSwitch FontSize="11" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" IsChecked="{Binding ForceHaX}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}" AutomationProperties.Name="{loc:Loc Settings_ForceHaX}" ToolTip.Tip="{loc:Loc Settings_ForceHaX_Desc}" />
+                            <StackPanel Grid.Row="4" VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_AllowBattleTowerTeamSwap}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <ToggleSwitch FontSize="11" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" IsChecked="{Binding AllowBattleTowerTeamSwap}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}" AutomationProperties.Name="{loc:Loc Settings_AllowBattleTowerTeamSwap}" ToolTip.Tip="{loc:Loc Settings_AllowBattleTowerTeamSwap_Desc}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+<Border x:Name="HardcoreSection" BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,16">
+                    <StackPanel Spacing="{DynamicResource UiDensityViewStackSpacing}">
+                        <TextBlock Text="{loc:Loc Settings_Hardcore}" FontSize="13" FontWeight="SemiBold" />
+                        <Grid ColumnDefinitions="*,150" ColumnSpacing="12" RowDefinitions="Auto,Auto" RowSpacing="6">
+                            <StackPanel Grid.Row="0" VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_HardcoreEnabled}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <ToggleSwitch x:Name="HardcoreToggle" FontSize="11" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" IsChecked="{Binding HardcoreEnabled}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}" AutomationProperties.Name="{loc:Loc Settings_HardcoreEnabled}" ToolTip.Tip="{loc:Loc Settings_Hardcore_Desc}" />
+                            <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{loc:Loc Settings_Hardcore_Desc}" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeTextMutedBrush}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+<Border x:Name="KeyboardShortcutsSection" BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,16" IsVisible="{Binding CanOpenKeyboardShortcuts}">
+                    <StackPanel Spacing="{DynamicResource UiDensityViewStackSpacing}">
+                        <TextBlock Text="{loc:Loc Settings_KeyboardShortcuts}" FontSize="13" FontWeight="SemiBold" />
+                        <Grid ColumnDefinitions="*,150" ColumnSpacing="12">
+                            <StackPanel VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_KeyboardShortcuts_Desc}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <Button x:Name="OpenKeyboardShortcutsButton" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="11" Content="{loc:Loc Settings_KeyboardShortcuts_Open}" Command="{Binding OpenKeyboardShortcutsCommand}" AutomationProperties.Name="{loc:Loc Settings_KeyboardShortcuts_OpenName}" ToolTip.Tip="{loc:Loc Settings_KeyboardShortcuts_Desc}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+<Border BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,16">
+                    <StackPanel Spacing="{DynamicResource UiDensityViewStackSpacing}">
+                        <TextBlock Text="{loc:Loc Settings_Sprites}" FontSize="13" FontWeight="SemiBold" />
+                        <Grid ColumnDefinitions="*,150" ColumnSpacing="12">
+                            <StackPanel VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_SpriteStyle}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <ComboBox FontSize="11" Grid.Column="1" MinWidth="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding SpritePreferences}" SelectedItem="{Binding SpritePreference}" AutomationProperties.Name="{loc:Loc Settings_SpriteStyle}" ToolTip.Tip="{loc:Loc Settings_SpriteStyle_Desc}">
+                                <ComboBox.ItemTemplate><DataTemplate x:CompileBindings="False"><TextBlock Text="{Binding Converter={StaticResource SpritePrefLabel}}" /></DataTemplate></ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+<Border BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,16" IsVisible="{Binding ShowUpdates}">
+                    <StackPanel Spacing="{DynamicResource UiDensityViewStackSpacing}">
+                        <TextBlock Text="{loc:Loc Settings_Updates}" FontSize="13" FontWeight="SemiBold" />
+                        <Grid ColumnDefinitions="*,150" ColumnSpacing="12" RowDefinitions="Auto,Auto,Auto" RowSpacing="10">
+                            <StackPanel Grid.Row="0" VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_CheckUpdates}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <ToggleSwitch FontSize="11" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" IsChecked="{Binding CheckForUpdatesOnStartup}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}" AutomationProperties.Name="{loc:Loc Settings_CheckUpdates}" ToolTip.Tip="{loc:Loc Settings_CheckUpdates_Desc}" />
+                            <StackPanel Grid.Row="1" VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_ShowChangelog}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <ToggleSwitch FontSize="11" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" IsChecked="{Binding ShowChangelog}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}" AutomationProperties.Name="{loc:Loc Settings_ShowChangelog}" ToolTip.Tip="{loc:Loc Settings_ShowChangelog_Desc}" />
+                            <Grid Grid.Row="2" Grid.ColumnSpan="2" ColumnDefinitions="*,150" ColumnSpacing="12"><TextBlock Text="{Binding UpdateCheckStatus}" FontSize="11" Foreground="{DynamicResource ThemeTextSecondaryBrush}" TextWrapping="Wrap" VerticalAlignment="Center" /><Button Grid.Column="1" Content="{loc:Loc Update_CheckNow}" Command="{Binding CheckForUpdatesCommand}" /></Grid>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+<Border BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,16" IsVisible="{Binding ShowLinuxIntegration}">
+                    <StackPanel Spacing="{DynamicResource UiDensityViewStackSpacing}">
+                        <TextBlock Text="{loc:Loc Settings_LinuxIntegration}" FontSize="13" FontWeight="SemiBold" />
+                        <TextBlock Text="{loc:Loc Settings_LinuxIntegration_Desc}" FontSize="11" FontWeight="Normal" Foreground="{DynamicResource ThemeTextSecondaryBrush}" TextWrapping="Wrap" />
+                        <!-- One state-driven button: Add when the menu entry is absent, Remove when
+                             it exists — never both. -->
+                        <Button HorizontalAlignment="Left" Content="{loc:Loc Settings_LinuxIntegration_Add}" Command="{Binding AddToApplicationMenuCommand}" IsVisible="{Binding !LinuxIntegrationRegistered}" ToolTip.Tip="{loc:Loc Settings_LinuxIntegration_Desc}" />
+                        <Button HorizontalAlignment="Left" Content="{loc:Loc Settings_LinuxIntegration_Remove}" Command="{Binding RemoveFromApplicationMenuCommand}" IsVisible="{Binding LinuxIntegrationRegistered}" />
+                        <TextBlock Text="{Binding LinuxIntegrationStatus}" FontSize="11" Foreground="{DynamicResource ThemeTextSecondaryBrush}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+<Border BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,0,0,1" Padding="0,0,0,16">
+                    <StackPanel Spacing="{DynamicResource UiDensityViewStackSpacing}">
+                        <TextBlock Text="{loc:Loc Settings_Backups}" FontSize="13" FontWeight="SemiBold" />
+                        <Grid ColumnDefinitions="*,150" ColumnSpacing="12" RowDefinitions="Auto,Auto" RowSpacing="10">
+                            <StackPanel Grid.Row="0" VerticalAlignment="Center" Spacing="2"><TextBlock Text="{loc:Loc Settings_EnableBackups}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" VerticalAlignment="Center" /></StackPanel>
+                            <ToggleSwitch FontSize="11" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" IsChecked="{Binding BakEnabled}" OnContent="{loc:Loc Common_On}" OffContent="{loc:Loc Common_Off}" AutomationProperties.Name="{loc:Loc Settings_EnableBackups}" ToolTip.Tip="{loc:Loc Settings_EnableBackups_Desc}" />
+                            <StackPanel Grid.Row="1" VerticalAlignment="Center" Spacing="2">
+                                <TextBlock Text="{loc:Loc Settings_BackupsToKeep}" FontSize="11" FontWeight="Normal" TextWrapping="Wrap" />
+                                <TextBlock Text="{loc:Loc Settings_BackupsToKeep_Desc}" FontSize="11" Foreground="{DynamicResource ThemeTextMutedBrush}" TextWrapping="Wrap" />
+                            </StackPanel>
+                            <NumericUpDown x:Name="BackupsToKeep" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" FontSize="11" Value="{Binding MaxBackupsPerSave}" Minimum="{Binding MinimumBackupsPerSave}" Maximum="{Binding MaximumBackupsPerSave}" Increment="1" FormatString="0" ClipValueToMinMax="True" AutomationProperties.Name="{loc:Loc Settings_BackupsToKeep}" />
+                        </Grid>
+                    </StackPanel>
+                </Border></StackPanel>
+        </ScrollViewer>
+        <Border Grid.Row="2" Background="{DynamicResource ThemeBackgroundCardBrush}" BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,1,0,0" Padding="20,10">
+            <Button HorizontalAlignment="Right" Content="{loc:Loc Settings_SaveChanges}" Command="{Binding SaveCommand}" Classes="compact-primary" Padding="12,5" FontSize="11" />
+        </Border>
+    </Grid>
+</UserControl>

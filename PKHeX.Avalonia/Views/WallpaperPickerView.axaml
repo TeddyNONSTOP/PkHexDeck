@@ -1,0 +1,88 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.WallpaperPickerView"
+             x:DataType="vm:WallpaperPickerViewModel"
+             Width="560" Height="520">
+
+    <UserControl.Styles>
+        <Style Selector="Button.wallpaper-choice">
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="CornerRadius" Value="6" />
+        </Style>
+        <Style Selector="Button.wallpaper-choice.selected">
+            <Setter Property="BorderBrush" Value="{DynamicResource CompactSelectionBorderBrush}" />
+        </Style>
+    </UserControl.Styles>
+
+    <Border Classes="view-container">
+        <DockPanel>
+            <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,1,0,0" Padding="0,8,0,0" Margin="0,8,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                    <Button Content="{loc:Loc Bank_WallpaperUseDefault}" Command="{Binding UseDefaultCommand}" />
+                    <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" />
+                    <Button Content="{loc:Loc Bank_WallpaperApply}" Classes="accent" Command="{Binding ApplyCommand}" />
+                </StackPanel>
+            </Border>
+
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="{loc:Loc Bank_WallpaperColors}" FontWeight="SemiBold" />
+                    <ItemsControl ItemsSource="{Binding Colors}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:WallpaperChoice">
+                                <Button Classes="wallpaper-choice" Classes.selected="{Binding IsSelected}"
+                                        Command="{Binding $parent[UserControl].((vm:WallpaperPickerViewModel)DataContext).SelectCommand}"
+                                        CommandParameter="{Binding}"
+                                        AutomationProperties.Name="{Binding AccessibleName}"
+                                        ToolTip.Tip="{Binding AccessibleName}">
+                                    <Border Width="40" Height="30" CornerRadius="4"
+                                            Background="{Binding ColorHex, Converter={StaticResource HexColorBrush}}" />
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <ItemsControl ItemsSource="{Binding ArtGroups}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:WallpaperGroup">
+                                <StackPanel Spacing="4" Margin="0,4,0,0">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                    <ItemsControl ItemsSource="{Binding Items}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:WallpaperChoice">
+                                                <Button Classes="wallpaper-choice" Classes.selected="{Binding IsSelected}"
+                                                        Command="{Binding $parent[UserControl].((vm:WallpaperPickerViewModel)DataContext).SelectCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        AutomationProperties.Name="{Binding AccessibleName}"
+                                                        ToolTip.Tip="{Binding AccessibleName}">
+                                                    <Image Width="76" Height="52" Stretch="UniformToFill"
+                                                           Source="{Binding Image, Converter={StaticResource PngBytesToBitmap}}" />
+                                                </Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </Border>
+</UserControl>

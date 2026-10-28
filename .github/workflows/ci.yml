@@ -1,0 +1,108 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Prevent duplicate runs: group by PR number for PR events, by ref for pushes.
+# cancel-in-progress drops stale runs when new commits land on the same PR/branch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    # Skip CI on PR merge commits — the PR check already validated this code.
+    # Direct pushes (sync, bump) still run CI normally.
+    if: >-
+      github.event_name == 'pull_request' ||
+      !startsWith(github.event.head_commit.message, 'Merge pull request #')
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Classify changed files
+        id: changes
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [[ -z "$BASE_SHA" || "$BASE_SHA" =~ ^0+$ ]]; then
+            echo "docs_only=false" >> "$GITHUB_OUTPUT"
+          else
+            git fetch --no-tags --depth=1 origin "$BASE_SHA"
+            docs_only=$(bash .github/scripts/is-documentation-only.sh "$BASE_SHA" HEAD)
+            echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Documentation-only check
+        if: steps.changes.outputs.docs_only == 'true'
+        shell: bash
+        run: echo "Markdown-only changes; application build and tests are not needed."
+
+      - name: Setup .NET
+        if: steps.changes.outputs.docs_only != 'true'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+          dotnet-quality: 'ga'
+
+      - name: Restore
+        if: steps.changes.outputs.docs_only != 'true'
+        run: dotnet restore PKHeX.sln
+
+      - name: Build
+        if: steps.changes.outputs.docs_only != 'true'
+        run: dotnet build PKHeX.sln -c Release --no-restore
+
+      - name: Install Linux integration test tools
+        if: runner.os == 'Linux' && steps.changes.outputs.docs_only != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y appstream desktop-file-utils python3-gi
+
+      - name: Test
+        if: steps.changes.outputs.docs_only != 'true'
+        run: dotnet test PKHeX.sln -c Release --no-build --logger "trx;LogFileName=results.trx" --blame-hang-timeout 5m --blame-hang-dump-type none
+
+      - name: Validate Linux catalog metadata
+        if: runner.os == 'Linux' && steps.changes.outputs.docs_only != 'true'
+        shell: bash
+        run: |
+          /usr/bin/python3 .github/scripts/test-linux-installer.py
+          # Exercise production staging with a tiny executable; this validates
+          # desktop/AppStream metadata without rebuilding the published payload.
+          mkdir -p tmp/catalog-validation/publish
+          printf '#!/bin/sh\nexit 0\n' > tmp/catalog-validation/publish/PKHeX.Avalonia
+          chmod +x tmp/catalog-validation/publish/PKHeX.Avalonia
+          VERSION=$(sed -n 's/.*<UIVersion>\(.*\)<\/UIVersion>.*/\1/p' Directory.Build.props)
+          bash .github/scripts/prepare-appdir.sh tmp/catalog-validation/publish \
+            tmp/catalog-validation/AppDir "$VERSION" "$(git rev-parse HEAD)"
+
+      - name: Report slow test cases
+        if: always() && steps.changes.outputs.docs_only != 'true'
+        shell: bash
+        run: python .github/scripts/report-test-durations.py
+
+      - name: Upload test results
+        if: always() && steps.changes.outputs.docs_only != 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results-${{ matrix.os }}
+          path: |
+            **/TestResults/*.trx
+            **/TestResults/**/Sequence*.xml
+            **/TestResults/stat-experience-*.png
+            **/TestResults/stat-experience-*.txt
+            **/TestResults/events4-*.png
+            **/TestResults/events4-*.txt
+          retention-days: 14

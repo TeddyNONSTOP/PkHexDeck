@@ -1,0 +1,105 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:core="clr-namespace:PKHeX.Core;assembly=PKHeX.Core" xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Fashion9Editor" x:DataType="vm:Fashion9EditorViewModel">
+    <UserControl.KeyBindings><KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" /></UserControl.KeyBindings>
+    <Border Classes="view-container">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Spacing="6" Margin="0,0,0,8" Classes="save-editor-header">
+                <TextBlock Text="{loc:Loc Fashion9Flow_Title}" Classes="view-title" />
+                <TextBlock Text="{loc:Loc Fashion9Flow_Staging}" TextWrapping="Wrap" />
+                <WrapPanel>
+                    <Button Content="{loc:Loc Fashion9Flow_UnlockBase}" Command="{Binding UnlockBaseCommand}" IsVisible="{Binding IsSV}" Margin="0,0,8,4" />
+                    <Button Content="{loc:Loc Fashion9Flow_UnlockOwned}" Command="{Binding UnlockOwnedCommand}" IsVisible="{Binding SupportsOwnedAction}" Margin="0,0,8,4" />
+                    <CheckBox Content="{loc:Loc Fashion9Flow_AllCategories}" IsChecked="{Binding AllCategories}" IsVisible="{Binding IsZA}" Margin="0,0,8,4" />
+                    <CheckBox Content="{loc:Loc Fashion9Flow_Advanced}" IsChecked="{Binding Advanced}" />
+                </WrapPanel>
+                <TextBlock Text="{Binding ScopeText}" TextWrapping="Wrap" IsVisible="{Binding IsZA}" Classes="muted" />
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom" Spacing="4" Margin="0,8,0,0">
+                <TextBlock Text="{Binding ValidationText}" IsVisible="{Binding !CanSave}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+                <TextBlock Text="{Binding StatusText}" IsVisible="{Binding HasStatus}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+                <WrapPanel HorizontalAlignment="Right">
+                    <Button Content="{loc:Loc Fashion9Flow_Undo}" Command="{Binding UndoCommand}" Margin="0,0,8,4" />
+                    <Button Content="{loc:Loc EventFlagsEditor_Reset}" Command="{Binding ResetCommand}" Margin="0,0,8,4" />
+                    <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" IsCancel="True" Margin="0,0,8,4" />
+                    <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" IsDefault="True" Classes="compact-primary" />
+                </WrapPanel>
+            </StackPanel>
+            <Grid ColumnDefinitions="180,8,*">
+                <DockPanel>
+                    <TextBox DockPanel.Dock="Top" Text="{Binding CategorySearch}" Watermark="{loc:Loc Fashion9Flow_CategorySearch}"
+                             AutomationProperties.Name="{loc:Loc Fashion9Flow_CategorySearch}" Margin="0,0,0,6" />
+                    <ListBox ItemsSource="{Binding VisibleCategories}" SelectedItem="{Binding SelectedCategory}" AutomationProperties.Name="{loc:Loc Fashion9Flow_Categories}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="vm:Fashion9Category">
+                                <StackPanel Spacing="3" Margin="0,4">
+                                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" ToolTip.Tip="{Binding Name}" />
+                                    <TextBlock Text="{Binding Summary}" FontSize="11" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+                <Grid Grid.Column="2" RowDefinitions="Auto,*,Auto">
+                    <StackPanel Grid.Row="0" Spacing="6" Margin="0,0,0,6">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <PathIcon Data="{Binding SelectedCategory.IconData}" Width="20" Height="20" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding SelectedCategory.Name}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock Text="{loc:Loc Fashion9Flow_IdentityHelp}" TextWrapping="Wrap" Classes="muted" FontSize="11" />
+                        <WrapPanel>
+                            <TextBox Text="{Binding SearchText}" Width="230" Watermark="{loc:Loc Fashion9Flow_ItemSearch}" AutomationProperties.Name="{loc:Loc Fashion9Flow_ItemSearch}" Margin="0,0,8,6" />
+                            <ComboBox ItemsSource="{Binding Filters}" SelectedValue="{Binding FilterIndex}" SelectedValueBinding="{Binding Value}"
+                                      DisplayMemberBinding="{Binding Text}" Width="190" AutomationProperties.Name="{loc:Loc Fashion9Flow_Filter}" Margin="0,0,0,6" />
+                        </WrapPanel>
+                    </StackPanel>
+                    <Border Grid.Row="1" Classes="editor-section-padded" Padding="0" ClipToBounds="True">
+                        <DataGrid Classes="save-grid" x:Name="ItemGrid" ItemsSource="{Binding VisibleItems}" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False"
+                                  CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="Horizontal">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="{loc:Loc Fashion9Flow_Identity}" Width="*" MinWidth="150" SortMemberPath="Identity">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="vm:Fashion9Row"><TextBlock Text="{Binding Identity}" ToolTip.Tip="{Binding Identity}" VerticalAlignment="Center" /></DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="{loc:Loc Fashion9Flow_RawId}" Binding="{Binding Value}" Width="100" IsReadOnly="True"
+                                                    IsVisible="{Binding #ItemGrid.((vm:Fashion9EditorViewModel)DataContext).Advanced}" />
+                                <DataGridTemplateColumn Header="{loc:Loc Fashion9Flow_Status}" Width="2*" MinWidth="130">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="vm:Fashion9Row"><TextBlock Text="{Binding Status}" ToolTip.Tip="{Binding Status}" VerticalAlignment="Center" /></DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                    <Expander Grid.Row="2" Header="{Binding SelectedItem.Identity}" HorizontalAlignment="Stretch" Margin="0,6,0,0">
+                    <ContentControl Content="{Binding SelectedItem}">
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate DataType="vm:Fashion9Row">
+                                <ScrollViewer MaxHeight="105" HorizontalScrollBarVisibility="Disabled">
+                                    <StackPanel Spacing="4">
+                                        <TextBlock Text="{Binding Identity}" TextWrapping="Wrap" FontWeight="SemiBold" />
+                                        <WrapPanel>
+                                            <CheckBox Content="{loc:Loc Fashion9Editor_ColumnNew}" IsChecked="{Binding IsNew}" ToolTip.Tip="{loc:Loc Fashion9Flow_NewHelp}" AutomationProperties.HelpText="{loc:Loc Fashion9Flow_NewHelp}" Margin="0,0,12,4" />
+                                            <CheckBox Content="{loc:Loc Fashion9Editor_ColumnOwned}" IsChecked="{Binding IsOwned}" IsVisible="{Binding SupportsOwned}" ToolTip.Tip="{loc:Loc Fashion9Flow_OwnedHelp}" AutomationProperties.HelpText="{loc:Loc Fashion9Flow_OwnedHelp}" Margin="0,0,12,4" />
+                                            <CheckBox Content="{loc:Loc Fashion9Editor_ColumnEquipped}" IsChecked="{Binding IsEquipped}" IsVisible="{Binding SupportsOwned}" ToolTip.Tip="{loc:Loc Fashion9Flow_EquippedHelp}" AutomationProperties.HelpText="{loc:Loc Fashion9Flow_EquippedHelp}" Margin="0,0,12,4" />
+                                            <CheckBox Content="{loc:Loc Fashion9Editor_ColumnShopNew}" IsChecked="{Binding IsNewShop}" IsVisible="{Binding SupportsOwned}" ToolTip.Tip="{loc:Loc Fashion9Flow_ShopHelp}" AutomationProperties.HelpText="{loc:Loc Fashion9Flow_ShopHelp}" Margin="0,0,12,4" />
+                                            <CheckBox Content="{loc:Loc Fashion9Editor_ColumnGroupNew}" IsChecked="{Binding IsNewGroup}" IsVisible="{Binding SupportsOwned}" ToolTip.Tip="{loc:Loc Fashion9Flow_GroupHelp}" AutomationProperties.HelpText="{loc:Loc Fashion9Flow_GroupHelp}" Margin="0,0,0,4" />
+                                        </WrapPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding #ItemGrid.((vm:Fashion9EditorViewModel)DataContext).Advanced}">
+                                            <TextBlock Text="{loc:Loc Fashion9Flow_RawId}" VerticalAlignment="Center" />
+                                            <TextBox Text="{Binding RawValueText}" Width="150" AutomationProperties.Name="{loc:Loc Fashion9Flow_RawId}" AutomationProperties.HelpText="{Binding Identity}" />
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding ErrorText}" IsVisible="{Binding HasErrors}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+                    </Expander>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </Border>
+</UserControl>

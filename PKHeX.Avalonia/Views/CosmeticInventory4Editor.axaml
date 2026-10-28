@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.CosmeticInventory4Editor"
+             x:DataType="vm:CosmeticInventory4EditorViewModel">
+    <UserControl.KeyBindings>
+        <KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" />
+    </UserControl.KeyBindings>
+    <Border Classes="view-container">
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc Cosmetic4_Title}" Classes="view-title" Margin="0,0,0,10" />
+            <StackPanel DockPanel.Dock="Top" Spacing="8" Margin="0,0,0,10">
+                <TextBlock Text="{loc:Loc Cosmetic4_Staging}" TextWrapping="Wrap" />
+                <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"
+                          HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc Cosmetic4_Category}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="vm:CosmeticInventory4Category"><TextBlock Text="{Binding Name}" /></DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc Cosmetic4_Search}" AutomationProperties.Name="{loc:Loc Cosmetic4_Search}" />
+                <TextBlock Text="{Binding ScopeText}" TextWrapping="Wrap" />
+                <WrapPanel>
+                    <Button Content="{loc:Loc Cosmetic4_GiveLegal}" Command="{Binding GiveLegalCommand}" Margin="0,0,8,6" />
+                    <Button Content="{loc:Loc Cosmetic4_GiveUnreleased}" Command="{Binding GiveIncludingUnreleasedCommand}" Margin="0,0,8,6" />
+                    <Button Content="{loc:Loc Cosmetic4_Clear}" Command="{Binding ClearCategoryCommand}" Margin="0,0,0,6" />
+                </WrapPanel>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="0,10,0,0">
+                <TextBlock Text="{Binding ValueHelp}" TextWrapping="Wrap" Classes="muted" />
+                <TextBlock Text="{Binding ValidationText}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                    <Button Content="{loc:Loc InventoryEditor_Reset}" Command="{Binding ResetCommand}" />
+                    <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" IsCancel="True" />
+                    <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" IsDefault="True" Classes="compact-primary" />
+                </StackPanel>
+            </StackPanel>
+            <DataGrid x:Name="EntriesGrid" ItemsSource="{Binding VisibleEntries}" AutoGenerateColumns="False"
+                      CanUserResizeColumns="True" CanUserSortColumns="True" GridLinesVisibility="Horizontal">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{loc:Loc Cosmetic4_ID}" Binding="{Binding Index}" Width="60" IsReadOnly="True" />
+                    <DataGridTemplateColumn Header="{loc:Loc InventoryEditor_Item}" Width="*" MinWidth="140">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="vm:CosmeticInventory4Row">
+                                <TextBlock Text="{Binding Name}" ToolTip.Tip="{Binding Name}" VerticalAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="{loc:Loc Cosmetic4_Status}" Binding="{Binding Status}" Width="120" IsReadOnly="True" />
+                    <DataGridTemplateColumn Width="105">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{Binding #EntriesGrid.((vm:CosmeticInventory4EditorViewModel)DataContext).ValueHeader}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="vm:CosmeticInventory4Row">
+                                <NumericUpDown Value="{Binding Value}" Minimum="0" Maximum="255" FormatString="0"
+                                               AutomationProperties.Name="{Binding Name}" AutomationProperties.HelpText="{Binding Status}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Border>
+</UserControl>

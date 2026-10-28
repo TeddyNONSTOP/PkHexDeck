@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup>
+    <Version>26.08.26</Version>
+    <LangVersion>14</LangVersion>
+    <Nullable>enable</Nullable>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Product>PKHeX</Product>
+    <Company>Patrik Lleshaj</Company>
+    <Authors>Patrik Lleshaj</Authors>
+    <Copyright>Copyright © Patrik Lleshaj</Copyright>
+    <SourceRevisionId>$([System.DateTime]::UtcNow.ToString("yyMMddHHmmss"))</SourceRevisionId>
+    <!-- UI version for PKHeX.Avalonia releases (semver) -->
+    <UIVersion>1.0.0</UIVersion>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Headless" Version="11.3.22" />
+    <PackageReference Include="Avalonia.Headless.XUnit" Version="11.3.22" />
+    <PackageReference Include="coverlet.collector" Version="10.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+    <PackageReference Include="Moq" Version="4.21.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\PKHeX.Core\PKHeX.Core.csproj" />
+    <ProjectReference Include="..\..\PKHeX.Avalonia\PKHeX.Avalonia.csproj" />
+    <ProjectReference Include="..\..\PKHeX.Application\PKHeX.Application.csproj" />
+    <ProjectReference Include="..\..\PKHeX.Infrastructure\PKHeX.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\PKHeX.Presentation\PKHeX.Presentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../Shared/HeadlessRenderSettling.cs" Link="Harness/HeadlessRenderSettling.cs" />
+    <Compile Include="../Shared/RsBoxWallpaperFixture.cs" Link="Fixtures/RsBoxWallpaperFixture.cs" />
+    <None Update="test_save.sav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=PkHexDeck
+Comment=Pokémon save file editor
+Exec=PKHeX.Avalonia
+Icon=io.pkhexdeck.app
+Categories=Utility;
+Terminal=false

@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.BoxReportView"
+             x:DataType="vm:BoxReportViewModel"
+             MinWidth="480" MinHeight="300">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Classes="tool-surface">
+        <WrapPanel Grid.Row="0" Margin="10" Orientation="Horizontal">
+            <Button Content="{loc:Loc BoxReportView_RefreshButton}" Command="{Binding RefreshCommand}" Margin="0,0,8,6" />
+            <Button Content="{loc:Loc BoxReportView_ExportCsvButton}" Command="{Binding ExportCsvCommand}" Margin="0,0,8,6" />
+            <Button Content="{loc:Loc BoxReport_OpenSelected}" Command="{Binding ActivateSelectedRowCommand}" Margin="0,0,8,6" />
+            <Button Content="{loc:Loc BoxReport_Columns}" Margin="0,0,8,6">
+                <Button.Flyout>
+                    <Flyout>
+                        <StackPanel Spacing="8" MaxWidth="340">
+                            <Button Content="{loc:Loc BoxReport_ResetColumns}" Command="{Binding ResetColumnsCommand}" />
+                            <ScrollViewer MaxHeight="350">
+                                <ItemsControl ItemsSource="{Binding Columns}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:BoxReportColumn">
+                                            <CheckBox Content="{Binding Header}" IsChecked="{Binding IsVisible}" IsEnabled="{Binding CanHide}"
+                                                      AutomationProperties.Name="{Binding Header}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </WrapPanel>
+        <TextBox Grid.Row="1" Margin="10,0,10,8" Text="{Binding SearchText}" Watermark="{loc:Loc BoxReport_Search}"
+                 AutomationProperties.Name="{loc:Loc BoxReport_Search}" />
+        <DataGrid Grid.Row="2" Name="ReportGrid" Classes="save-grid database-grid"
+                  ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}"
+                  AutoGenerateColumns="False" CanUserSortColumns="True" IsReadOnly="True"
+                  CanUserResizeColumns="True" CanUserReorderColumns="True" FrozenColumnCount="2"
+                  HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto"
+                  GridLinesVisibility="Horizontal" DoubleTapped="OnRowDoubleTapped"
+                  AutomationProperties.Name="{loc:Loc File_BoxDataReportTitle}">
+            <DataGrid.KeyBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding ActivateSelectedRowCommand}" />
+            </DataGrid.KeyBindings>
+        </DataGrid>
+        <StackPanel Grid.Row="3" Margin="10,8" Spacing="4">
+            <TextBlock Text="{Binding StatusText}" TextWrapping="Wrap" />
+            <TextBlock Text="{loc:Loc BoxReport_Instructions}" TextWrapping="Wrap" FontSize="12" />
+        </StackPanel>
+    </Grid>
+</UserControl>

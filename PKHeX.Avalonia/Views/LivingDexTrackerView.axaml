@@ -1,0 +1,61 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.LivingDexTrackerView"
+             x:DataType="vm:LivingDexTrackerViewModel"
+             MinWidth="480" MinHeight="320">
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Classes="tool-surface">
+        <StackPanel Grid.Row="0" Margin="10,10,10,6" Spacing="4">
+            <TextBlock x:Name="Summary" Text="{Binding SummaryText}" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap" />
+            <ProgressBar Value="{Binding OwnedPercent}" Minimum="0" Maximum="100" Height="8"
+                         AutomationProperties.Name="{Binding SummaryText}" />
+            <TextBlock Text="{Binding EggText}" IsVisible="{Binding EggText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                       FontSize="11" Foreground="{DynamicResource ThemeTextMutedBrush}" TextWrapping="Wrap" />
+        </StackPanel>
+        <WrapPanel Grid.Row="1" Margin="10,0,10,0" Orientation="Horizontal">
+            <ComboBox x:Name="FilterBox" SelectedIndex="{Binding FilterIndex}" MinWidth="140" Margin="0,0,8,6"
+                      AutomationProperties.Name="{loc:Loc LivingDexTracker_Filter}">
+                <ComboBoxItem Content="{loc:Loc LivingDexTracker_Filter_All}" />
+                <ComboBoxItem Content="{loc:Loc LivingDexTracker_Filter_Missing}" />
+                <ComboBoxItem Content="{loc:Loc LivingDexTracker_Filter_Owned}" />
+                <ComboBoxItem Content="{loc:Loc LivingDexTracker_Filter_NoShiny}" />
+            </ComboBox>
+            <CheckBox Content="{loc:Loc LivingDexTracker_IncludeForms}" IsChecked="{Binding IncludeForms}" Margin="0,0,12,6" />
+            <CheckBox Content="{loc:Loc LivingDexTracker_IncludeBank}" IsChecked="{Binding IncludeBank}" IsVisible="{Binding CanIncludeBank}" Margin="0,0,12,6" />
+            <Button Content="{loc:Loc LivingDexTracker_Refresh}" Command="{Binding RefreshCommand}" Margin="0,0,8,6" />
+            <Button Content="{loc:Loc LivingDexTracker_ShowSelected}" Command="{Binding ShowSelectedCommand}" Margin="0,0,8,6" />
+            <Button Content="{loc:Loc LivingDexTracker_Arrange}" Command="{Binding ArrangeCommand}" Margin="0,0,8,6" />
+        </WrapPanel>
+        <TextBox Grid.Row="2" Margin="10,0,10,8" Text="{Binding SearchText}" Watermark="{loc:Loc LivingDexTracker_Search}"
+                 AutomationProperties.Name="{loc:Loc LivingDexTracker_Search}" />
+        <DataGrid Grid.Row="3" x:Name="TrackerGrid" Classes="save-grid database-grid"
+                  ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}"
+                  AutoGenerateColumns="False" CanUserSortColumns="True" IsReadOnly="True"
+                  CanUserResizeColumns="True" GridLinesVisibility="Horizontal"
+                  VerticalScrollBarVisibility="Auto" DoubleTapped="OnRowDoubleTapped"
+                  AutomationProperties.Name="{loc:Loc Menu_Data_LivingDexTracker}">
+            <DataGrid.KeyBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding ShowSelectedCommand}" />
+            </DataGrid.KeyBindings>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="48" CanUserSort="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="vm:LivingDexTrackerRow">
+                            <Image Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" Width="40" Height="30"
+                                   Stretch="Uniform" HorizontalAlignment="Center"
+                                   Opacity="{Binding SpriteOpacity}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{loc:Loc LivingDexTracker_ColNumber}" Binding="{Binding Number}" Width="SizeToHeader" MinWidth="64" />
+                <DataGridTextColumn Header="{loc:Loc LivingDexTracker_ColPokemon}" Binding="{Binding Name}" Width="190" />
+                <DataGridTextColumn Header="{loc:Loc LivingDexTracker_ColOwned}" Binding="{Binding Count}" Width="SizeToHeader" MinWidth="76" />
+                <DataGridTextColumn Header="{loc:Loc LivingDexTracker_ColShiny}" Binding="{Binding ShinyCount}" Width="SizeToHeader" MinWidth="70" />
+                <DataGridTextColumn Header="{loc:Loc LivingDexTracker_ColWhere}" Binding="{Binding Locations}" Width="*" MinWidth="160" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Grid.Row="4" Margin="10,8" Text="{loc:Loc LivingDexTracker_Instructions}" TextWrapping="Wrap" FontSize="12"
+                   Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="650"
+             x:Class="PKHeX.Avalonia.Views.LegalityAuditView"
+             x:DataType="vm:LegalityAuditViewModel"
+             MinWidth="700" MinHeight="400">
+
+    <DockPanel Classes="tool-surface">
+        <Border DockPanel.Dock="Top" Classes="tool-header">
+            <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                <TextBlock Text="{loc:Loc File_LegalityAuditTitle}" Classes="tool-header-title" />
+                <WrapPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Text="{loc:Loc LegalityAuditView_Verdict}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <ComboBox ItemsSource="{Binding VerdictFilterOptions}" SelectedItem="{Binding VerdictFilter}" Width="110"
+                              AutomationProperties.Name="{loc:Loc LegalityAuditView_Verdict}" Margin="0,0,16,6" />
+                    <TextBlock Text="{loc:Loc LegalityAuditView_Filter}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <TextBox Text="{Binding TextFilter}" Watermark="{loc:Loc LegalityAuditView_FilterWatermark}" Width="240"
+                             AutomationProperties.Name="{loc:Loc LegalityAuditView_Filter}" Margin="0,0,0,6" />
+                </WrapPanel>
+                <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Content="{loc:Loc LegalityAuditView_RunAudit}" Classes="accent" Command="{Binding RunCommand}" />
+                    <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" />
+                    <Button Content="{loc:Loc LegalityAuditView_ExportCsv}" Command="{Binding ExportCsvCommand}" />
+                    <Button Content="{loc:Loc LegalityAuditView_ExportText}" Command="{Binding ExportTextCommand}" />
+                    <Button Content="{loc:Loc LegalityAuditView_CopySelectedReport}" Command="{Binding CopySelectedReportCommand}" />
+                </WrapPanel>
+            </Grid>
+        </Border>
+
+        <Border DockPanel.Dock="Top" Padding="12,0,12,8" IsVisible="{Binding IsRunning}">
+            <ProgressBar Minimum="0" Maximum="100" Value="{Binding Progress}" Height="6" />
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Padding="12,8">
+            <TextBlock Name="AuditStatus" Text="{Binding StatusText}" Foreground="{DynamicResource ThemeTextMutedBrush}" FontSize="12"
+                       ToolTip.Tip="{Binding StatusText}"
+                       AutomationProperties.Name="{Binding StatusText}"
+                       AutomationProperties.LiveSetting="Polite" />
+        </Border>
+
+        <DataGrid Name="AuditGrid" Classes="save-grid database-grid" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}"
+                  CanUserSortColumns="True" IsReadOnly="True" CanUserResizeColumns="True"
+                  GridLinesVisibility="Horizontal"
+                  DoubleTapped="OnRowDoubleTapped"
+                  ToolTip.Tip="{loc:Loc LegalityAuditView_RowTooltip}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{loc:Loc LegalityAuditView_Location}" Binding="{Binding Position}" Width="112"/>
+                <DataGridTextColumn Header="{loc:Loc LegalityAuditView_Species}" Binding="{Binding Species}" Width="120"/>
+                <DataGridTextColumn Header="{loc:Loc LegalityAuditView_Nickname}" Binding="{Binding Nickname}" Width="110"/>
+                <DataGridTextColumn Header="{loc:Loc LegalityAuditView_VerdictHeader}" Binding="{Binding Verdict}" Width="90"/>
+                <DataGridTextColumn Header="{loc:Loc LegalityAuditView_FailedChecks}" Binding="{Binding FailureSummary}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

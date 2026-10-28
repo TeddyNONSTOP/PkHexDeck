@@ -1,0 +1,24 @@
+# Luminescent Platinum event flag, system flag and work names, used on Luminescent Platinum saves on top of
+# bdsp_event_names.txt (these are Lumi's custom flags and win over the BDSP list in those slots).
+# Source: TeamLumi/Luminescent_ExLaunch, commit 0d457adae65e5e56de35463b910aabc02903e7fd,
+#   src/mod/externals/FlagWork_Enums.h. BSD-3-Clause, see Luminescent_ExLaunch-LICENSE.txt.
+# Only entries inside the save's 4000 flags / 1000 system flags / 500 work values are kept.
+# Format: kind <TAB> save index <TAB> category <TAB> internal name <TAB> description
+F	1754	Luminescent	FLAG_UNOVA_SOUNDS	
+F	1755	Luminescent	FLAG_KALOS_SOUNDS	
+F	1756	Luminescent	FLAG_ALOLA_SOUNDS	
+F	1757	Luminescent	FLAG_GALAR_SOUNDS	
+F	1758	Luminescent	FLAG_MYSTERY_BOX	
+F	2195	Luminescent	FLAG_INFINITE_REPEL	
+F	2196	Luminescent	FLAG_TRAINER_DOUBLE	
+F	2250	Luminescent	FLAG_MEGA_EVOLUTION_UNAVAILABLE	
+F	2251	Luminescent	FLAG_MEGA_BUTTON_TOGGLED	
+F	2561	Luminescent	FLAG_INCENSE_FLOWER_UNOVA	
+F	2562	Luminescent	FLAG_INCENSE_FLOWER_KALOS	
+F	2563	Luminescent	FLAG_INCENSE_FLOWER_ALOLA	
+F	2564	Luminescent	FLAG_INCENSE_FLOWER_HISUI	
+F	2565	Luminescent	FLAG_INCENSE_FLOWER_GALAR	
+F	2591	Luminescent	FLAG_CANT_ESCAPE	
+F	2770	Luminescent	FLAG_CYRUS_SPEAR_PILLAR	
+W	449	Luminescent	WK_LAST_BATTLE_TURN_COUNTER	
+W	495	Luminescent	WK_INCENSE_SLOT	

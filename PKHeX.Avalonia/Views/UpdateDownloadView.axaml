@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.UpdateDownloadView"
+             x:DataType="vm:UpdateDownloadViewModel">
+
+    <Border Classes="view-container">
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,12,0,0">
+            <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" IsVisible="{Binding IsRunning}" />
+            <Button Name="UpdateInstallButton" Content="{loc:Loc Update_InstallButton}" Classes="accent" Command="{Binding InstallCommand}" IsVisible="{Binding !IsDone}" />
+        </StackPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled"><StackPanel Spacing="12">
+        <TextBlock Text="{Binding InstallPrompt}" TextWrapping="Wrap" FontWeight="SemiBold" />
+
+        <ProgressBar Minimum="0" Maximum="100" Value="{Binding Progress}"
+                     IsIndeterminate="{Binding IsIndeterminate}" Height="8" />
+
+        <TextBlock Text="{Binding PhaseText}" TextWrapping="Wrap"
+                    Foreground="{DynamicResource ThemeTextMutedBrush}" FontSize="12"
+                    IsVisible="{Binding PhaseText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+        <TextBlock Text="{Binding ErrorMessage}" TextWrapping="Wrap"
+                    Foreground="{DynamicResource ThemeErrorBrush}" FontSize="12"
+                    IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+        </StackPanel></ScrollViewer>
+    </DockPanel>
+    </Border>
+</UserControl>

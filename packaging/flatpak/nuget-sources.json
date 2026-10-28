@@ -1,0 +1,254 @@
+[
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia/11.3.22/avalonia.11.3.22.nupkg",
+    "sha512": "d4938df7771526527efaf7662ba50b9bfcd930fa73544660a08622c062d27f50746e561559d1f1bf365c39a5f707a79a7fd6030d0a42a6f88b10f0a30ae3e09c",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.11.3.22.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.angle.windows.natives/2.1.25547.20250602/avalonia.angle.windows.natives.2.1.25547.20250602.nupkg",
+    "sha512": "5cf4ba739c4fe0bf9e36ad2b4d481338239ea98216e6188f8c2f7af5efbdcb8926ce7d6af2df951071f8d9294d4d25ce1e52835f2bf4ac08c3dceba5e503ae60",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.angle.windows.natives.2.1.25547.20250602.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.buildservices/11.3.2/avalonia.buildservices.11.3.2.nupkg",
+    "sha512": "233f868e74ab91e56818004ad0aa7d0bb6e978044ddcf0061e373ada06a1846b17a82e94c777ab907ba484c1873d2212b47d3539d2694e89a415f1af047c3045",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.buildservices.11.3.2.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.controls.datagrid/11.3.13/avalonia.controls.datagrid.11.3.13.nupkg",
+    "sha512": "5e686cd7496c1c34a70f4f8baaec4b3e3b42f501dba81d78563779b8d2b320cb43ef474bab9ad55fa048d73f1330c280b9b26c691195ae4fe72ad126b9a5c02f",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.controls.datagrid.11.3.13.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.desktop/11.3.22/avalonia.desktop.11.3.22.nupkg",
+    "sha512": "fe6b2d77b1fac2a63b9d8b4163369ed7dc3d8c64d909221e5d0fa4b43f1dca08e49640cf92b2a2fbea833a97aa9e77eb4b8d3cf252b4e482c249353817218a0a",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.desktop.11.3.22.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.fonts.inter/11.3.22/avalonia.fonts.inter.11.3.22.nupkg",
+    "sha512": "d05029be887ad2b1b48833d4f77ef99f62ba56859d55a8d236c5b38a7ed3646cc4eea3533717898d3b516a6d7e6e5c423b342aaa3cb13a94a4930e0a52792c02",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.fonts.inter.11.3.22.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.freedesktop/11.3.22/avalonia.freedesktop.11.3.22.nupkg",
+    "sha512": "7151e56ca2542ef9bb109c9fde3e821e3d3337622b4dc103b4905f4beae58bbd736eb1a721d0248f7182b4d479bc79070e1416613ca7c8399c7bc9c4ee305b76",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.freedesktop.11.3.22.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.native/11.3.22/avalonia.native.11.3.22.nupkg",
+    "sha512": "d0dd91fb24b0417ee9d3f35d285c7ab8c899c16ea478562c340041117e3576298acd0e0e190f9a999750a86d0dd1c8741f108dd8900737b38a03ad395dee7e58",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.native.11.3.22.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.remote.protocol/11.3.22/avalonia.remote.protocol.11.3.22.nupkg",
+    "sha512": "2721b5e7629bc5179f99449a6314d6e69046fe1cf214f175500187e3b8c7c8e1663988e306134f67d6d0ad9c30fe2425050d59dbde8a0a4e5fbe4fd99ed69795",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.remote.protocol.11.3.22.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.skia/11.3.22/avalonia.skia.11.3.22.nupkg",
+    "sha512": "1daf4e2b2b86ff35796f2a40a3461c12983df95190dcc6a0f6427be74cb0175bcb4128196b7b62be7ec827b0f935a16446ee988fe833938b461034a30e0a9016",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.skia.11.3.22.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.themes.fluent/11.3.22/avalonia.themes.fluent.11.3.22.nupkg",
+    "sha512": "7d9d92845d5a850a96eb32f4f70b8456dcf60577fd3f136ae1ed8810b4c9071c64ad17543aad6ec9b24699c1f4808823fb7666fd4156ad7e63230d14ac8beaf9",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.themes.fluent.11.3.22.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.win32/11.3.22/avalonia.win32.11.3.22.nupkg",
+    "sha512": "de7805544c7e5637ce799045812df50134b185d6ce556f4b6974cba9febe40f5b6aea714825262c3025c6e4dcadb7d248a88d2f056625093940ed216368b2aeb",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.win32.11.3.22.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.x11/11.3.22/avalonia.x11.11.3.22.nupkg",
+    "sha512": "350a093dcf604c3d78ac5fb6f5df2e96ca7e13e1c5b4740f16f7b49be42f40f35bceee867a26fce1c227633aa42cf5363c3e163a5b16c63d9b988bb55b068105",
+    "dest": "nuget-sources",
+    "dest-filename": "avalonia.x11.11.3.22.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/communitytoolkit.mvvm/8.4.2/communitytoolkit.mvvm.8.4.2.nupkg",
+    "sha512": "45a30676f54742dfd748065a6952b4563bd9f8aa19877f592f9b54bd464bf34fadc982c4b3f1c7170d92fb34d59966d5bd05f6a7906abfae60a127eaa0edca53",
+    "dest": "nuget-sources",
+    "dest-filename": "communitytoolkit.mvvm.8.4.2.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/harfbuzzsharp/8.3.1.1/harfbuzzsharp.8.3.1.1.nupkg",
+    "sha512": "ed1d94447956fa595c4867fe3eeb4a7b67c97e00e0da5a72762362212cbf25e62be5936e59617c94a1cbd4e6bbd0ac902854d0d36866bd920ed6a85ae663ac8c",
+    "dest": "nuget-sources",
+    "dest-filename": "harfbuzzsharp.8.3.1.1.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/harfbuzzsharp.nativeassets.linux/8.3.1.1/harfbuzzsharp.nativeassets.linux.8.3.1.1.nupkg",
+    "sha512": "4dbffeb5d07c377b5f6d7d54a658c6e272fa786869c4e6a6fdbf8bbf85f89d01a606ddfe240592f36ddd37807470f0546bbc7de9a6eb0508da15e91d14a95617",
+    "dest": "nuget-sources",
+    "dest-filename": "harfbuzzsharp.nativeassets.linux.8.3.1.1.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/harfbuzzsharp.nativeassets.macos/8.3.1.1/harfbuzzsharp.nativeassets.macos.8.3.1.1.nupkg",
+    "sha512": "063155862a999d07c01e4df3b2df2d23aa320c25ee62509b0bde657ec8797e0c6fe95fe4b29e9f6b2e9a0120dc76df431c547f7baf9faa19936c5a9eb78da2e6",
+    "dest": "nuget-sources",
+    "dest-filename": "harfbuzzsharp.nativeassets.macos.8.3.1.1.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/harfbuzzsharp.nativeassets.webassembly/8.3.1.1/harfbuzzsharp.nativeassets.webassembly.8.3.1.1.nupkg",
+    "sha512": "746d52bf1820d897211982b466d274477dc2e698a97827cb6dc5303b2355ad9ec7929902d484be205282bec2ebaad2824952d7096ae3b03c4a9be5ee8384d9db",
+    "dest": "nuget-sources",
+    "dest-filename": "harfbuzzsharp.nativeassets.webassembly.8.3.1.1.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/harfbuzzsharp.nativeassets.win32/8.3.1.1/harfbuzzsharp.nativeassets.win32.8.3.1.1.nupkg",
+    "sha512": "5bf6504c34f9040445d6f88d975896b289cb622b4de109761e721cb83e8d3301686eedd6a67a9dd5e4742feba6d5ed1d106932372f43159926712ad6f1e02af3",
+    "dest": "nuget-sources",
+    "dest-filename": "harfbuzzsharp.nativeassets.win32.8.3.1.1.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/microcom.runtime/0.11.0/microcom.runtime.0.11.0.nupkg",
+    "sha512": "c00731176e34ea7b936ad58a38639843c790b027b714ed5d3ea828b85ea94b14a502ded52ca7f60bb10c0ac0e744bd6e62fdcce0108ebaaf9731c408eece031e",
+    "dest": "nuget-sources",
+    "dest-filename": "microcom.runtime.0.11.0.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.aspnetcore.app.runtime.linux-x64/10.0.12/microsoft.aspnetcore.app.runtime.linux-x64.10.0.12.nupkg",
+    "sha512": "33771945bb6b0a3155d5a274780d8c6c805ed820775cee7a764a81a118c8ca100aa3796e0b393b02a4adcabe6ee3feda9f6fd217ee9e8e16b35ad88071d4e5b0",
+    "dest": "nuget-sources",
+    "dest-filename": "microsoft.aspnetcore.app.runtime.linux-x64.10.0.12.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection/10.0.12/microsoft.extensions.dependencyinjection.10.0.12.nupkg",
+    "sha512": "e1b4d2ed3a41e1a311c5e805a5882ca7d1c32344ef142e9bb769fd4acc89f712f2e9912ca56da38bb6d0edd2a0b86db0e4b6ec26d1625b3fb088f660a6643f29",
+    "dest": "nuget-sources",
+    "dest-filename": "microsoft.extensions.dependencyinjection.10.0.12.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/10.0.12/microsoft.extensions.dependencyinjection.abstractions.10.0.12.nupkg",
+    "sha512": "9137f7c7ac3b0ceb8d8fa912d242fca04192497267aa23e6dc6f9d7547d507be3711a3b9369f025f7afda50a74a2f058eff27e298d092dbc2e842d369c540ed6",
+    "dest": "nuget-sources",
+    "dest-filename": "microsoft.extensions.dependencyinjection.abstractions.10.0.12.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.host.linux-x64/10.0.12/microsoft.netcore.app.host.linux-x64.10.0.12.nupkg",
+    "sha512": "b688f494f44dee80c97b4d8ec93603064456ea6516467f0b79441603ba394639dbb7eede25407c0139702ae6d5a83627b8e23202440ca03c260c2de0741d7266",
+    "dest": "nuget-sources",
+    "dest-filename": "microsoft.netcore.app.host.linux-x64.10.0.12.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.runtime.linux-x64/10.0.12/microsoft.netcore.app.runtime.linux-x64.10.0.12.nupkg",
+    "sha512": "15627c8b1b1f73eb27ce8c18c805254461de84f8c7f71b662e0d28c160d5d49bbd7547997fe38ab816a013e13f7e5304e47871eeb39b81c4954d741a93fc2f1a",
+    "dest": "nuget-sources",
+    "dest-filename": "microsoft.netcore.app.runtime.linux-x64.10.0.12.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.win32.systemevents/6.0.0/microsoft.win32.systemevents.6.0.0.nupkg",
+    "sha512": "5e274ace996c3eba63099ed5116f9dc39f69f684f7c1e7623c28c3c73988b75c67dfcc929a50a761f0222df243dd540720a6e588e91dfa784f81bfce7a893875",
+    "dest": "nuget-sources",
+    "dest-filename": "microsoft.win32.systemevents.6.0.0.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/qrcoder/1.8.0/qrcoder.1.8.0.nupkg",
+    "sha512": "59540e2c56774b868bccb3eafe2f9679d58bb3a17367948279fc02db8240e46b67dd6cffbc38c443e03de2e250b113e7dbbd0f15965146a33d758f781c90d7be",
+    "dest": "nuget-sources",
+    "dest-filename": "qrcoder.1.8.0.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/skiasharp/3.119.4/skiasharp.3.119.4.nupkg",
+    "sha512": "712925fbacdfbd34c5d7c06bce5b2ae19c5062dcf4000aa57ec2c446b4b6cd6827c58153027e1c6090ec264f0997b347f4459995c88c21db094c4d9240ca95a5",
+    "dest": "nuget-sources",
+    "dest-filename": "skiasharp.3.119.4.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/skiasharp.nativeassets.linux/3.119.4/skiasharp.nativeassets.linux.3.119.4.nupkg",
+    "sha512": "f839cc35826b865ad45180427a16e2d7797be838192335aafcf3dcfda8b110ca04d7cf1aebf5f300c4adbf875454638d476fe8c44e9b32b388562bde0d558f72",
+    "dest": "nuget-sources",
+    "dest-filename": "skiasharp.nativeassets.linux.3.119.4.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/skiasharp.nativeassets.linux.nodependencies/3.119.4/skiasharp.nativeassets.linux.nodependencies.3.119.4.nupkg",
+    "sha512": "26cef738ad11eb2859ddf8a827020d8ef1ce1c6e227904026cb297a961d0c16c47e0638776c89d76be1901f65cff81ed30c82643ba7bef1672a2d8695096e999",
+    "dest": "nuget-sources",
+    "dest-filename": "skiasharp.nativeassets.linux.nodependencies.3.119.4.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/skiasharp.nativeassets.macos/3.119.4/skiasharp.nativeassets.macos.3.119.4.nupkg",
+    "sha512": "518871337537a3fa204530d70265b8fdcc81be29de8c8871b6a20526982372cc4f56e218e552e0c6cf3778fb8e05f341bbbb7f59e85317ec3810be6c7620640e",
+    "dest": "nuget-sources",
+    "dest-filename": "skiasharp.nativeassets.macos.3.119.4.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/skiasharp.nativeassets.webassembly/2.88.9/skiasharp.nativeassets.webassembly.2.88.9.nupkg",
+    "sha512": "c1815d86904c25e1bc3e43b22cc4b2db0ec931c13dd4d9505a2b6cb0ca1d24329f725bce650af1b0dc12bc70d8352cc19f2ac452aab462e7af4787d4601e0e0a",
+    "dest": "nuget-sources",
+    "dest-filename": "skiasharp.nativeassets.webassembly.2.88.9.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/skiasharp.nativeassets.win32/3.119.4/skiasharp.nativeassets.win32.3.119.4.nupkg",
+    "sha512": "445bfd7c9305522e385110a672a43f15acbfb36b5c985c5af540db534f99ceb3a7ddf933a20587ee0527b14edf1b19cb9b167e781bea275ca2b3b77d9a0259cf",
+    "dest": "nuget-sources",
+    "dest-filename": "skiasharp.nativeassets.win32.3.119.4.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/system.drawing.common/6.0.0/system.drawing.common.6.0.0.nupkg",
+    "sha512": "d61f0a3e01c3eac15f13fc1ba04a2c7ce4eac956400b2faa361fecabd3836d49d5bd344f3985ee3d94cdc3f6a72b8e07e423cdb2965b4f5ca2222b5de32988e4",
+    "dest": "nuget-sources",
+    "dest-filename": "system.drawing.common.6.0.0.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/tmds.dbus.protocol/0.21.3/tmds.dbus.protocol.0.21.3.nupkg",
+    "sha512": "f0ef19dd98225a5881462f891183c394d8aa8925b3a64084a6bdca15af9bf8bbd98c017fd226c8f99aa922f4887abbad6f920ac90ac61972447b92e1b5ffe834",
+    "dest": "nuget-sources",
+    "dest-filename": "tmds.dbus.protocol.0.21.3.nupkg"
+  },
+  {
+    "type": "file",
+    "url": "https://api.nuget.org/v3-flatcontainer/zxing.net/0.16.11/zxing.net.0.16.11.nupkg",
+    "sha512": "907041307d5928de18e48658f02aba8844d73abee4d3466b27c35bb28c3d4254dc259bc9551dba6d7ed5311fe86355ce26e3f32f232eefd58a770f9b2a179c86",
+    "dest": "nuget-sources",
+    "dest-filename": "zxing.net.0.16.11.nupkg"
+  }
+]

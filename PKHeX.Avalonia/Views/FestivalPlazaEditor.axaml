@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation" xmlns:core="using:PKHeX.Core"
+ xmlns:loc="using:PKHeX.Avalonia.Localization" x:Class="PKHeX.Avalonia.Views.FestivalPlazaEditor" x:DataType="vm:FestivalPlazaEditorViewModel">
+ <Border Classes="view-container">
+  <Grid RowDefinitions="Auto,*,Auto,Auto">
+   <TextBlock Text="{loc:Loc FestivalPlazaEditor_Title}" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,8" />
+   <TabControl Grid.Row="1" Name="PlazaTabs" Classes="compact-editor-tabs" SelectedIndex="{Binding SelectedTab}" IsVisible="{Binding IsSupported}">
+    <TabItem Header="{loc:Loc PlazaSession_Overview}"><ScrollViewer><Border Classes="editor-section-padded"><StackPanel Spacing="6"><TextBlock Text="{loc:Loc FestivalPlazaEditor_PlazaName}" TextWrapping="Wrap" />
+<TextBox Name="PlazaNameInput" Text="{Binding PlazaName}" MaxLength="20" AutomationProperties.Name="{loc:Loc FestivalPlazaEditor_PlazaName}" />
+<TextBlock Text="{loc:Loc FestivalPlazaEditor_Rank}" TextWrapping="Wrap" />
+<NumericUpDown Value="{Binding Rank}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc FestivalPlazaEditor_Rank}" />
+<TextBlock Text="{loc:Loc FestivalPlazaEditor_FcRange}" TextWrapping="Wrap" />
+<TextBlock Text="{Binding RankFCRange}" />
+<TextBlock Text="{loc:Loc FestivalPlazaEditor_CurrentFc}" TextWrapping="Wrap" />
+<NumericUpDown Value="{Binding CurrentFC}" Minimum="0" Maximum="9999999" AutomationProperties.Name="{loc:Loc FestivalPlazaEditor_CurrentFc}" />
+<TextBlock Text="{loc:Loc PlazaSession_UsedFC}" TextWrapping="Wrap" />
+<NumericUpDown Value="{Binding UsedFC}" Minimum="0" Maximum="999999999" AutomationProperties.Name="{loc:Loc PlazaSession_UsedFC}" />
+<TextBlock Text="{loc:Loc FestivalPlazaEditor_TotalFc}" TextWrapping="Wrap" />
+<TextBlock Name="CollectedCoins" Text="{Binding TotalFC}" FontWeight="SemiBold" />
+<TextBlock Text="{loc:Loc PlazaSession_Timestamp}" TextWrapping="Wrap" />
+<TextBox Name="TimestampInput" Text="{Binding Timestamp}" AutomationProperties.Name="{loc:Loc PlazaSession_Timestamp}" />
+<TextBlock Text="{loc:Loc PlazaSession_TimestampHint}" TextWrapping="Wrap" Opacity="0.7" /><TextBlock Text="{Binding TimestampError}" TextWrapping="Wrap" /><ItemsControl ItemsSource="{Binding Messages}"><ItemsControl.ItemTemplate><DataTemplate DataType="vm:PlazaNumberRow"><Grid ColumnDefinitions="*,12,150" Margin="0,0,0,8"><TextBlock Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" /><NumericUpDown Grid.Column="2" Value="{Binding Value}" Minimum="0" Maximum="{Binding Maximum}" AutomationProperties.Name="{Binding Name}" /></Grid></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></StackPanel></Border></ScrollViewer></TabItem>
+    <TabItem Header="{loc:Loc PlazaSession_Unlock}">
+     <Grid RowDefinitions="Auto,*">
+      <WrapPanel Margin="0,0,0,8"><Button Content="{loc:Loc PlazaSession_UnlockPhrases}" Command="{Binding UnlockAllPhrasesCommand}" Margin="0,0,8,4" /><Button Content="{loc:Loc PlazaSession_UnlockRewards}" Command="{Binding UnlockAllRewardsCommand}" Margin="0,0,8,4" /></WrapPanel>
+      <ScrollViewer Grid.Row="1"><StackPanel Spacing="8">
+       <TextBlock Text="{loc:Loc PlazaSession_Rewards}" FontWeight="SemiBold" />
+       <ItemsControl ItemsSource="{Binding Rewards}"><ItemsControl.ItemTemplate><DataTemplate DataType="vm:PlazaNumberRow"><Grid ColumnDefinitions="*,12,170" Margin="0,0,0,6"><TextBlock Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" /><ComboBox Grid.Column="2" ItemsSource="{Binding Choices}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding ChoiceValue}" HorizontalAlignment="Stretch" AutomationProperties.Name="{Binding Name}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox></Grid></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+       <TextBlock Text="{loc:Loc PlazaSession_Phrases}" FontWeight="SemiBold" />
+       <ItemsControl ItemsSource="{Binding Phrases}"><ItemsControl.ItemTemplate><DataTemplate DataType="vm:PlazaPhraseRow"><CheckBox IsChecked="{Binding Unlocked}" AutomationProperties.Name="{Binding Name}"><TextBlock Text="{Binding Name}" TextWrapping="Wrap" /></CheckBox></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+      </StackPanel></ScrollViewer>
+     </Grid>
+    </TabItem>
+    <TabItem Header="{loc:Loc FestivalPlazaEditor_Facilities}">
+     <Grid ColumnDefinitions="130,8,*" RowDefinitions="*,Auto">
+      <ListBox Name="FacilityList" ItemsSource="{Binding Facilities}" SelectedItem="{Binding SelectedFacility}" AutomationProperties.Name="{loc:Loc FestivalPlazaEditor_Facilities}"><ListBox.ItemTemplate><DataTemplate DataType="vm:FacilityViewModel"><StackPanel><TextBlock Text="{Binding DisplayName}" TextWrapping="Wrap" /><TextBlock Text="{Binding OwnerName}" TextWrapping="Wrap" Opacity="0.7" /></StackPanel></DataTemplate></ListBox.ItemTemplate></ListBox>
+      <ScrollViewer Grid.Column="2" Name="FacilityScroll"><StackPanel Spacing="6" DataContext="{Binding SelectedFacility}" x:DataType="vm:FacilityViewModel"><TextBlock Text="{loc:Loc FestivalPlazaEditor_Type}" TextWrapping="Wrap" />
+<ComboBox Name="FacilityTypeSelector" ItemsSource="{Binding TypeChoices}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding Type}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc FestivalPlazaEditor_Type}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<TextBlock Text="{loc:Loc FestivalPlazaEditor_Color}" TextWrapping="Wrap" />
+<ComboBox Name="FacilityColorSelector" ItemsSource="{Binding ColorChoices}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding Color}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc FestivalPlazaEditor_Color}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<TextBlock Text="{loc:Loc PlazaSession_Npc}" TextWrapping="Wrap" />
+<ComboBox Name="FacilityNpcSelector" ItemsSource="{Binding NpcChoices}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding Npc}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc PlazaSession_Npc}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<CheckBox Content="{loc:Loc PlazaSession_Introduced}" IsChecked="{Binding IsIntroduced}" /><TextBlock Text="{loc:Loc FestivalPlazaEditor_Owner}" TextWrapping="Wrap" />
+<TextBox Text="{Binding OwnerName}" MaxLength="12" AutomationProperties.Name="{loc:Loc FestivalPlazaEditor_Owner}" />
+<TextBlock Text="{loc:Loc PlazaSession_Gender}" TextWrapping="Wrap" />
+<ComboBox Name="FacilityGenderSelector" ItemsSource="{Binding GenderChoices}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding Gender}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc PlazaSession_Gender}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<TextBlock Text="{loc:Loc PlazaSession_FestivalId}" TextWrapping="Wrap" />
+<TextBox Name="FestivalIdInput" Text="{Binding FestivalId}" AutomationProperties.Name="{loc:Loc PlazaSession_FestivalId}" />
+<TextBlock Text="{Binding FestivalIdError}" TextWrapping="Wrap" /><ItemsControl ItemsSource="{Binding Messages}"><ItemsControl.ItemTemplate><DataTemplate DataType="vm:PlazaNumberRow"><Grid ColumnDefinitions="*,12,150" Margin="0,0,0,8"><TextBlock Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" /><NumericUpDown Grid.Column="2" Value="{Binding Value}" Minimum="0" Maximum="{Binding Maximum}" AutomationProperties.Name="{Binding Name}" /></Grid></DataTemplate></ItemsControl.ItemTemplate></ItemsControl><TextBlock Text="{loc:Loc PlazaSession_Usage}" FontWeight="SemiBold" /><ItemsControl Name="UsageFields" ItemsSource="{Binding Usage}"><ItemsControl.ItemTemplate><DataTemplate DataType="vm:PlazaNumberRow"><Grid ColumnDefinitions="*,12,150" Margin="0,0,0,8"><TextBlock Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" /><NumericUpDown Grid.Column="2" Value="{Binding Value}" Minimum="0" Maximum="{Binding Maximum}" AutomationProperties.Name="{Binding Name}" /></Grid></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></StackPanel></ScrollViewer>
+      <Button Grid.Row="1" Grid.ColumnSpan="3" Content="{loc:Loc PlazaSession_DeleteVisitor}" Command="{Binding DeleteVisitorCommand}" HorizontalAlignment="Right" Margin="0,8,0,0" />
+     </Grid>
+    </TabItem>
+   </TabControl>
+   <TextBlock Grid.Row="1" Text="{loc:Loc FestivalPlazaEditor_NotAvailable}" IsVisible="{Binding !IsSupported}" TextWrapping="Wrap" />
+   <TextBlock Grid.Row="2" Text="{Binding ValidationSummary}" TextWrapping="Wrap" Margin="0,6,0,0" />
+   <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8" Margin="0,12,0,0">
+    <Button Name="ResetButton" Content="{loc:Loc InventoryEditor_Reset}" Command="{Binding RefreshCommand}" />
+    <Button Name="SaveButton" Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" />
+    <Button Name="CancelButton" Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" />
+   </StackPanel>
+  </Grid>
+ </Border>
+</UserControl>

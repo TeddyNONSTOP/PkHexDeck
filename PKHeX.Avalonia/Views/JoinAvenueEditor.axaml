@@ -1,0 +1,378 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="860" d:DesignHeight="760"
+             x:Class="PKHeX.Avalonia.Views.JoinAvenueEditor"
+             x:DataType="vm:JoinAvenueEditorViewModel"
+             MinWidth="820" MinHeight="640">
+    <UserControl.Resources>
+        <DataTemplate x:Key="AdvancedEntityTemplate" DataType="vm:JoinAvenueEntityViewModel">
+            <Expander Header="{loc:Loc JoinAvenueAdvanced_Title}" HorizontalAlignment="Left" Width="{Binding $parent[ScrollViewer].Viewport.Width}" Name="AdvancedExpander">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="{loc:Loc JoinAvenueAdvanced_UnknownHelp}" TextWrapping="Wrap" />
+                    <ItemsControl ItemsSource="{Binding AdvancedNumbers}">
+                        <ItemsControl.ItemTemplate><DataTemplate DataType="vm:JoinAvenueNumberField">
+                            <StackPanel Margin="0,0,0,6"><Grid ColumnDefinitions="*,12,180">
+                                <TextBlock Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                <NumericUpDown Grid.Column="2" Value="{Binding Value}" Minimum="0" Maximum="{Binding Maximum}" FormatString="0"
+                                               AutomationProperties.Name="{Binding Name}" AutomationProperties.AutomationId="{Binding Id}" />
+                            </Grid><TextBlock Text="{Binding Error}" TextWrapping="Wrap" /></StackPanel>
+                        </DataTemplate></ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding AdvancedFlags}">
+                        <ItemsControl.ItemTemplate><DataTemplate DataType="vm:JoinAvenueFlagField">
+                            <CheckBox IsChecked="{Binding Value}" AutomationProperties.Name="{Binding Name}" AutomationProperties.AutomationId="{Binding Id}"><TextBlock Text="{Binding Name}" TextWrapping="Wrap" /></CheckBox>
+                        </DataTemplate></ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="{loc:Loc JoinAvenueAdvanced_DateHelp}" IsVisible="{Binding HasAdvancedDates}" TextWrapping="Wrap" />
+                    <ItemsControl ItemsSource="{Binding AdvancedDates}">
+                        <ItemsControl.ItemTemplate><DataTemplate DataType="vm:JoinAvenueDateField">
+                            <StackPanel Spacing="4" Margin="0,0,0,10">
+                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextWrapping="Wrap" />
+                                <Grid ColumnDefinitions="*,12,180"><TextBlock Text="{loc:Loc JoinAvenueAdvanced_RawDate}" VerticalAlignment="Center" TextWrapping="Wrap" />
+                                    <NumericUpDown Grid.Column="2" Value="{Binding RawValue}" Minimum="0" Maximum="65535" FormatString="0" AutomationProperties.Name="{Binding RawName}" AutomationProperties.AutomationId="{Binding Id}" />
+                                </Grid>
+                                <Grid ColumnDefinitions="*,8,Auto"><TextBox Text="{Binding DateText}" Watermark="{loc:Loc JoinAvenueAdvanced_DateFormat}" AutomationProperties.Name="{Binding Name}" /><Button Grid.Column="2" Content="{loc:Loc JoinAvenueAdvanced_ClearDate}" Command="{Binding ClearCommand}" AutomationProperties.Name="{Binding ClearName}" /></Grid>
+                                <TextBlock Text="{Binding Error}" TextWrapping="Wrap" />
+                                <TextBlock Text="{loc:Loc JoinAvenueAdvanced_InvalidStoredDate}" IsVisible="{Binding HasInvalidStoredDate}" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </DataTemplate></ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Expander>
+        </DataTemplate>
+
+        <!-- Reusable single-species + sprite editor (Gen 5). -->
+        <DataTemplate x:Key="SpeciesTemplate" DataType="vm:JoinAvenueSpeciesViewModel">
+            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                <Image Width="32" Height="32" VerticalAlignment="Center"
+                       Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" />
+                <ComboBox Width="180" ItemsSource="{Binding SpeciesSource}"
+                          SelectedValue="{Binding Species}"
+                          SelectedValueBinding="{Binding Value}"
+                          DisplayMemberBinding="{Binding Text}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Shared IJoinAvenueEntity5 fields, reused by Self / Visitor / Fan / Occupant / Assistant panes. -->
+        <DataTemplate x:Key="CommonEntityTemplate" DataType="vm:JoinAvenueEntityViewModel">
+            <Border Classes="editor-section-padded" Padding="8">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="{loc:Loc JoinAvenueEditor_General}" FontWeight="SemiBold"  TextWrapping="Wrap" />
+                    <Grid ColumnDefinitions="130,*,12,130,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_Name}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" MaxLength="7" Margin="0,0,0,4" />
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_Shout}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding Shout}" MaxLength="8" Margin="0,0,0,4" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_Greeting}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Greeting}" MaxLength="8" Margin="0,0,0,4" />
+                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_Farewell}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <TextBox Grid.Row="1" Grid.Column="4" Text="{Binding Farewell}" MaxLength="8" Margin="0,0,0,4" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_Tid16}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Tid16}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                        <TextBlock Grid.Row="2" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_SpriteId}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <NumericUpDown Grid.Row="2" Grid.Column="4" Value="{Binding SpriteId}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_Gender}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding GenderList}"
+                                  SelectedValue="{Binding Gender}" SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" Margin="0,0,0,4" />
+                        <TextBlock Grid.Row="3" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_Language}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <NumericUpDown Grid.Row="3" Grid.Column="4" Value="{Binding Language}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_Version}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Version}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                        <TextBlock Grid.Row="4" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_CountrySubregion}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <StackPanel Grid.Row="4" Grid.Column="4" Orientation="Horizontal" Spacing="6" Margin="0,0,0,4">
+                            <NumericUpDown Value="{Binding Country}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="76" AutomationProperties.Name="Country" />
+                            <NumericUpDown Value="{Binding Subregion}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="76" AutomationProperties.Name="Subregion" />
+                        </StackPanel>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_PlayedHm}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Spacing="6" Margin="0,0,0,4">
+                            <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="1023" FormatString="0" Classes="compact" Width="76" AutomationProperties.Name="Played Hours" />
+                            <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="63" FormatString="0" Classes="compact" Width="76" AutomationProperties.Name="Played Minutes" />
+                        </StackPanel>
+                        <TextBlock Grid.Row="5" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_MetYmd}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                        <StackPanel Grid.Row="5" Grid.Column="4" Orientation="Horizontal" Spacing="6" Margin="0,0,0,4">
+                            <NumericUpDown Value="{Binding MetYear}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="54" AutomationProperties.Name="Met Year" />
+                            <NumericUpDown Value="{Binding MetMonth}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="50" AutomationProperties.Name="Met Month" />
+                            <NumericUpDown Value="{Binding MetDay}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="50" AutomationProperties.Name="Met Day" />
+                        </StackPanel>
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_Seed}" VerticalAlignment="Center" Margin="0,0,8,0"  TextWrapping="Wrap" />
+                        <NumericUpDown Grid.Row="6" Grid.Column="1" Value="{Binding Seed}" Minimum="0" Maximum="4294967295" FormatString="0" Classes="compact" />
+                        <CheckBox Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="2" Content="{loc:Loc JoinAvenueEditor_InteractedToday}" IsChecked="{Binding IsInteractedToday}" VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <!-- A full Visitor / Occupant / Self pane (common + visitor-specific + favorite species + import/export). -->
+        <DataTemplate x:Key="VisitorPaneTemplate" DataType="vm:JoinAvenueVisitorEntryViewModel">
+            <StackPanel Spacing="8">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource CommonEntityTemplate}" />
+                <Border Classes="editor-section-padded" Padding="8">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc JoinAvenueEditor_VisitorShop}" FontWeight="SemiBold"  TextWrapping="Wrap" />
+                        <Grid ColumnDefinitions="130,*,12,130,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_AvenueLevel}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <NumericUpDown Grid.Row="0" Grid.Column="1" Value="{Binding JoinAvenueLevel}" Minimum="0" Maximum="127" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_AvenueRank}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <NumericUpDown Grid.Row="0" Grid.Column="4" Value="{Binding JoinAvenueRank}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_ShopType}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ShopTypeList}"
+                                      SelectedValue="{Binding ShopTypeIndex}" SelectedValueBinding="{Binding Value}"
+                                      DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" Margin="0,0,0,4"
+                                      AutomationProperties.Name="{loc:Loc JoinAvenueEditor_ShopType}" />
+                            <TextBlock Grid.Row="1" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_DesiredShopType}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <ComboBox Grid.Row="1" Grid.Column="4" ItemsSource="{Binding ShopTypeList}"
+                                      SelectedValue="{Binding DesiredShopTypeIndex}" SelectedValueBinding="{Binding Value}"
+                                      DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" Margin="0,0,0,4"
+                                      AutomationProperties.Name="{loc:Loc JoinAvenueEditor_DesiredShopType}" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_ShopTypeLevel}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding ShopTypeLevel}" Minimum="0" Maximum="{Binding ShopTypeMaxLevel}" FormatString="0" Classes="compact" Margin="0,0,0,4"
+                                           AutomationProperties.Name="{loc:Loc JoinAvenueEditor_ShopTypeLevel}" />
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_DesiredShopLevel}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <NumericUpDown Grid.Row="2" Grid.Column="4" Value="{Binding DesiredShopLevel}" Minimum="0" Maximum="{Binding ShopTypeMaxLevel}" FormatString="0" Classes="compact" Margin="0,0,0,4"
+                                           AutomationProperties.Name="{loc:Loc JoinAvenueEditor_DesiredShopLevel}" />
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_ShopTypeVersion}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding ShopTypeVersion}" Minimum="0" Maximum="{Binding ShopTypeMaxVersion}" FormatString="0" Classes="compact" Margin="0,0,0,4"
+                                           AutomationProperties.Name="{loc:Loc JoinAvenueEditor_ShopTypeVersion}" />
+                            <TextBlock Grid.Row="3" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_DesiredShopVersion}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <NumericUpDown Grid.Row="3" Grid.Column="4" Value="{Binding DesiredShopTypeVersion}" Minimum="0" Maximum="{Binding ShopTypeMaxVersion}" FormatString="0" Classes="compact" Margin="0,0,0,4"
+                                           AutomationProperties.Name="{loc:Loc JoinAvenueEditor_DesiredShopVersion}" />
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_ShopRank}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding ShopLevel}" Minimum="0" Maximum="{Binding ShopMaxLevel}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="4" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_ShopExperience}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <NumericUpDown Grid.Row="4" Grid.Column="4" Value="{Binding ShopExperience}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_DexSeen}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <NumericUpDown Grid.Row="5" Grid.Column="1" Value="{Binding DexSeen}" Minimum="0" Maximum="1023" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                            <TextBlock Grid.Row="5" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_Origin}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                            <NumericUpDown Grid.Row="5" Grid.Column="4" Value="{Binding Origin}" Minimum="0" Maximum="65535" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                            <TextBlock Grid.Row="6" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_MedalRankHintCount}" VerticalAlignment="Center" Margin="0,0,8,0"  TextWrapping="Wrap" />
+                            <StackPanel Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4" Orientation="Horizontal" Spacing="6">
+                                <NumericUpDown Value="{Binding MedalRank}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="90" AutomationProperties.Name="Medal Rank" />
+                                <NumericUpDown Value="{Binding MedalHint}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="90" AutomationProperties.Name="Medal Hint" />
+                                <NumericUpDown Value="{Binding MedalCount}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="90" AutomationProperties.Name="Medal Count" />
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBlock Text="{loc:Loc JoinAvenueEditor_FavoriteSpecies}" VerticalAlignment="Center" Width="120"  TextWrapping="Wrap" />
+                            <ContentControl Content="{Binding Favorite}" ContentTemplate="{StaticResource SpeciesTemplate}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="{loc:Loc JoinAvenueEditor_ImportJav5}" Command="{Binding ImportCommand}" />
+                    <Button Content="{loc:Loc JoinAvenueEditor_ExportJav5}" Command="{Binding ExportCommand}" />
+                </StackPanel>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource AdvancedEntityTemplate}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- A full Fan pane. -->
+        <DataTemplate x:Key="FanPaneTemplate" DataType="vm:JoinAvenueFanEntryViewModel">
+            <StackPanel Spacing="8">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource CommonEntityTemplate}" />
+                <Border Classes="editor-section-padded" Padding="8">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc JoinAvenueEditor_FanHeader}" FontWeight="SemiBold"  TextWrapping="Wrap" />
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBlock Text="{loc:Loc JoinAvenueEditor_SpeciesLabel}" VerticalAlignment="Center" Width="120"  TextWrapping="Wrap" />
+                            <ContentControl Content="{Binding FanSpecies}" ContentTemplate="{StaticResource SpeciesTemplate}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <TextBlock Text="{loc:Loc JoinAvenueEditor_BubbleTarget}" VerticalAlignment="Center" Width="120"  TextWrapping="Wrap" />
+                            <NumericUpDown Value="{Binding BubbleTarget}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="120" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="{loc:Loc JoinAvenueEditor_ImportJah5}" Command="{Binding ImportCommand}" />
+                    <Button Content="{loc:Loc JoinAvenueEditor_ExportJah5}" Command="{Binding ExportCommand}" />
+                </StackPanel>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource AdvancedEntityTemplate}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- A full Assistant pane. -->
+        <DataTemplate x:Key="AssistantPaneTemplate" DataType="vm:JoinAvenueAssistantEntryViewModel">
+            <StackPanel Spacing="8">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource CommonEntityTemplate}" />
+                <Border Classes="editor-section-padded" Padding="8">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc JoinAvenueEditor_AssistantPositions}" FontWeight="SemiBold"  TextWrapping="Wrap" />
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <NumericUpDown Value="{Binding Position0}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="100" AutomationProperties.Name="Position 0" />
+                            <NumericUpDown Value="{Binding Position1}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="100" AutomationProperties.Name="Position 1" />
+                            <NumericUpDown Value="{Binding Position2}" Minimum="0" Maximum="255" FormatString="0" Classes="compact" Width="100" AutomationProperties.Name="Position 2" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="{loc:Loc JoinAvenueEditor_ImportJaa5}" Command="{Binding ImportCommand}" />
+                    <Button Content="{loc:Loc JoinAvenueEditor_ExportJaa5}" Command="{Binding ExportCommand}" />
+                </StackPanel>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource AdvancedEntityTemplate}" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <DockPanel Classes="tool-surface" Margin="12">
+        <StackPanel Classes="tool-header-stack" DockPanel.Dock="Top">
+            <TextBlock Text="{loc:Loc JoinAvenueEditor_Title}" FontSize="20" FontWeight="SemiBold"  TextWrapping="Wrap" />
+            <TextBlock Text="{Binding GameInfo}" FontSize="12" Foreground="{DynamicResource ThemeTextSecondaryBrush}"  TextWrapping="Wrap" />
+            <TextBlock Text="{loc:Loc JoinAvenueAdvanced_Immediate}" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <!-- Not Supported Message -->
+        <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc JoinAvenueEditor_NotSupported}"
+                   Foreground="{DynamicResource ThemeTextSecondaryBrush}"
+                   FontStyle="Italic" HorizontalAlignment="Center" VerticalAlignment="Center"  TextWrapping="Wrap" />
+
+        <TabControl Name="AvenueTabs" Classes="compact-editor-tabs" IsVisible="{Binding IsSupported}">
+            <!-- ===================== Settings ===================== -->
+            <TabItem Classes="editor-tab" Header="{loc:Loc JoinAvenueEditor_Settings}">
+                <ScrollViewer Margin="0,4,0,0">
+                    <StackPanel Spacing="8">
+                        <Border Classes="editor-section-padded" Padding="8">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{loc:Loc JoinAvenueEditor_Avenue}" FontWeight="SemiBold"  TextWrapping="Wrap" />
+                                <Grid ColumnDefinitions="*,12,180" RowDefinitions="Auto,Auto">
+                                    <TextBlock Text="{loc:Loc JoinAvenueAdvanced_CountVisitor}" VerticalAlignment="Center" TextWrapping="Wrap" />
+                                    <NumericUpDown Name="VisitorCountInput" Grid.Column="2" Value="{Binding CountVisitor}" Minimum="0" Maximum="4294967295" AutomationProperties.Name="{loc:Loc JoinAvenueAdvanced_CountVisitor}" />
+                                    <TextBlock Grid.Row="1" Text="{loc:Loc JoinAvenueAdvanced_CountFan}" VerticalAlignment="Center" TextWrapping="Wrap" />
+                                    <NumericUpDown Name="FanCountInput" Grid.Row="1" Grid.Column="2" Value="{Binding CountFan}" Minimum="0" Maximum="4294967295" AutomationProperties.Name="{loc:Loc JoinAvenueAdvanced_CountFan}" />
+                                </Grid>
+                                <Grid ColumnDefinitions="Auto,200,24,Auto,200" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_Name}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding AvenueName}" MaxLength="20" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="0" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_PlayerTitle}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                                    <TextBox Grid.Row="0" Grid.Column="4" Text="{Binding PlayerTitle}" MaxLength="20" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_Rank}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                                    <NumericUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Rank}" Minimum="0" Maximum="{Binding MaxRank}" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_Experience}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                                    <NumericUpDown Grid.Row="1" Grid.Column="4" Value="{Binding Experience}" Minimum="0" Maximum="4294967295" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_CeilingColor}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                                    <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding CeilingColorList}"
+                                              SelectedValue="{Binding CeilingColorIndex}" SelectedValueBinding="{Binding Value}"
+                                              DisplayMemberBinding="{Binding Text}" HorizontalAlignment="Stretch" Margin="0,0,0,4" />
+                                    <TextBlock Grid.Row="2" Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_FlagsRaw}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                                    <NumericUpDown Grid.Row="2" Grid.Column="4" Value="{Binding Flags}" Minimum="0" Maximum="4294967295" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_Seed}" VerticalAlignment="Center" Margin="0,0,8,4"  TextWrapping="Wrap" />
+                                    <NumericUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Seed}" Minimum="0" Maximum="4294967295" FormatString="0" Classes="compact" Margin="0,0,0,4" />
+                                    <CheckBox Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Content="{loc:Loc JoinAvenueEditor_ScriptFlag}" IsChecked="{Binding ScriptFlag}" VerticalAlignment="Center" />
+
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_PromotionDays}" VerticalAlignment="Center" Margin="0,0,8,0"  TextWrapping="Wrap" />
+                                    <NumericUpDown Grid.Row="4" Grid.Column="1" Value="{Binding PromotionDaysElapsed}" Minimum="0" Maximum="{Binding MaxPromotionDays}" FormatString="0" Classes="compact" />
+                                    <CheckBox Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2" Content="{loc:Loc JoinAvenueEditor_PromotionActive}" IsChecked="{Binding IsPromotionActive}" VerticalAlignment="Center" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="editor-section-padded" Padding="8">
+                            <StackPanel Spacing="8">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <TextBlock Grid.Column="0" Text="{loc:Loc JoinAvenueEditor_VisitingPlayerDb}" FontWeight="SemiBold" VerticalAlignment="Center"  TextWrapping="Wrap" />
+                                    <Button Grid.Column="1" Content="{loc:Loc JoinAvenueEditor_ClearAll}" Command="{Binding ClearVisitingPlayersCommand}" />
+                                </Grid>
+                                <Grid ColumnDefinitions="130,*,12,130,*">
+                                    <TextBlock Grid.Column="0" Text="{loc:Loc JoinAvenueAdvanced_DatabaseCount}" VerticalAlignment="Center" Margin="0,0,8,0"  TextWrapping="Wrap" />
+                                    <NumericUpDown Grid.Column="1" Value="{Binding VisitingPlayerCount}" Minimum="0" Maximum="{Binding MaxVisitingPlayers}" FormatString="0" Classes="compact" />
+                                    <TextBlock Grid.Column="3" Text="{loc:Loc JoinAvenueEditor_InsertIndex}" VerticalAlignment="Center" Margin="0,0,8,0"  TextWrapping="Wrap" />
+                                    <NumericUpDown Grid.Column="4" Value="{Binding VisitingPlayerInsertIndex}" Minimum="0" Maximum="{Binding MaxVisitingPlayerIndex}" FormatString="0" Classes="compact" />
+                                </Grid>
+                                <Border ClipToBounds="True">
+                                    <DataGrid Classes="save-grid" ItemsSource="{Binding VisitingPlayers}"
+                                              AutoGenerateColumns="False" CanUserResizeColumns="True"
+                                              CanUserSortColumns="False" IsReadOnly="False" MinHeight="260" MaxHeight="320">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="#" Binding="{Binding Slot}" Width="60" IsReadOnly="True" />
+                                            <DataGridTemplateColumn Header="{loc:Loc JoinAvenueEditor_TrainerId32}" Width="*">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate DataType="vm:JoinAvenueVisitingPlayerViewModel">
+                                                        <NumericUpDown Value="{Binding Value}" Minimum="0" Maximum="4294967295" FormatString="0" Classes="compact" HorizontalAlignment="Stretch" AutomationProperties.Name="Trainer ID" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===================== Self ===================== -->
+            <TabItem Classes="editor-tab" Header="{loc:Loc JoinAvenueEditor_Self}">
+                <ScrollViewer Margin="0,4,0,0">
+                    <ContentControl Content="{Binding Self}" ContentTemplate="{StaticResource VisitorPaneTemplate}" />
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===================== Visitors ===================== -->
+            <TabItem Classes="editor-tab" Header="{loc:Loc JoinAvenueEditor_Visitors}">
+                <Grid ColumnDefinitions="130,12,*" Margin="0,4,0,0">
+                    <ListBox Name="VisitorsList" ItemsSource="{Binding Visitors}" SelectedItem="{Binding SelectedVisitor}" AutomationProperties.Name="{loc:Loc JoinAvenueEditor_Visitors}">
+                        <ListBox.ItemTemplate><DataTemplate DataType="vm:JoinAvenueVisitorEntryViewModel"><TextBlock Text="{Binding Label}" TextWrapping="Wrap" /></DataTemplate></ListBox.ItemTemplate>
+                    </ListBox>
+                    <ScrollViewer Grid.Column="2" Name="VisitorsDetails" HorizontalScrollBarVisibility="Auto">
+                        <StackPanel Spacing="8"><TextBlock Text="{Binding SelectedVisitor.Label}" FontWeight="SemiBold"  TextWrapping="Wrap" /><ContentControl Content="{Binding SelectedVisitor}" ContentTemplate="{StaticResource VisitorPaneTemplate}" /></StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!-- ===================== Fans ===================== -->
+            <TabItem Classes="editor-tab" Header="{loc:Loc JoinAvenueEditor_Fans}">
+                <Grid ColumnDefinitions="130,12,*" Margin="0,4,0,0">
+                    <ListBox Name="FansList" ItemsSource="{Binding Fans}" SelectedItem="{Binding SelectedFan}" AutomationProperties.Name="{loc:Loc JoinAvenueEditor_Fans}">
+                        <ListBox.ItemTemplate><DataTemplate DataType="vm:JoinAvenueFanEntryViewModel"><TextBlock Text="{Binding Label}" TextWrapping="Wrap" /></DataTemplate></ListBox.ItemTemplate>
+                    </ListBox>
+                    <ScrollViewer Grid.Column="2" Name="FansDetails" HorizontalScrollBarVisibility="Auto">
+                        <StackPanel Spacing="8"><TextBlock Text="{Binding SelectedFan.Label}" FontWeight="SemiBold"  TextWrapping="Wrap" /><ContentControl Content="{Binding SelectedFan}" ContentTemplate="{StaticResource FanPaneTemplate}" /></StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!-- ===================== Occupants ===================== -->
+            <TabItem Classes="editor-tab" Header="{loc:Loc JoinAvenueEditor_Occupants}">
+                <Grid ColumnDefinitions="130,12,*" Margin="0,4,0,0">
+                    <ListBox Name="OccupantsList" ItemsSource="{Binding Occupants}" SelectedItem="{Binding SelectedOccupant}" AutomationProperties.Name="{loc:Loc JoinAvenueEditor_Occupants}">
+                        <ListBox.ItemTemplate><DataTemplate DataType="vm:JoinAvenueVisitorEntryViewModel"><TextBlock Text="{Binding Label}" TextWrapping="Wrap" /></DataTemplate></ListBox.ItemTemplate>
+                    </ListBox>
+                    <ScrollViewer Grid.Column="2" Name="OccupantsDetails" HorizontalScrollBarVisibility="Auto">
+                        <StackPanel Spacing="8"><TextBlock Text="{Binding SelectedOccupant.Label}" FontWeight="SemiBold"  TextWrapping="Wrap" /><ContentControl Content="{Binding SelectedOccupant}" ContentTemplate="{StaticResource VisitorPaneTemplate}" /></StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <!-- ===================== Assistants ===================== -->
+            <TabItem Classes="editor-tab" Header="{loc:Loc JoinAvenueEditor_Assistants}">
+                <Grid ColumnDefinitions="130,12,*" Margin="0,4,0,0">
+                    <ListBox Name="AssistantsList" ItemsSource="{Binding Assistants}" SelectedItem="{Binding SelectedAssistant}" AutomationProperties.Name="{loc:Loc JoinAvenueEditor_Assistants}">
+                        <ListBox.ItemTemplate><DataTemplate DataType="vm:JoinAvenueAssistantEntryViewModel"><TextBlock Text="{Binding Label}" TextWrapping="Wrap" /></DataTemplate></ListBox.ItemTemplate>
+                    </ListBox>
+                    <ScrollViewer Grid.Column="2" Name="AssistantsDetails" HorizontalScrollBarVisibility="Auto">
+                        <StackPanel Spacing="8"><TextBlock Text="{Binding SelectedAssistant.Label}" FontWeight="SemiBold"  TextWrapping="Wrap" /><ContentControl Content="{Binding SelectedAssistant}" ContentTemplate="{StaticResource AssistantPaneTemplate}" /></StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</UserControl>

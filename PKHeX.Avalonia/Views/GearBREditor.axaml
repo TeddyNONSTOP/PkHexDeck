@@ -1,0 +1,45 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.GearBREditor"
+             x:DataType="vm:GearBREditorViewModel">
+
+    <Border Classes="view-container">
+        <DockPanel>
+        <Border DockPanel.Dock="Top" Classes="tool-header">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+            <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" />
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer>
+            <StackPanel Spacing="8" Margin="0,8,0,0">
+                <Border Classes="editor-section-padded" Padding="8">
+                    <StackPanel Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="{loc:Loc GearBREditor_GearUnlocks}" FontWeight="Bold" FontSize="14" VerticalAlignment="Center" />
+                            <Button Content="{loc:Loc GearBREditor_UnlockAll}" Command="{Binding UnlockAllCommand}" FontSize="11" Padding="8,4" />
+                            <Button Content="{loc:Loc GearBREditor_ClearAll}" Command="{Binding ClearAllCommand}" FontSize="11" Padding="8,4" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Classes="editor-section-padded" Padding="8">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc GearBREditor_ShinyOutfits}" FontWeight="Bold" FontSize="14" />
+                        <WrapPanel>
+                            <CheckBox Content="{loc:Loc GearBREditor_ShinyGroudon}" IsChecked="{Binding ShinyGroudon}" Margin="0,2,15,2" />
+                            <CheckBox Content="{loc:Loc GearBREditor_ShinyLucario}" IsChecked="{Binding ShinyLucario}" Margin="0,2,15,2" />
+                            <CheckBox Content="{loc:Loc GearBREditor_ShinyElectivire}" IsChecked="{Binding ShinyElectivire}" Margin="0,2,15,2" />
+                            <CheckBox Content="{loc:Loc GearBREditor_ShinyKyogre}" IsChecked="{Binding ShinyKyogre}" Margin="0,2,15,2" />
+                            <CheckBox Content="{loc:Loc GearBREditor_ShinyRoserade}" IsChecked="{Binding ShinyRoserade}" Margin="0,2,15,2" />
+                            <CheckBox Content="{loc:Loc GearBREditor_ShinyPachirisu}" IsChecked="{Binding ShinyPachirisu}" Margin="0,2,15,2" />
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+        </DockPanel>
+    </Border>
+</UserControl>

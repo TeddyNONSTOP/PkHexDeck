@@ -1,0 +1,253 @@
+using PKHeX.Core;
+using SkiaSharp;
+
+namespace PKHeX.Avalonia.Services;
+
+/// <summary>
+/// Renders PKM sprites using SkiaSharp with real Pokémon sprites, returning PNG bytes.
+/// </summary>
+public sealed class AvaloniaSpriteRenderer : ISpriteRenderer
+{
+    private const int SpriteWidth = 68;
+    private const int SpriteHeight = 56;
+
+    private readonly SpriteLoader _loader = new();
+    private readonly AppSettings _settings;
+    private EntityContext _context = EntityContext.None;
+
+    public AvaloniaSpriteRenderer(AppSettings settings)
+    {
+        _settings = settings;
+    }
+
+    public void Initialize(SaveFile sav)
+    {
+        _context = sav.Context;
+        _loader.Style = SpriteStyleSelector.Resolve(_settings.Sprite.SpritePreference, sav);
+        _loader.ClearCache();
+    }
+
+    public byte[]? GetSprite(PKM pk, bool isEgg = false)
+    {
+        if (pk.Species == 0)
+            return GetEmptySlot();
+
+        using var composed = CreateSprite(pk);
+        return EncodePng(composed);
+    }
+
+    private SKBitmap CreateSprite(PKM pk)
+    {
+        var baseSprite = _loader.GetSprite(
+            pk.Species,
+            pk.Form,
+            (byte)pk.Gender,
+            pk.IsEgg ? 0 : GetFormArg(pk),
+            pk.IsShiny,
+            _context);
+
+        using var placeholder = baseSprite is null ? SKBitmap.Decode(CreatePlaceholderSprite(pk)) : null;
+
+        return ComposeSprite(baseSprite ?? placeholder!, pk);
+    }
+
+    public byte[]? GetSprite(ushort species, byte form, byte gender, uint formarg, bool shiny, EntityContext context)
+    {
+        var skBitmap = _loader.GetSprite(species, form, gender, formarg, shiny, context);
+        if (skBitmap == null) return null;
+        return EncodePng(skBitmap);
+    }
+
+    public byte[]? GetSlotSprite(PKM pk, PKHeX.Application.Models.SpriteSlotState state)
+    {
+        var empty = pk.Species == 0;
+        using var bitmap = empty ? new SKBitmap(SpriteWidth, SpriteHeight) : CreateSprite(pk);
+        using var canvas = new SKCanvas(bitmap);
+        if (empty) { canvas.Clear(SKColors.Transparent); state = state with { Illegal = false, MoveHint = false }; }
+        // Slot views own the upper-right illegal indicator; baking it into the sprite duplicates it.
+        // The distinct move hint has no view-level counterpart, so keep its lower-left lane.
+        if (!state.Illegal && state.MoveHint) DrawOverlay(canvas, _loader.GetLegalityOverlay(false), 0, 44);
+        if (state.Storage.IsBattleTeam() >= 0) DrawOverlay(canvas, _loader.GetSlotOverlay("team"), 0, 30);
+        if (state.Storage.HasFlag(StorageSlotSource.Locked)) DrawOverlay(canvas, _loader.GetSlotOverlay("locked"), 14, 30);
+        var party = state.Storage.IsParty();
+        if (party >= 0) DrawOverlay(canvas, _loader.GetSlotOverlay($"party{party + 1}"), 14, 44);
+        if (state.Storage.HasFlag(StorageSlotSource.Starter)) DrawOverlay(canvas, _loader.GetSlotOverlay("starter"), 28, 44);
+        return EncodePng(bitmap);
+    }
+
+    public byte[]? GetItemSprite(int itemId)
+        => GetItemSprite(itemId, EntityContext.Gen4, GameVersion.Any);
+
+    public byte[]? GetItemSprite(int itemId, EntityContext context, GameVersion version)
+    {
+        var skBitmap = _loader.GetItemSprite(itemId, context, version);
+        if (skBitmap is null) return null;
+        return EncodePng(skBitmap);
+    }
+
+    public byte[]? GetEmptySlot()
+    {
+        using var surface = SKSurface.Create(new SKImageInfo(SpriteWidth, SpriteHeight));
+        surface.Canvas.Clear(SKColors.Transparent);
+        return EncodePng(surface);
+    }
+
+    private SKBitmap ComposeSprite(SKBitmap baseSprite, PKM pk)
+    {
+        var result = new SKBitmap(SpriteWidth, SpriteHeight);
+        using var canvas = new SKCanvas(result);
+        canvas.Clear(SKColors.Transparent);
+
+        if (pk.IsEgg)
+        {
+            using var eggPaint = new SKPaint { Color = SKColors.White.WithAlpha(85) }; // ~33% opacity
+            canvas.DrawBitmap(baseSprite, 0, 0, eggPaint);
+
+            var eggSprite = _loader.GetEggSprite(pk.Species);
+            if (eggSprite is not null)
+                canvas.DrawBitmap(eggSprite, 0, 0);
+        }
+        else
+        {
+            canvas.DrawBitmap(baseSprite, 0, 0);
+        }
+
+        if (pk.HeldItem > 0)
+        {
+            var itemSprite = _loader.GetItemSprite(pk.SpriteItem);
+            if (itemSprite is not null)
+            {
+                // Bottom-right corner
+                float scale = Math.Min(1f, 24f / Math.Max(itemSprite.Width, itemSprite.Height));
+                float width = itemSprite.Width * scale;
+                float height = itemSprite.Height * scale;
+                canvas.DrawBitmap(itemSprite, SKRect.Create(SpriteWidth - width - 2, SpriteHeight - height - 2, width, height));
+            }
+        }
+
+        if (pk.IsShiny)
+        {
+            DrawOverlay(canvas, _loader.GetShinyOverlay(), 0, 0, 20);
+        }
+
+        // Independent fixed lanes preserve the form sprite and keep all concurrent states visible.
+        if (pk is IAlphaReadOnly { IsAlpha: true } && _loader.GetAlphaOverlay() is { } alpha)
+            canvas.DrawBitmap(alpha, SKRect.Create(48, 0, 20, 20));
+        if (pk is IGigantamaxReadOnly { CanGigantamax: true } && _loader.GetGigantamaxOverlay() is { } gmax)
+            canvas.DrawBitmap(gmax, SKRect.Create(24, 0, 20, 20));
+
+        return result;
+    }
+
+    private static void DrawOverlay(SKCanvas canvas, SKBitmap? overlay, float x, float y, float size = 12)
+    {
+        if (overlay is null) return;
+        var scale = Math.Min(size / overlay.Width, size / overlay.Height);
+        canvas.DrawBitmap(overlay, SKRect.Create(x, y, overlay.Width * scale, overlay.Height * scale));
+    }
+
+    private static uint GetFormArg(PKM pk)
+    {
+        if (pk is IFormArgument fa)
+            return fa.FormArgument;
+        return 0;
+    }
+
+    private byte[] CreatePlaceholderSprite(PKM pk)
+    {
+        using var surface = SKSurface.Create(new SKImageInfo(SpriteWidth, SpriteHeight));
+        var canvas = surface.Canvas;
+
+        // An out-of-range/corrupt species can make the PersonalInfo lookup throw; fall back to
+        // the "unknown type" neutral color rather than letting a bad placeholder crash rendering.
+        int type1;
+        try
+        {
+            type1 = pk.PersonalInfo.Type1;
+        }
+        catch (Exception)
+        {
+            type1 = -1;
+        }
+
+        var typeColor = GetTypeColor(type1);
+        if (pk.IsShiny)
+            typeColor = BlendColors(typeColor, new SKColor(255, 215, 0), 0.3f);
+
+        using var bgPaint = new SKPaint
+        {
+            Color = typeColor,
+            IsAntialias = true,
+            Style = SKPaintStyle.Fill
+        };
+        canvas.DrawRoundRect(new SKRoundRect(new SKRect(2, 2, SpriteWidth - 2, SpriteHeight - 2), 6), bgPaint);
+
+        using var borderPaint = new SKPaint
+        {
+            Color = typeColor.WithAlpha(200),
+            IsAntialias = true,
+            Style = SKPaintStyle.Stroke,
+            StrokeWidth = 2
+        };
+        canvas.DrawRoundRect(new SKRoundRect(new SKRect(2, 2, SpriteWidth - 2, SpriteHeight - 2), 6), borderPaint);
+
+        using var typeface = SKTypeface.FromFamilyName("Arial", SKFontStyle.Bold);
+        using var font = new SKFont(typeface, 12);
+        using var textPaint = new SKPaint { Color = SKColors.White, IsAntialias = true };
+        using var shadowPaint = new SKPaint { Color = SKColors.Black.WithAlpha(100), IsAntialias = true };
+
+        var text = $"#{pk.Species}";
+        canvas.DrawText(text, SpriteWidth / 2 + 1, SpriteHeight / 2 + 5, SKTextAlign.Center, font, shadowPaint);
+        canvas.DrawText(text, SpriteWidth / 2, SpriteHeight / 2 + 4, SKTextAlign.Center, font, textPaint);
+
+        return EncodePng(surface);
+    }
+
+    private static byte[] EncodePng(SKSurface surface)
+    {
+        using var image = surface.Snapshot();
+        using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+        return data.ToArray();
+    }
+
+    private static byte[] EncodePng(SKBitmap bitmap)
+    {
+        using var image = SKImage.FromBitmap(bitmap);
+        using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+        return data.ToArray();
+    }
+
+    private static SKColor GetTypeColor(int type)
+    {
+        return type switch
+        {
+            0 => new SKColor(168, 168, 120),   // Normal
+            1 => new SKColor(192, 48, 40),     // Fighting
+            2 => new SKColor(168, 144, 240),   // Flying
+            3 => new SKColor(160, 64, 160),    // Poison
+            4 => new SKColor(224, 192, 104),   // Ground
+            5 => new SKColor(184, 160, 56),    // Rock
+            6 => new SKColor(168, 184, 32),    // Bug
+            7 => new SKColor(112, 88, 152),    // Ghost
+            8 => new SKColor(184, 184, 208),   // Steel
+            9 => new SKColor(240, 128, 48),    // Fire
+            10 => new SKColor(104, 144, 240),  // Water
+            11 => new SKColor(120, 200, 80),   // Grass
+            12 => new SKColor(248, 208, 48),   // Electric
+            13 => new SKColor(248, 88, 136),   // Psychic
+            14 => new SKColor(152, 216, 216),  // Ice
+            15 => new SKColor(112, 56, 248),   // Dragon
+            16 => new SKColor(112, 88, 72),    // Dark
+            17 => new SKColor(238, 153, 172),  // Fairy
+            _ => new SKColor(104, 160, 144)    // Unknown
+        };
+    }
+
+    private static SKColor BlendColors(SKColor color1, SKColor color2, float ratio)
+    {
+        var r = (byte)(color1.Red * (1 - ratio) + color2.Red * ratio);
+        var g = (byte)(color1.Green * (1 - ratio) + color2.Green * ratio);
+        var b = (byte)(color1.Blue * (1 - ratio) + color2.Blue * ratio);
+        return new SKColor(r, g, b);
+    }
+}

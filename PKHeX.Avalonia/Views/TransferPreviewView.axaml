@@ -1,0 +1,87 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.TransferPreviewView"
+             x:DataType="vm:TransferPreviewViewModel"
+             Width="640" Height="460" MinWidth="420" MinHeight="320">
+    <Grid RowDefinitions="Auto,*,Auto" Classes="tool-surface">
+        <StackPanel Grid.Row="0" Margin="10,10,10,8" Spacing="3">
+            <TextBlock x:Name="PreviewSummary" Text="{Binding SummaryText}" FontWeight="SemiBold" TextWrapping="Wrap" />
+            <TextBlock x:Name="PreviewWarning" Text="{Binding WarningText}" IsVisible="{Binding HasWarning}" TextWrapping="Wrap" FontSize="12"
+                       Foreground="{DynamicResource ThemeErrorBrush}" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="10,0,10,8" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+            <ListBox x:Name="PreviewList" Grid.Column="0" Width="210" IsVisible="{Binding ShowList}"
+                     ItemsSource="{Binding Items}" SelectedItem="{Binding Selected}"
+                     AutomationProperties.Name="{loc:Loc TransferPreview_Title}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:TransferPreviewItem">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Image Width="34" Height="28" Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" />
+                            <StackPanel VerticalAlignment="Center" MaxWidth="140">
+                                <TextBlock Text="{Binding ListText}" FontSize="12" TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding LegalityText}" FontSize="11" TextWrapping="Wrap" IsVisible="{Binding !ResultLegal}"
+                                           Foreground="{DynamicResource ThemeErrorBrush}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Disabled" DataContext="{Binding Selected}">
+                <StackPanel x:DataType="vm:TransferPreviewItem" Spacing="8">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Image Width="68" Height="56" Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                            <TextBlock x:Name="PreviewName" Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding FormatText}" FontSize="12" Foreground="{DynamicResource ThemeTextSecondaryBrush}" TextWrapping="Wrap" />
+                            <TextBlock x:Name="PreviewLegal" Text="{Binding LegalityText}" FontSize="12" IsVisible="{Binding ResultLegal}"
+                                       Foreground="{DynamicResource ThemeSuccessBrush}" TextWrapping="Wrap" />
+                            <TextBlock x:Name="PreviewIllegal" Text="{Binding LegalityText}" FontSize="12" IsVisible="{Binding !ResultLegal}"
+                                       Foreground="{DynamicResource ThemeErrorBrush}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="{loc:Loc TransferPreview_Changes}" FontWeight="SemiBold" />
+                    <TextBlock Text="{loc:Loc TransferPreview_NoChanges}" IsVisible="{Binding !HasChanges}" FontSize="12"
+                               Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+                    <Grid x:Name="ChangesTable" IsVisible="{Binding HasChanges}" RowDefinitions="Auto,Auto">
+                        <Grid ColumnDefinitions="2*,3*,3*" ColumnSpacing="8" Margin="0,0,0,4">
+                            <TextBlock Text="{loc:Loc TransferPreview_ColumnField}" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+                            <TextBlock Grid.Column="1" Text="{loc:Loc TransferPreview_ColumnBefore}" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+                            <TextBlock Grid.Column="2" Text="{loc:Loc TransferPreview_ColumnAfter}" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+                        </Grid>
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Changes}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:TransferPreviewChangeRow">
+                                    <Border BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,1,0,0" Padding="0,3">
+                                        <Grid ColumnDefinitions="2*,3*,3*" ColumnSpacing="8">
+                                            <TextBlock Text="{Binding Field}" FontSize="12" TextWrapping="Wrap" />
+                                            <TextBlock Grid.Column="1" Text="{Binding Before}" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+                                            <TextBlock Grid.Column="2" Text="{Binding After}" FontSize="12" TextWrapping="Wrap" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+
+                    <Expander Header="{loc:Loc TransferPreview_LegalityDetails}" HorizontalAlignment="Stretch">
+                        <SelectableTextBlock Text="{Binding LegalityReport}" FontSize="11" TextWrapping="Wrap" />
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <Border Grid.Row="2" Background="{DynamicResource ThemeBackgroundCardBrush}" BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,1,0,0" Padding="10,8">
+            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                <TextBlock Text="{loc:Loc TransferPreview_Hint}" TextWrapping="Wrap" FontSize="11" VerticalAlignment="Center"
+                           Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+                <Button Grid.Column="1" x:Name="CancelButton" Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" IsCancel="True" />
+                <Button Grid.Column="2" x:Name="ConfirmButton" Classes="compact-primary" Content="{Binding ConfirmText}" Command="{Binding ConfirmCommand}" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

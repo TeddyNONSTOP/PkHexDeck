@@ -1,0 +1,248 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:models="clr-namespace:PKHeX.Presentation.Models;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.BankView"
+             x:DataType="vm:BankViewModel"
+             Focusable="True"
+             MinWidth="540" MinHeight="460">
+
+    <UserControl.Styles>
+        <!-- Same slot language as the save BoxViewer (compact-slot) so the Bank reads as "another box". -->
+        <Style Selector="Button.compact-slot">
+            <Setter Property="Background" Value="{DynamicResource ThemeBackgroundCardBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMutedBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="7" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+        </Style>
+        <Style Selector="Button.compact-slot.selected">
+            <Setter Property="Background" Value="{DynamicResource CompactSelectionBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource CompactSelectionBorderBrush}" />
+        </Style>
+        <!-- Repeats the shared .marked border after the local .selected style (see Theme.axaml). -->
+        <Style Selector="Button.compact-slot.marked">
+            <Setter Property="BorderBrush" Value="{DynamicResource CompactAccentBrush}" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+        <Style Selector="Button.compact-slot.pending Image.bank-sprite">
+            <Setter Property="Opacity" Value="0.4" />
+        </Style>
+        <Style Selector="Border.bank-badge">
+            <Setter Property="Background" Value="{DynamicResource ThemeBackgroundElevatedBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeWarningBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="Padding" Value="3,0" />
+        </Style>
+        <Style Selector="Border.bank-banner">
+            <Setter Property="Background" Value="{DynamicResource ThemeBackgroundElevatedBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeWarningBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+        </Style>
+    </UserControl.Styles>
+
+    <UserControl.KeyBindings>
+        <KeyBinding Gesture="Left" Command="{Binding MoveSelectionCommand}" CommandParameter="Left" />
+        <KeyBinding Gesture="Right" Command="{Binding MoveSelectionCommand}" CommandParameter="Right" />
+        <KeyBinding Gesture="Up" Command="{Binding MoveSelectionCommand}" CommandParameter="Up" />
+        <KeyBinding Gesture="Down" Command="{Binding MoveSelectionCommand}" CommandParameter="Down" />
+        <KeyBinding Gesture="PageUp" Command="{Binding PreviousBoxCommand}" />
+        <KeyBinding Gesture="PageDown" Command="{Binding NextBoxCommand}" />
+        <KeyBinding Gesture="Enter" Command="{Binding WithdrawSelectedCommand}" />
+    </UserControl.KeyBindings>
+
+    <Border Classes="view-container">
+        <DockPanel>
+            <!-- Box navigation + decoration -->
+            <Border DockPanel.Dock="Top" Classes="tool-header">
+                <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                    <Button Grid.Column="0"
+                            x:Name="PreviousBoxButton"
+                            Command="{Binding PreviousBoxCommand}"
+                            ToolTip.Tip="{loc:Loc Bank_PreviousBoxTooltip}"
+                            AutomationProperties.Name="{loc:Loc Bank_PreviousBoxTooltip}"
+                            Background="Transparent" BorderThickness="0" Width="28" Height="30"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <Path Width="8" Height="12" Data="M7 1 L1 6 L7 11" Stroke="{DynamicResource ThemeTextMutedBrush}" StrokeThickness="1.5" />
+                    </Button>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center" Margin="6,0">
+                        <TextBlock x:Name="BoxNameText" Text="{Binding BoxName}" Classes="tool-header-title" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="220" />
+                        <TextBlock Text="{Binding OccupancyText}" FontSize="11" Foreground="{DynamicResource ThemeTextMutedBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding BoxPositionText}" FontSize="11" Foreground="{DynamicResource ThemeTextMutedBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding TotalText}" FontSize="11" Foreground="{DynamicResource ThemeTextMutedBrush}" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <Button Grid.Column="2"
+                            x:Name="NextBoxButton"
+                            Command="{Binding NextBoxCommand}"
+                            ToolTip.Tip="{loc:Loc Bank_NextBoxTooltip}"
+                            AutomationProperties.Name="{loc:Loc Bank_NextBoxTooltip}"
+                            Background="Transparent" BorderThickness="0" Width="28" Height="30"
+                            HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <Path Width="8" Height="12" Data="M1 1 L7 6 L1 11" Stroke="{DynamicResource ThemeTextMutedBrush}" StrokeThickness="1.5" />
+                    </Button>
+
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="6" Margin="8,0,0,0" VerticalAlignment="Center">
+                        <Button Content="{loc:Loc Bank_AddBoxButton}" Command="{Binding AddBoxCommand}" ToolTip.Tip="{loc:Loc Bank_AddBoxTooltip}" />
+                        <Button Content="{loc:Loc Bank_WallpaperButton}" Command="{Binding PickWallpaperCommand}" IsVisible="{Binding CanPickWallpaper}" ToolTip.Tip="{loc:Loc Bank_WallpaperTooltip}" />
+                        <Button Content="{loc:Loc Bank_RefreshButton}" Command="{Binding RefreshCommand}" ToolTip.Tip="{loc:Loc Bank_RefreshTooltip}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <StackPanel DockPanel.Dock="Top" Spacing="0" Margin="0,6,0,0">
+                <!-- Read-only banner: the index could not be read safely, nothing can be changed. -->
+                <Border x:Name="ReadOnlyBanner" Classes="bank-banner" IsVisible="{Binding IsReadOnly}">
+                    <TextBlock Text="{loc:Loc Bank_ReadOnlyBanner}" TextWrapping="Wrap" Foreground="{DynamicResource ThemeTextPrimaryBrush}" />
+                </Border>
+                <TextBlock x:Name="WarningsText" Text="{Binding WarningText}" IsVisible="{Binding HasWarnings}" TextWrapping="Wrap" FontSize="11"
+                           Foreground="{DynamicResource ThemeTextMutedBrush}" Margin="0,0,0,6" />
+
+                <!-- Multi-select: mark entries (across boxes) and withdraw them together. -->
+                <WrapPanel x:Name="SelectionBar" Orientation="Horizontal" Margin="0,0,0,6">
+                    <ToggleButton x:Name="SelectionModeToggle" Content="{loc:Loc Organizer_SelectionMode}"
+                                  IsChecked="{Binding IsSelectionModeEnabled}"
+                                  ToolTip.Tip="{loc:Loc Bank_SelectionModeTooltip}" Margin="0,0,6,0" />
+                    <TextBlock Text="{Binding MarkedCountText}" IsVisible="{Binding IsSelectionModeEnabled}"
+                               VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource ThemeTextSecondaryBrush}" Margin="0,0,8,0" />
+                    <Button Content="{loc:Loc Organizer_SelectAllInBox}" Command="{Binding MarkAllInBoxCommand}"
+                            IsVisible="{Binding IsSelectionModeEnabled}" Margin="0,0,6,0" />
+                    <Button Content="{loc:Loc Organizer_ClearMarks}" Command="{Binding ClearMarksCommand}"
+                            IsVisible="{Binding IsSelectionModeEnabled}" />
+                </WrapPanel>
+
+                <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,0,0,6">
+                    <TextBlock Grid.Column="0" Text="{loc:Loc Bank_BoxNameLabel}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                    <TextBox Grid.Column="1" x:Name="BoxNameBox" Text="{Binding EditableBoxName}" MaxLength="32"
+                             AutomationProperties.Name="{loc:Loc Bank_BoxNameLabel}" IsEnabled="{Binding IsWritable}" />
+                    <Button Grid.Column="2" Content="{loc:Loc Bank_RenameButton}" Command="{Binding RenameBoxCommand}" Margin="6,0,0,0" IsEnabled="{Binding IsWritable}" />
+                </Grid>
+            </StackPanel>
+
+            <!-- Footer: archive + backup restore -->
+            <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,1,0,0" Padding="0,6,0,0" Margin="0,6,0,0">
+                <Grid ColumnDefinitions="Auto,Auto,*,Auto" RowDefinitions="Auto">
+                    <Button Grid.Column="0" Content="{loc:Loc Bank_ExportArchiveButton}" Command="{Binding ExportArchiveCommand}" ToolTip.Tip="{loc:Loc Bank_ExportArchiveTooltip}" />
+                    <Button Grid.Column="1" Content="{loc:Loc Bank_ImportArchiveButton}" Command="{Binding ImportArchiveCommand}" ToolTip.Tip="{loc:Loc Bank_ImportArchiveTooltip}" Margin="6,0,0,0" />
+                    <ComboBox Grid.Column="2" x:Name="BackupPicker" ItemsSource="{Binding IndexBackups}" SelectedItem="{Binding SelectedBackup}"
+                              HorizontalAlignment="Stretch" Margin="12,0,6,0" MinWidth="160"
+                              PlaceholderText="{loc:Loc Bank_NoBackups}"
+                              AutomationProperties.Name="{loc:Loc Bank_BackupPickerName}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="vm:BankBackupRow">
+                                <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Grid.Column="3" Content="{loc:Loc Bank_RestoreBackupButton}" Command="{Binding RestoreSelectedBackupCommand}" ToolTip.Tip="{loc:Loc Bank_RestoreBackupTooltip}" />
+                </Grid>
+            </Border>
+
+            <!-- Footer: withdraw target + action -->
+            <Grid DockPanel.Dock="Bottom" ColumnDefinitions="*,Auto,Auto" Margin="0,6,0,0">
+                <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                    <TextBlock x:Name="TargetText" Text="{Binding TargetText}" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+                    <TextBlock x:Name="StatusLine" Text="{Binding StatusText}" IsVisible="{Binding HasStatus}" TextWrapping="Wrap" FontSize="11" Foreground="{DynamicResource ThemeTextMutedBrush}" />
+                    <TextBlock Text="{loc:Loc Bank_HoldHint}" TextWrapping="Wrap" FontSize="11" Foreground="{DynamicResource ThemeTextMutedBrush}" />
+                </StackPanel>
+                <Button Grid.Column="1" x:Name="WithdrawMarkedButton" Content="{loc:Loc Bank_WithdrawMarkedButton}"
+                        Command="{Binding WithdrawMarkedCommand}" ToolTip.Tip="{loc:Loc Bank_WithdrawMarkedTooltip}"
+                        IsVisible="{Binding IsSelectionModeEnabled}" VerticalAlignment="Center" Margin="8,0,0,0" />
+                <Button Grid.Column="2" x:Name="WithdrawButton" Classes="accent" Content="{loc:Loc Bank_WithdrawButton}"
+                        Command="{Binding WithdrawSelectedCommand}" ToolTip.Tip="{loc:Loc Bank_WithdrawTooltip}" VerticalAlignment="Center" Margin="8,0,0,0" />
+            </Grid>
+
+            <!-- Box grid over the box wallpaper (6 columns x 5 rows) -->
+            <Border CornerRadius="8" ClipToBounds="True" BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="1"
+                    Background="{DynamicResource ThemeBackgroundDeepBrush}">
+                <Panel>
+                    <Border Background="{Binding WallpaperColor, Converter={StaticResource HexColorBrush}}" IsVisible="{Binding HasWallpaperColor}" />
+                    <Image Source="{Binding WallpaperImage, Converter={StaticResource PngBytesToBitmap}}" IsVisible="{Binding HasWallpaperImage}"
+                           Stretch="UniformToFill" RenderOptions.BitmapInterpolationMode="HighQuality" />
+                    <ItemsControl ItemsSource="{Binding Slots}" x:Name="SlotGrid" Margin="8">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="6" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:BankSlotData">
+                                <Button Classes="slot compact-slot"
+                                        Classes.selected="{Binding IsSelected}"
+                                        Classes.pending="{Binding IsPending}"
+                                        Classes.marked="{Binding IsMarked}"
+                                        Margin="3"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        ToolTip.Tip="{Binding ToolTipSummary}"
+                                        AutomationProperties.Name="{Binding AccessibleName}"
+                                        Command="{Binding $parent[UserControl].((vm:BankViewModel)DataContext).SelectSlotByClickCommand}"
+                                        CommandParameter="{Binding}"
+                                        DoubleTapped="OnSlotDoubleTapped"
+                                        Tag="{Binding}">
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="{loc:Loc Bank_WithdrawMenuItem}"
+                                                      Command="{Binding $parent[UserControl].((vm:BankViewModel)DataContext).WithdrawSlotCommand}"
+                                                      CommandParameter="{Binding}"
+                                                      IsEnabled="{Binding CanWithdraw}" />
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+
+                                    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False" MinHeight="60">
+                                        <Border Classes="empty-slot" IsVisible="{Binding IsEmpty}" />
+
+                                        <Image Classes="bank-sprite"
+                                               Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}"
+                                               Stretch="Uniform"
+                                               RenderOptions.BitmapInterpolationMode="HighQuality"
+                                               IsVisible="{Binding !IsEmpty}"
+                                               MaxHeight="47" VerticalAlignment="Center" Margin="4,0,4,14" />
+
+                                        <TextBlock Text="{Binding SlotNumber}"
+                                                   FontSize="8" Foreground="{DynamicResource ThemeTextMutedBrush}" Opacity="0.7"
+                                                   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,3,0,0" />
+
+                                        <TextBlock Text="★"
+                                                   Foreground="{DynamicResource ThemeShinyBrush}" FontSize="10"
+                                                   HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,5,0"
+                                                   IsVisible="{Binding IsShiny}" />
+
+                                        <Border Classes="bank-badge" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                IsVisible="{Binding IsPending}">
+                                            <TextBlock Text="{loc:Loc Bank_PendingBadge}" FontSize="9" Foreground="{DynamicResource ThemeTextPrimaryBrush}" />
+                                        </Border>
+
+                                        <Border Classes="bank-badge" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                IsVisible="{Binding IsDataMissing}">
+                                            <TextBlock Text="{loc:Loc Bank_MissingBadge}" FontSize="9" Foreground="{DynamicResource ThemeTextPrimaryBrush}" />
+                                        </Border>
+
+                                        <!-- Organizer mark badge, above the name line like the save BoxViewer's. -->
+                                        <Border Classes="organizer-mark" Margin="0,0,3,16" IsVisible="{Binding IsMarked}">
+                                            <Path />
+                                        </Border>
+
+                                        <TextBlock Text="{Binding DisplayName}"
+                                                   FontSize="10" Foreground="{DynamicResource ThemeTextPrimaryBrush}"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                                                   IsVisible="{Binding !IsEmpty}" />
+                                    </Panel>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Panel>
+            </Border>
+        </DockPanel>
+    </Border>
+</UserControl>

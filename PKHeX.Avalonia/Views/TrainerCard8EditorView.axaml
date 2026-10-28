@@ -1,0 +1,130 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:core="clr-namespace:PKHeX.Core;assembly=PKHeX.Core"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.TrainerCard8EditorView"
+             x:DataType="vm:TrainerCard8EditorViewModel" MinWidth="600" MinHeight="420">
+    <UserControl.Resources>
+        <DataTemplate x:Key="Card8NumberTemplate" DataType="vm:Card8NumberField">
+            <StackPanel Spacing="4" Margin="0,0,0,8">
+                <Grid ColumnDefinitions="*,12,280">
+                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                    <StackPanel Grid.Column="2" Spacing="4">
+                        <NumericUpDown Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" FormatString="0" ToolTip.Tip="{Binding Value}"
+                                       IsVisible="{Binding !IsUnset}" AutomationProperties.Name="{Binding Name}" AutomationProperties.AutomationId="{Binding Id}" />
+                        <CheckBox IsChecked="{Binding IsUnset}" Content="{loc:Loc Card8Flow_NotSet}" IsVisible="{Binding CanUnset}" AutomationProperties.Name="{Binding Name}" />
+                    </StackPanel>
+                </Grid>
+                <TextBlock Text="{Binding Status}" IsVisible="{Binding HasStatus}" TextWrapping="Wrap" />
+                <TextBlock Text="{Binding Error}" IsVisible="{Binding HasError}" TextWrapping="Wrap" Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="Card8TeamSlotTemplate" DataType="vm:Card8TeamPokemon">
+            <Grid ColumnDefinitions="40,*" Margin="0,4">
+                <Image Width="32" Height="32" VerticalAlignment="Top" Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" />
+                <StackPanel Grid.Column="1" Spacing="4"><TextBlock Text="{Binding SlotName}" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding Summary}" TextWrapping="Wrap" FontSize="12" /></StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="Card8TeamDetailTemplate" DataType="vm:Card8TeamPokemon">
+            <ScrollViewer Name="TeamDetailScroll">
+                <StackPanel Spacing="8" Margin="8">
+                    <TextBlock Text="{Binding SlotName}" FontSize="16" FontWeight="SemiBold" />
+                    <Image Width="64" Height="64" HorizontalAlignment="Left" Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" />
+                    <TextBlock Text="{Binding Summary}" TextWrapping="Wrap" />
+                    <TextBlock Text="{loc:Loc Card8Flow_Species}" />
+                    <ComboBox Name="TeamSpeciesChoice" ItemsSource="{Binding SpeciesOptions}" SelectedValue="{Binding Species}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" MaxDropDownHeight="320" AutomationProperties.Name="{loc:Loc Card8Flow_Species}">
+                        <ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" /></DataTemplate></ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Grid ColumnDefinitions="*,12,180"><TextBlock Text="{loc:Loc Card8Flow_Form}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Column="2" Value="{Binding Form}" Minimum="0" Maximum="255" FormatString="0" AutomationProperties.Name="{loc:Loc Card8Flow_Form}" /></Grid>
+                    <TextBlock Text="{Binding FormName}" IsVisible="{Binding HasFormName}" TextWrapping="Wrap" />
+                    <ComboBox ItemsSource="{Binding GenderOptions}" SelectedValue="{Binding Gender}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc Card8Flow_Gender}">
+                        <ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" /></DataTemplate></ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <CheckBox IsChecked="{Binding IsShiny}" Content="{loc:Loc Card8Flow_Shiny}" />
+                    <Grid ColumnDefinitions="*,12,180"><TextBlock Text="{loc:Loc Card8Flow_EncryptionConstant}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Column="2" Value="{Binding EncryptionConstant}" Minimum="0" Maximum="4294967295" FormatString="0" AutomationProperties.Name="{loc:Loc Card8Flow_EncryptionConstant}" /></Grid>
+                    <Grid ColumnDefinitions="*,12,180"><TextBlock Text="{loc:Loc Card8Flow_FormArgument}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Column="2" Value="{Binding FormArgument}" Minimum="-2147483648" Maximum="2147483647" FormatString="0" AutomationProperties.Name="{loc:Loc Card8Flow_FormArgument}" /></Grid>
+                    <TextBlock Text="{loc:Loc Card8Flow_FormArgumentHelp}" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding Error}" IsVisible="{Binding HasError}" TextWrapping="Wrap" />
+                    <Expander Name="Card8UnknownFields" Header="{loc:Loc Card8Flow_UnknownFields}"><StackPanel Spacing="4">
+                        <TextBlock Text="{loc:Loc Card8Flow_UnknownHelp}" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding UnknownValues}" TextWrapping="Wrap" /></StackPanel></Expander>
+                </StackPanel>
+            </ScrollViewer>
+        </DataTemplate>
+    </UserControl.Resources>
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,8">
+            <TextBlock Text="{loc:Loc Card8Flow_Title}" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" />
+            <TextBlock Text="{loc:Loc Card8Flow_StagedHelp}" TextWrapping="Wrap" FontSize="12" />
+        </StackPanel>
+        <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,8,0,0">
+            <Button Name="Card8ResetButton" Content="{loc:Loc MysteryGiftEditor_Reset}" Command="{Binding RefreshCommand}" Margin="0,0,8,4" />
+            <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" Margin="0,0,8,4" />
+            <Button Name="Card8SaveButton" Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" Margin="0,0,0,4" />
+        </WrapPanel>
+        <TextBlock DockPanel.Dock="Top" IsVisible="{Binding !IsSupported}" Text="{loc:Loc TrainerCard8EditorView_NotSupported}" TextWrapping="Wrap" />
+        <TabControl Name="Card8Tabs" Classes="compact-editor-tabs" IsVisible="{Binding IsSupported}">
+            <TabItem Header="{loc:Loc TrainerCard8EditorView_TrainerInfo}">
+                <ScrollViewer Name="Card8InfoScroll"><StackPanel Spacing="12">
+                    <Border Classes="editor-section-padded"><StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc TrainerCard8EditorView_Name}" />
+                        <TextBox Text="{Binding TrainerName}" MaxLength="{Binding TrainerNameMaxLength}" AutomationProperties.Name="{loc:Loc TrainerCard8EditorView_Name}" />
+                        <TextBlock Text="{Binding NameError}" IsVisible="{Binding HasNameError}" TextWrapping="Wrap" />
+                        <TextBlock Text="{loc:Loc Card8Flow_Number}" />
+                        <TextBox Text="{Binding Number}" MaxLength="3" AutomationProperties.Name="{loc:Loc Card8Flow_Number}" />
+                        <TextBlock Text="{Binding NumberError}" IsVisible="{Binding HasNumberError}" TextWrapping="Wrap" />
+                        <TextBlock Text="{loc:Loc TrainerCard8EditorView_Starter}" />
+                        <ComboBox Name="Card8StarterChoice" ItemsSource="{Binding StarterOptions}" SelectedValue="{Binding Starter}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc TrainerCard8EditorView_Starter}">
+                            <ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" /></DataTemplate></ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel></Border>
+                    <Border Classes="editor-section-padded"><StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc TrainerCard8EditorView_Statistics}" FontWeight="SemiBold" />
+                        <ItemsControl ItemsSource="{Binding Statistics}" ItemTemplate="{StaticResource Card8NumberTemplate}" />
+                    </StackPanel></Border>
+                    <Border Classes="editor-section-padded"><StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc TrainerCard8EditorView_PokedexCompletion}" FontWeight="SemiBold" />
+                        <CheckBox IsChecked="{Binding PokeDexComplete}" Content="{loc:Loc TrainerCard8EditorView_GalarComplete}" />
+                        <CheckBox IsChecked="{Binding ArmorDexComplete}" Content="{loc:Loc TrainerCard8EditorView_ArmorComplete}" />
+                        <CheckBox IsChecked="{Binding CrownDexComplete}" Content="{loc:Loc TrainerCard8EditorView_CrownComplete}" />
+                    </StackPanel></Border>
+                    <Border Classes="editor-section-padded"><StackPanel Spacing="8">
+                        <TextBlock Text="{loc:Loc Card8Flow_StartedDate}" FontWeight="SemiBold" />
+                        <Grid ColumnDefinitions="*,8,Auto"><TextBox Text="{Binding StartedDateText}" Watermark="{loc:Loc Card8Flow_DateFormat}" AutomationProperties.Name="{loc:Loc Card8Flow_StartedDate}" />
+                            <Button Grid.Column="2" Content="{loc:Loc Card8Flow_ClearDate}" Command="{Binding ClearDateCommand}" /></Grid>
+                        <TextBlock Text="{Binding DateError}" IsVisible="{Binding HasDateError}" TextWrapping="Wrap" />
+                        <TextBlock Text="{loc:Loc Card8Flow_InvalidStoredDate}" IsVisible="{Binding HasInvalidStoredDate}" TextWrapping="Wrap" />
+                        <Expander Name="Card8StoredFields" Header="{loc:Loc Card8Flow_StoredFields}"><StackPanel Spacing="8">
+                            <TextBlock Text="{loc:Loc Card8Flow_MetadataHelp}" TextWrapping="Wrap" />
+                            <ItemsControl ItemsSource="{Binding Metadata}" ItemTemplate="{StaticResource Card8NumberTemplate}" />
+                        </StackPanel></Expander>
+                    </StackPanel></Border>
+                </StackPanel></ScrollViewer>
+            </TabItem>
+            <TabItem Header="{loc:Loc Card8Flow_CardTeam}"><DockPanel>
+                <Button DockPanel.Dock="Top" Content="{loc:Loc Card8Flow_CopyParty}" Command="{Binding SetPartyToCardCommand}" HorizontalAlignment="Left" Margin="0,0,0,8" />
+                <Grid ColumnDefinitions="200,8,*">
+                    <ListBox ItemsSource="{Binding CardTeam}" SelectedItem="{Binding SelectedCardPokemon}" ItemTemplate="{StaticResource Card8TeamSlotTemplate}" />
+                    <Border Grid.Column="2" Classes="editor-section-padded"><ContentControl Content="{Binding SelectedCardPokemon}" ContentTemplate="{StaticResource Card8TeamDetailTemplate}" /></Border>
+                </Grid>
+            </DockPanel></TabItem>
+            <TabItem Header="{loc:Loc Card8Flow_TitleTeam}"><DockPanel>
+                <Button DockPanel.Dock="Top" Content="{loc:Loc Card8Flow_CopyParty}" Command="{Binding SetPartyToTitleCommand}" HorizontalAlignment="Left" Margin="0,0,0,8" />
+                <Grid ColumnDefinitions="200,8,*">
+                    <ListBox ItemsSource="{Binding TitleTeam}" SelectedItem="{Binding SelectedTitlePokemon}" ItemTemplate="{StaticResource Card8TeamSlotTemplate}" />
+                    <Border Grid.Column="2" Classes="editor-section-padded"><ContentControl Content="{Binding SelectedTitlePokemon}" ContentTemplate="{StaticResource Card8TeamDetailTemplate}" /></Border>
+                </Grid>
+            </DockPanel></TabItem>
+
+            <TabItem Header="{loc:Loc Card8Flow_Appearance}"><ScrollViewer Name="Card8AppearanceScroll"><Border Classes="editor-section-padded"><StackPanel Spacing="8">
+                <TextBlock Text="{loc:Loc Card8Flow_AppearanceHelp}" TextWrapping="Wrap" />
+                <ItemsControl ItemsSource="{Binding Appearance}" ItemTemplate="{StaticResource Card8NumberTemplate}" />
+            </StackPanel></Border></ScrollViewer></TabItem>
+        </TabControl>
+    </DockPanel>
+</UserControl>

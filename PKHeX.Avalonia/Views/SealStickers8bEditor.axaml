@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
+             x:Class="PKHeX.Avalonia.Views.SealStickers8bEditor"
+             x:DataType="vm:SealStickers8bEditorViewModel">
+    <Border Classes="view-container">
+    <Grid RowDefinitions="Auto, *">
+        <StackPanel Grid.Row="0" Classes="save-editor-header" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+            <Button Content="{loc:Loc SealStickers8bEditor_SetAllMax}" Command="{Binding SetAllMaxCommand}" />
+            <Button Content="{loc:Loc SealStickers8bEditor_SetAllNone}" Command="{Binding SetAllNoneCommand}" />
+            <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" />
+            <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" />
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" Classes="save-grid" ItemsSource="{Binding Items}" AutoGenerateColumns="False"
+                  IsReadOnly="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{loc:Loc SealStickers8bEditor_ColumnId}" Binding="{Binding Index, StringFormat=\{0:D3\}}" IsReadOnly="True" Width="60" />
+                <DataGridTextColumn Header="{loc:Loc SealStickers8bEditor_ColumnName}" Binding="{Binding Name}" IsReadOnly="True" Width="*" MinWidth="170" />
+                <DataGridTemplateColumn Header="{loc:Loc SealStickers8bEditor_ColumnCount}" Width="90">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="vm:SealSticker8bViewModel">
+                            <NumericUpDown Value="{Binding Count}" Minimum="0" Maximum="{Binding MaxValue}" HorizontalAlignment="Center" AutomationProperties.Name="Count" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{loc:Loc SealStickers8bEditor_ColumnTotal}" Width="90">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="vm:SealSticker8bViewModel">
+                            <NumericUpDown Value="{Binding TotalCount}" Minimum="0" Maximum="{Binding MaxValue}" HorizontalAlignment="Center" AutomationProperties.Name="Total" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridCheckBoxColumn Header="{loc:Loc SealStickers8bEditor_ColumnObtained}" Binding="{Binding IsGet}" Width="105" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+    </Border>
+</UserControl>

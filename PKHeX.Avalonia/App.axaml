@@ -1,0 +1,97 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:PKHeX.Avalonia.Converters"
+             x:Class="PKHeX.Avalonia.App"
+             RequestedThemeVariant="Dark">
+    <!--
+        RequestedThemeVariant above is only the XAML-time fallback used for the brief window
+        before ThemeService.Initialize() runs in App.axaml.cs, which applies the persisted
+        preference before the main window is created.
+        Per-variant palettes live in Styles/Theme.axaml's ThemeDictionaries.
+    -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Add other resources here if needed -->
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Native Fluent controls share the compact UI's rose accent. Surface, text,
+                 selection and focus brushes are supplied by the Light/Dark dictionaries. -->
+            <Color x:Key="SystemAccentColor">#AD4D53</Color>
+            <Color x:Key="SystemAccentColorDark1">#913F4A</Color>
+            <Color x:Key="SystemAccentColorDark2">#74323B</Color>
+            <Color x:Key="SystemAccentColorDark3">#57252D</Color>
+            <Color x:Key="SystemAccentColorLight1">#C4717B</Color>
+            <Color x:Key="SystemAccentColorLight2">#D98B95</Color>
+            <Color x:Key="SystemAccentColorLight3">#F1A1A9</Color>
+
+            <!-- Override Focus Visuals to remove yellow/accent border -->
+            <SolidColorBrush x:Key="SystemControlFocusVisualPrimaryBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="SystemControlFocusVisualSecondaryBrush" Color="Transparent" />
+
+            <!--
+                Semantic density tokens. Compact is the compatibility default and is re-applied by
+                UiDensityService at startup. The service replaces these values at runtime when the
+                user selects Comfortable, while DynamicResource consumers update without rebuilding
+                their views.
+            -->
+            <Thickness x:Key="UiDensityCardPadding">4</Thickness>
+            <CornerRadius x:Key="UiDensityCardRadius">6</CornerRadius>
+            <Thickness x:Key="UiDensityPrimaryButtonPadding">16,8</Thickness>
+            <Thickness x:Key="UiDensityBadgePadding">6,3</Thickness>
+            <CornerRadius x:Key="UiDensityBadgeRadius">12</CornerRadius>
+            <Thickness x:Key="UiDensityHeaderPadding">12,8</Thickness>
+            <Thickness x:Key="UiDensitySectionPadding">6</Thickness>
+            <CornerRadius x:Key="UiDensitySectionRadius">6</CornerRadius>
+            <Thickness x:Key="UiDensityViewPadding">8</Thickness>
+            <Thickness x:Key="UiDensityStatusBarPadding">8,4</Thickness>
+            <x:Double x:Key="UiDensityControlHeight">32</x:Double>
+            <Thickness x:Key="UiDensityFormFieldPadding">6,3</Thickness>
+            <Thickness x:Key="UiDensityInputPadding">10,5</Thickness>
+            <Thickness x:Key="UiDensityComboBoxPadding">12,5,0,7</Thickness>
+            <Thickness x:Key="UiDensityNumericInputPadding">10,4</Thickness>
+            <Thickness x:Key="UiDensityComboItemPadding">11,6</Thickness>
+            <Thickness x:Key="UiDensityPopupPadding">4</Thickness>
+            <CornerRadius x:Key="UiDensityControlRadius">7</CornerRadius>
+            <x:Double x:Key="UiDensityInlineControlHeight">24</x:Double>
+            <x:Double x:Key="UiDensityInlineControlMinWidth">50</x:Double>
+            <x:Double x:Key="UiDensityDataGridRowHeight">36</x:Double>
+            <Thickness x:Key="UiDensityDataGridCellPadding">6,3</Thickness>
+            <Thickness x:Key="UiDensityDataGridEditPadding">4,2</Thickness>
+            <x:Double x:Key="UiDensityDataGridEditHeight">28</x:Double>
+            <Thickness x:Key="UiDensityCompactCheckBoxPadding">4,2</Thickness>
+            <x:Double x:Key="UiDensityCompactCheckBoxHeight">24</x:Double>
+            <Thickness x:Key="UiDensityEditorTabPadding">4,4</Thickness>
+            <Thickness x:Key="UiDensityEditorTabMargin">0,0,1,0</Thickness>
+            <Thickness x:Key="UiDensityWorkspaceTabPadding">12,6</Thickness>
+            <Thickness x:Key="UiDensityFilterableComboBoxPadding">10,6,6,5</Thickness>
+            <x:Double x:Key="UiDensityViewStackSpacing">12</x:Double>
+            <Thickness x:Key="UiDensityViewSectionMargin">0,0,0,12</Thickness>
+            <Thickness x:Key="UiDensityViewFooterMargin">0,12,0,0</Thickness>
+            <Thickness x:Key="UiDensitySectionHeaderMargin">0,0,0,8</Thickness>
+
+            <!-- Fluent's ComboBox popup is rendered in a separate Popup visual tree, so its
+                 background is resource-driven rather than reachable through a normal descendant
+                 selector. Keep those two native resource keys aligned with the PKHeX palette. -->
+            <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="{DynamicResource ThemeControlPopup}" />
+            <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="{DynamicResource ThemeControlBorder}" />
+            <SolidColorBrush x:Key="AutoCompleteBoxSuggestionsListBackground" Color="{DynamicResource ThemeControlPopup}" />
+            <SolidColorBrush x:Key="AutoCompleteBoxSuggestionsListBorderBrush" Color="{DynamicResource ThemeControlBorder}" />
+            
+            <converters:ObjectNullConverter x:Key="ObjectNullConverter" />
+            <converters:ObjectTrueConverter x:Key="ObjectTrueConverter" />
+            <converters:ObjectFalseConverter x:Key="ObjectFalseConverter" />
+            <converters:PngBytesToBitmapConverter x:Key="PngBytesToBitmap" />
+            <converters:HexColorToBrushConverter x:Key="HexColorBrush" />
+            <converters:RibbonIconConverter x:Key="RibbonIcon" />
+            <converters:PathGeometryConverter x:Key="PathGeometry" />
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="avares://PKHeX.Avalonia/Styles/Theme.axaml" />
+        <StyleInclude Source="avares://PKHeX.Avalonia/Styles/ControlSystem.axaml" />
+    </Application.Styles>
+</Application>

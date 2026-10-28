@@ -1,0 +1,123 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Raid9Editor" x:DataType="vm:Raid9EditorViewModel"
+             MinWidth="480" MinHeight="320">
+    <Grid Classes="tool-surface" Margin="12" RowDefinitions="Auto,*,Auto,Auto">
+        <StackPanel Grid.Row="0" Spacing="6" Margin="0,0,0,8">
+            <TextBlock Text="{Binding Title}" TextWrapping="Wrap" FontSize="18" FontWeight="SemiBold" />
+            <TextBlock Text="{loc:Loc TeraSession_Staging}" TextWrapping="Wrap" />
+        </StackPanel>
+        <TextBlock Grid.Row="1" Text="{loc:Loc Raid9Editor_NotAvailable}" TextWrapping="Wrap" IsVisible="{Binding !IsSupported}" />
+        <TabControl Grid.Row="1" Name="RaidTabs" Classes="compact-editor-tabs" SelectedIndex="{Binding SelectedTab}" IsVisible="{Binding IsSupported}">
+            <TabItem Header="{loc:Loc Raid9Editor_Raids}">
+                <Grid RowDefinitions="Auto,Auto,*" Margin="0,8,0,0">
+                    <ComboBox Grid.Row="0" Name="RegionSelector" ItemsSource="{Binding Regions}" SelectedItem="{Binding SelectedRegion}"
+                              HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc RaidSession_Region}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="vm:Raid9RegionViewModel"><TextBlock Text="{Binding Name}" /></DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBox Grid.Row="1" Text="{Binding SearchText}" Watermark="{loc:Loc TeraSession_Search}"
+                             AutomationProperties.Name="{loc:Loc TeraSession_Search}" Margin="0,4,0,8" />
+                    <Grid Grid.Row="2" ColumnDefinitions="140,10,*">
+                        <Border Classes="editor-section-padded">
+                            <ListBox Name="RaidList" ItemsSource="{Binding Raids9}" SelectedItem="{Binding SelectedRaid}"
+                                     AutomationProperties.Name="{loc:Loc Raid9Editor_Raids}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:Raid9ViewModel">
+                                        <TextBlock Text="{Binding DisplayName}" ToolTip.Tip="{Binding ScenePointName}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+                        <ScrollViewer Grid.Column="2" Name="RaidDetails" HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{loc:Loc TeraSession_NoMatches}" IsVisible="{Binding !HasVisibleRaids}" TextWrapping="Wrap" />
+                    <StackPanel DataContext="{Binding SelectedRegion}" x:DataType="vm:Raid9RegionViewModel"
+                                IsVisible="{Binding HasSeeds}" Spacing="4" Margin="0,0,0,8">
+                        <Grid ColumnDefinitions="120,8,*" RowDefinitions="Auto,4,Auto">
+                            <TextBlock Grid.Row="0" Text="{loc:Loc Raid9Editor_CurrentSeed}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                            <TextBox Grid.Row="0" Grid.Column="2" Name="CurrentSeedInput" Text="{Binding CurrentSeedHex}"
+                                     AutomationProperties.Name="{loc:Loc Raid9Editor_CurrentSeed}" />
+                            <TextBlock Grid.Row="2" Text="{loc:Loc Raid9Editor_TomorrowSeed}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                            <TextBox Grid.Row="2" Grid.Column="2" Name="TomorrowSeedInput" Text="{Binding TomorrowSeedHex}"
+                                     AutomationProperties.Name="{loc:Loc Raid9Editor_TomorrowSeed}" />
+                        </Grid>
+                        <TextBlock Text="{Binding SeedError}" IsVisible="{Binding HasSeedError}" TextWrapping="Wrap" />
+                    </StackPanel>
+                            <StackPanel DataContext="{Binding SelectedRaid}" x:DataType="vm:Raid9ViewModel" Spacing="8"
+                                        IsVisible="{Binding Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock Text="{Binding ScenePointName}" TextWrapping="Wrap" FontWeight="SemiBold" />
+                                <CheckBox Content="{loc:Loc Raid9Editor_Enabled}" IsChecked="{Binding IsEnabled}" />
+                                <Grid ColumnDefinitions="120,8,*" RowDefinitions="Auto,6,Auto,6,Auto">
+                                    <TextBlock Grid.Row="0" Text="{loc:Loc Raid9Editor_AreaId}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="0" Grid.Column="2" Value="{Binding Area}" Minimum="0" Maximum="4294967295"
+                                                   AutomationProperties.Name="{loc:Loc Raid9Editor_AreaId}" />
+                                    <TextBlock Grid.Row="2" Text="{loc:Loc TeraSession_Lottery}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding LotteryGroup}" Minimum="0" Maximum="4294967295"
+                                                   AutomationProperties.Name="{loc:Loc TeraSession_Lottery}" />
+                                    <TextBlock Grid.Row="4" Text="{loc:Loc TeraSession_SpawnPoint}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                                    <NumericUpDown Grid.Row="4" Grid.Column="2" Value="{Binding SpawnPointId}" Minimum="0" Maximum="4294967295"
+                                                   AutomationProperties.Name="{loc:Loc TeraSession_SpawnPoint}" />
+                                </Grid>
+                                <TextBlock Text="{loc:Loc Raid9Editor_SeedHex}" />
+                                <TextBox Name="RaidSeedInput" Text="{Binding SeedHex}" AutomationProperties.Name="{loc:Loc Raid9Editor_SeedHex}" />
+                                <TextBlock Text="{Binding SeedError}" IsVisible="{Binding HasSeedError}" TextWrapping="Wrap" />
+                                <TextBlock Text="{loc:Loc Raid9Editor_Content}" />
+                                <ComboBox Name="ContentSelector" ItemsSource="{Binding Contents}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding Content}"
+                                          HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc Raid9Editor_Content}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:Raid9ContentChoice"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <CheckBox Content="{loc:Loc TeraSession_LeaguePoints}" IsChecked="{Binding LeaguePointsClaimed}" />
+                            </StackPanel>
+                                <Border Classes="editor-section-padded">
+                                    <StackPanel Spacing="6">
+                                        <CheckBox Content="{loc:Loc TeraSession_IncludeSeed}" IsChecked="{Binding IncludeSeed}" Margin="0,0,8,4" />
+                                        <Button Content="{loc:Loc Raid9Editor_CopyToOthers}" Command="{Binding CopyToOthersCommand}" Margin="0,0,8,4" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{loc:Loc RaidSevenStar9Editor_Title}">
+                <Grid ColumnDefinitions="150,10,*" Margin="0,8,0,0">
+                    <Border Classes="editor-section-padded">
+                        <ListBox Name="RecordList" ItemsSource="{Binding RaidItems}" SelectedItem="{Binding SelectedRecord}"
+                                 AutomationProperties.Name="{loc:Loc RaidSevenStar9Editor_Title}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="vm:RaidSevenStarItem">
+                                    <TextBlock Text="{Binding DisplayName}" TextWrapping="Wrap" ToolTip.Tip="{Binding DisplayName}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Border>
+                    <ScrollViewer Grid.Column="2" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel DataContext="{Binding SelectedRecord}" x:DataType="vm:RaidSevenStarItem" Spacing="8">
+                            <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" TextWrapping="Wrap" />
+                            <TextBlock Text="{loc:Loc TeraSession_Identifier}" TextWrapping="Wrap" />
+                            <NumericUpDown Name="RecordIdentifier" Value="{Binding Identifier}" Minimum="0" Maximum="4294967295"
+                                           AutomationProperties.Name="{loc:Loc TeraSession_Identifier}" />
+                            <CheckBox Content="{loc:Loc RaidSevenStar9Editor_Captured}" IsChecked="{Binding Captured}" />
+                            <CheckBox Content="{loc:Loc RaidSevenStar9Editor_Defeated}" IsChecked="{Binding Defeated}" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="{Binding StatusText}" IsVisible="{Binding HasStatus}" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding ValidationSummary}" IsVisible="{Binding HasValidationError}" TextWrapping="Wrap" />
+        </StackPanel>
+        <WrapPanel Grid.Row="3" Margin="0,10,0,0">
+            <Button Content="{loc:Loc RaidSession_Reset}" Command="{Binding ResetCommand}" Margin="0,0,8,4" />
+            <Button Name="CancelButton" Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" Margin="0,0,8,4" />
+            <Button Name="SaveButton" Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" Margin="0,0,0,4" />
+        </WrapPanel>
+    </Grid>
+</UserControl>

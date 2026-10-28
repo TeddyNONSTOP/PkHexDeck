@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.pkhexdeck.app</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>PkHexDeck</name>
+  <summary>Pokémon save editor with a Bank, Nuzlocke and Hardcore tools</summary>
+  <description>
+    <p>PkHexDeck is a Pokémon save file editor built for the Steam Deck. It is a fork of PKHeX-Avalonia, the Avalonia port of PKHeX, and adds a cross-game Bank, an Organizer, a Living Dex tracker, a Nuzlocke report and a Hardcore mode.</p>
+    <p>Inspect and edit Pokémon, manage boxes and party slots, check legality, and use game-specific trainer, inventory and save editors. Back up your original save before editing.</p>
+  </description>
+  <launchable type="desktop-id">io.pkhexdeck.app.desktop</launchable>
+  <developer id="io.pkhexdeck">
+    <name>PkHexDeck contributors</name>
+  </developer>
+  <categories>
+    <category>Utility</category>
+  </categories>
+  <releases>
+    <release version="@VERSION@" date="@RELEASE_DATE@" />
+  </releases>
+  <content_rating type="oars-1.1" />
+</component>

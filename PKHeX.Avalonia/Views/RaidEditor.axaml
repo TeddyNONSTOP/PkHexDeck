@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             xmlns:core="clr-namespace:PKHeX.Core;assembly=PKHeX.Core"
+             x:Class="PKHeX.Avalonia.Views.RaidEditor"
+             x:DataType="vm:RaidEditorViewModel" MinWidth="480" MinHeight="320">
+    <Grid Classes="tool-surface" RowDefinitions="Auto,*,Auto" Margin="12">
+        <StackPanel Grid.Row="0" Spacing="6" Margin="0,0,0,10">
+            <TextBlock Text="{loc:Loc RaidEditor_Title}" FontSize="18" FontWeight="SemiBold" />
+            <ComboBox Name="RegionSelector" ItemsSource="{Binding Regions}" SelectedItem="{Binding SelectedRegion}"
+                      HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc RaidSession_Region}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:RaidRegionViewModel"><TextBlock Text="{Binding Name}" /></DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Text="{loc:Loc RaidSession_Staging}" TextWrapping="Wrap" />
+        </StackPanel>
+        <TextBlock Grid.Row="1" Text="{loc:Loc RaidEditor_NotAvailable}" IsVisible="{Binding !IsSupported}" TextWrapping="Wrap" />
+        <Grid Grid.Row="1" ColumnDefinitions="130,10,*" IsVisible="{Binding IsSupported}">
+            <Border Classes="editor-section-padded">
+            <ListBox Name="DenList" ItemsSource="{Binding Dens}" SelectedItem="{Binding SelectedDen}"
+                     AutomationProperties.Name="{loc:Loc RaidEditor_Dens}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:RaidViewModel"><TextBlock Text="{Binding DisplayName}" /></DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            </Border>
+            <ScrollViewer Grid.Column="2" Name="DenDetails" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel DataContext="{Binding SelectedDen}" x:DataType="vm:RaidViewModel" Spacing="8">
+                    <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" FontSize="16" />
+                    <TextBlock Text="{loc:Loc RaidEditor_Active}" IsVisible="{Binding IsActive}" />
+                    <TextBlock Text="{loc:Loc RaidEditor_Inactive}" IsVisible="{Binding !IsActive}" />
+                    <TextBlock Text="{loc:Loc RaidSession_Hash}" TextWrapping="Wrap" />
+                    <TextBox Text="{Binding Hash, Mode=OneWay}" IsReadOnly="True" AutomationProperties.Name="{loc:Loc RaidSession_Hash}" />
+                    <TextBlock Text="{loc:Loc RaidSession_HashHelp}" TextWrapping="Wrap" FontSize="12" />
+                    <TextBlock Text="{loc:Loc RaidSession_DenType}" />
+                    <ComboBox ItemsSource="{Binding DenTypes}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding DenType}"
+                              HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc RaidSession_DenType}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <CheckBox Content="{loc:Loc RaidEditor_EventRaid}" IsChecked="{Binding IsEvent}" />
+                    <CheckBox Content="{loc:Loc RaidEditor_RareRaid}" IsChecked="{Binding IsRare}" />
+                    <CheckBox Content="{loc:Loc RaidEditor_WishingPieceUsed}" IsChecked="{Binding IsWishingPiece}" />
+                    <CheckBox Content="{loc:Loc RaidSession_Watts}" IsChecked="{Binding WattsHarvested}" IsEnabled="{Binding IsActive}" />
+                    <TextBlock Text="{loc:Loc RaidEditor_SeedHex}" />
+                    <TextBox Name="SeedInput" Text="{Binding SeedHex}" AutomationProperties.Name="{loc:Loc RaidEditor_SeedHex}" />
+                    <TextBlock Text="{Binding SeedError}" TextWrapping="Wrap" />
+                    <Grid ColumnDefinitions="120,8,*" RowDefinitions="Auto,6,Auto,6,Auto">
+                        <TextBlock Grid.Row="0" Text="{loc:Loc RaidEditor_Stars}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="0" Grid.Column="2" Value="{Binding Stars}" Minimum="0" Maximum="255" AutomationProperties.Name="{loc:Loc RaidEditor_Stars}" />
+                        <TextBlock Grid.Row="2" Text="{loc:Loc RaidEditor_RandRoll}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="2" Grid.Column="2" Value="{Binding RandRoll}" Minimum="0" Maximum="255" AutomationProperties.Name="{loc:Loc RaidEditor_RandRoll}" />
+                        <TextBlock Grid.Row="4" Text="{loc:Loc RaidEditor_Flags}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        <NumericUpDown Grid.Row="4" Grid.Column="2" Value="{Binding Flags}" Minimum="0" Maximum="255" AutomationProperties.Name="{loc:Loc RaidEditor_Flags}" />
+                    </Grid>
+                    <TextBlock Text="{loc:Loc RaidSession_StarHelp}" TextWrapping="Wrap" FontSize="12" />
+                    <Button Content="{loc:Loc RaidEditor_DeactivateDen}" Command="{Binding DeactivateCommand}" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <WrapPanel Grid.Row="2" Margin="0,10,0,0" HorizontalAlignment="Right">
+            <Button Content="{loc:Loc RaidSession_Reset}" Command="{Binding ResetCommand}" Margin="0,0,8,4" />
+            <Button Name="CancelButton" Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" Margin="0,0,8,4" />
+            <Button Name="SaveButton" Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" Margin="0,0,0,4" />
+        </WrapPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.LivingDexArrangeView"
+             x:DataType="vm:LivingDexArrangeViewModel"
+             MinWidth="480" MinHeight="340">
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Classes="tool-surface">
+        <TextBlock Grid.Row="0" Margin="10,10,10,6" Text="{loc:Loc LivingDexArrange_Description}" TextWrapping="Wrap" FontSize="12"
+                   Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+        <WrapPanel Grid.Row="1" Margin="10,0,10,0" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,12,6">
+                <TextBlock Text="{loc:Loc LivingDexArrange_StartBox}" VerticalAlignment="Center" />
+                <ComboBox x:Name="StartBoxPicker" ItemsSource="{Binding BoxNames}" SelectedIndex="{Binding StartBox}" MinWidth="120"
+                          AutomationProperties.Name="{loc:Loc LivingDexArrange_StartBox}" />
+            </StackPanel>
+            <CheckBox Content="{loc:Loc LivingDexTracker_IncludeForms}" IsChecked="{Binding IncludeForms}" Margin="0,0,12,6" />
+            <CheckBox Content="{loc:Loc LivingDexArrange_LeaveGaps}" IsChecked="{Binding LeaveGaps}" Margin="0,0,12,6"
+                      ToolTip.Tip="{loc:Loc LivingDexArrange_LeaveGaps_Desc}" />
+            <CheckBox Content="{loc:Loc LivingDexArrange_PreferShiny}" IsChecked="{Binding PreferShiny}" Margin="0,0,12,6" />
+        </WrapPanel>
+        <StackPanel Grid.Row="2" Margin="10,2,10,8" Spacing="3">
+            <TextBlock x:Name="ArrangeSummary" Text="{Binding SummaryText}" FontWeight="SemiBold" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding DetailText}" TextWrapping="Wrap" FontSize="12" />
+            <TextBlock x:Name="ArrangeProblem" Text="{Binding ProblemText}" TextWrapping="Wrap" FontSize="12"
+                       IsVisible="{Binding ProblemText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                       Foreground="{DynamicResource ThemeErrorBrush}" />
+        </StackPanel>
+        <DataGrid Grid.Row="3" x:Name="MovesGrid" Classes="save-grid database-grid" ItemsSource="{Binding Moves}"
+                  AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="True" CanUserResizeColumns="True"
+                  GridLinesVisibility="Horizontal" VerticalScrollBarVisibility="Auto"
+                  AutomationProperties.Name="{loc:Loc LivingDexArrange_Title}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{loc:Loc LivingDexTracker_ColPokemon}" Binding="{Binding Name}" Width="150" />
+                <DataGridTextColumn Header="{loc:Loc LivingDexArrange_ColFrom}" Binding="{Binding From}" Width="140" />
+                <DataGridTextColumn Header="{loc:Loc LivingDexArrange_ColTo}" Binding="{Binding To}" Width="140" />
+                <DataGridTextColumn Header="{loc:Loc LivingDexArrange_ColKind}" Binding="{Binding Kind}" Width="*" MinWidth="110" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Border Grid.Row="4" Background="{DynamicResource ThemeBackgroundCardBrush}" BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,1,0,0" Padding="10,8">
+            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                <TextBlock Text="{loc:Loc LivingDexArrange_UndoHint}" TextWrapping="Wrap" FontSize="11" VerticalAlignment="Center"
+                           Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+                <Button Grid.Column="1" Content="{loc:Loc LivingDexTracker_Refresh}" Command="{Binding UpdatePlanCommand}" />
+                <Button Grid.Column="2" x:Name="ArrangeButton" Classes="compact-primary" Content="{loc:Loc LivingDexArrange_Arrange}" Command="{Binding ArrangeCommand}" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

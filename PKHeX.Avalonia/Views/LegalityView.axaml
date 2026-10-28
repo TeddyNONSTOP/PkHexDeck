@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.LegalityView"
+             x:DataType="vm:LegalityViewModel">
+    <Border Classes="view-container">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <TextBlock Text="{Binding StatusMessage}" TextWrapping="Wrap" VerticalAlignment="Center"
+                       Margin="0,0,12,0"
+                       IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+            <ProgressBar IsIndeterminate="True" Width="80" VerticalAlignment="Center"
+                         Margin="0,0,8,0"
+                         IsVisible="{Binding IsBusy}" />
+            <Button Content="{loc:Loc Slot_LegalizeMenuItem}" Classes="accent" Command="{Binding LegalizeCommand}"
+                    Margin="0,0,8,0"
+                    IsVisible="{Binding CanOfferLegalize}" />
+            <Button Content="{loc:Loc LegalityView_CopyToClipboard}" Click="OnCopyClick" Margin="0,0,8,0" />
+            <Button Content="{loc:Loc Common_Close}" Click="OnCloseClick" HotKey="Escape" />
+        </StackPanel>
+
+        <Border Classes="database-results-surface">
+            <ScrollViewer>
+                <SelectableTextBlock Name="ReportText"
+                                   Text="{Binding Report}"
+                                   Margin="8"
+                                   FontFamily="Courier New,Cascadia Code,Monospace"
+                                   FontSize="13"
+                                   TextWrapping="Wrap" />
+            </ScrollViewer>
+        </Border>
+    </DockPanel>
+    </Border>
+</UserControl>

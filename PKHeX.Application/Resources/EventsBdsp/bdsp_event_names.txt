@@ -1,0 +1,3163 @@
+# BDSP event flag, system flag and work names, converted for PKHeX-Avalonia's Events tab.
+# Source: fattard/FlagsEditorEXPlugin, commit 710f9a9b93f5c697fbfcc47eb4af4f65af0419ff,
+#   flagslist/flags_gen8bdsp_en.txt. GPL-3.0, the same license as this project (see LICENSE).
+# Format: kind (F flag, S system flag, W work) <TAB> save index <TAB> category <TAB> internal name <TAB> description
+# Rows the source marks _UNUSED, and Trainer Flags (not part of FlagWork), are left out.
+F	0	Event	FH_01	
+F	1	Event	FH_02	
+F	2	Event	FH_03	
+F	3	Event	FH_04	
+F	4	Event	FH_05	
+F	5	Event	FH_06	
+F	6	Event	FH_07	
+F	7	Event	FH_08	
+F	8	Event	FH_09	
+F	9	Event	FH_10	
+F	10	Event	FH_11	
+F	11	Event	FH_12	
+F	12	Event	FH_13	
+F	13	Event	FH_14	
+F	14	Event	FH_15	
+F	15	Event	FH_16	
+F	16	Event	FH_17	
+F	17	Event	FH_18	
+F	18	Event	FH_19	
+F	19	Event	FH_20	
+F	20	Event	FH_21	
+F	21	Event	FH_22	
+F	22	Event	FH_23	
+F	23	Event	FH_24	
+F	24	Event	FH_25	
+F	25	Event	FH_26	
+F	26	Event	FH_27	
+F	27	Event	FH_28	
+F	28	Event	FH_29	
+F	29	Event	FH_30	
+F	30	Event	FH_31	
+F	31	Event	FH_OBJ00	
+F	32	Event	FH_OBJ01	
+F	33	Event	FH_OBJ02	
+F	34	Event	FH_OBJ03	
+F	35	Event	FH_OBJ04	
+F	36	Event	FH_OBJ05	
+F	37	Event	FH_OBJ06	
+F	38	Event	FH_OBJ07	
+F	39	Event	FH_OBJ08	
+F	40	Event	FH_OBJ09	
+F	41	Event	FH_OBJ10	
+F	42	Event	FH_OBJ11	
+F	43	Event	FH_OBJ12	
+F	44	Event	FH_OBJ13	
+F	45	Event	FH_OBJ14	
+F	46	Event	FH_OBJ15	
+F	47	Event	FH_OBJ16	
+F	48	Event	FH_OBJ17	
+F	49	Event	FH_OBJ18	
+F	50	Event	FH_OBJ19	
+F	51	Event	FH_OBJ20	
+F	52	Event	FH_OBJ21	
+F	53	Event	FH_OBJ22	
+F	54	Event	FH_OBJ23	
+F	55	Event	FH_OBJ24	
+F	56	Event	FH_OBJ25	
+F	57	Event	FH_OBJ26	
+F	58	Event	FH_OBJ27	
+F	59	Event	FH_OBJ28	
+F	60	Event	FH_OBJ29	
+F	61	Event	FH_OBJ30	
+F	62	Event	FH_OBJ31	
+F	63	Event	FE_TEST_01	
+F	64	Event	FE_TEST_02	
+F	65	Event	FE_TEST_03	
+F	66	Event	FE_TEST_04	
+F	67	ItemGift	FE_TANE_GET	
+F	68	Event	FE_PC_GOLD	
+F	69	Event	FE_PC_POKERUS	
+F	70	ItemGift	FE_SUGOITURIZAO_GET	
+F	71	ItemGift	FE_R201_KIZUGUSURI_GET	
+F	72	Event	FE_R201_TALK_PAPA	
+F	73	Event	FE_T01R0101_RIVALMAMA_TALK	
+F	74	ItemGift	FE_SHOES_GET	
+F	75	Event	FE_UNION_CHARACTER_SELECT	
+F	76	Event	FE_C01_SUPPORT_GUIDE	
+F	77	Event	FE_C01R0101_TRAINER_WIN	
+F	78	Event	FE_SODATE_TAMAGO	
+F	79	ItemGift	FE_C04_GYM_ITEM_GET	
+F	80	ItemGift	FE_C03_GYM_ITEM_GET	
+F	81	ItemGift	FE_C04R0304_ITEM_GET	
+F	82	ItemGift	FE_C03R0204_ITEM_GET	
+F	83	ItemGift	FE_TANKENSETTO_GET	
+F	84	Event	FE_D01R0102_LEADER_TALK	
+F	85	ItemGift	FE_C03R0103_ITEM_GET	
+F	86	ItemGift	FE_C05_GYM_ITEM_GET	
+F	87	ItemGift	FE_C01R0504_ITEM_GET	
+F	88	Event	FE_R205A_GINGAM_TALK	
+F	89	ItemGift	FE_FLOWER_ITEM_GET	
+F	90	Event	FE_C04R0204_WIN	
+F	91	ItemGift	FE_CYCLE_GET	
+F	92	ItemGift	FE_T03R0301_ITEM_GET	
+F	93	ItemGift	FE_BORONOTURIZAO_GET	
+F	94	InGameTrade	FE_C03R0201_POKE_CHG	
+F	95	InGameTrade	FE_C04R0301_POKE_CHG	
+F	96	Event	FE_T01R0201_MAMA_TALK	
+F	97	Event	FE_IMAGE_CLIP	
+F	98	ItemGift	FE_C01R0202_ITEM_GET	
+F	99	Event	FE_C03_RIVAL_TALK	
+F	100	Event	FE_D03R0101_SEVEN1_TALK	
+F	101	ItemGift	FE_C05R0102_ITEM_GET	
+F	102	ItemGift	FE_C05R0201_ITEM_GET	
+F	103	Event	FE_INIT_CHANGE_OBJ_DEL	
+F	104	ItemGift	FE_BOUKENNOOTO_GET	
+F	105	ItemGift	FE_ZUKAN_GET	
+F	106	Event	FE_R205A_BABYGIRL1_TALK	
+F	107	ItemGift	FE_C02_GYM_ITEM_GET	
+F	108	ItemGift	FE_HIDEN_01_GET	
+F	109	ItemGift	FE_HIDEN_02_GET	
+F	110	ItemGift	FE_HIDEN_03_GET	
+F	111	ItemGift	FE_HIDEN_04_GET	
+F	112	ItemGift	FE_HIDEN_05_GET	
+F	113	ItemGift	FE_HIDEN_06_GET	
+F	114	ItemGift	FE_HIDEN_07_GET	
+F	115	ItemGift	FE_HIDEN_08_GET	
+F	116	Event	FE_C02R0301_WASURE	
+F	117	ItemGift	FE_C06_GYM_ITEM_GET	
+F	118	ItemGift	FE_C07_GYM_ITEM_GET	
+F	119	ItemGift	FE_C09_GYM_ITEM_GET	
+F	120	Event	FE_D13R0101_ITEM	
+F	121	ItemGift	FE_D13R0101_AMAIMITU_GET	
+F	122	ItemGift	FE_C02R0501_ITEM_GET	
+F	123	ItemGift	FE_IITURIZAO_GET	
+F	124	Event	FE_C05GYM0101_SUNGLASSES_TALK	
+F	125	Event	FE_ABC_CLEAR	
+F	126	Event	FE_T05_GINGABOSS_TALK	
+F	127	Event	FE_T05_OLDWOMAN_TALK	
+F	128	Event	FE_FRESCO_SEE	
+F	129	Event	FE_L02_NEWS	
+F	130	Event	FE_D29R0101_RIVAL_TALK	
+F	131	Event	FE_CONNECT_TSIGN_TALK	
+F	132	Event	FE_RECONGNIZE_SHINOU	
+F	133	Event	FE_RECONGNIZE_NATIONAL	
+F	134	Event	FE_D26R0107_GKANBU_WIN	
+F	135	Event	FE_D26R0107_MACHINE	
+F	136	Event	FE_C10R0101_VETERAN	
+F	137	Event	FE_BIGFOUR1_WIN	
+F	138	Event	FE_BIGFOUR2_WIN	
+F	139	Event	FE_BIGFOUR3_WIN	
+F	140	Event	FE_BIGFOUR4_WIN	
+F	141	Event	FE_C10R0111_CHAMP_WIN	
+F	142	Event	FE_C08_MIKAN_TALK	
+F	143	ItemGift	FE_C08_GYM_ITEM_GET	
+F	144	Event	FE_L02_CHAMP	
+F	145	Event	FE_D27R0101_DOCTOR_TALK	
+F	146	Event	FE_D27R0101_SUPPORT_TALK	
+F	147	Event	FE_D27R0102_GKANBU_WIN	
+F	148	Event	FE_CONNECT_UNION_GUIDE_TALK	
+F	149	ItemGift	FE_COIN_CASE_GET	
+F	150	Event	FE_C04R0801_ASSISTANTM_TALK	
+F	151	Event	FE_D05R0114_BLACKRING	
+F	152	ItemGift	FE_C01R0501_ITEM_GET	
+F	153	ItemGift	FE_C03R0102_ITEM_GET	
+F	154	ItemGift	FE_C03R0202_ITEM_GET	
+F	155	ItemGift	FE_C04R0302_ITEM_GET	
+F	156	Event	FE_GTC_GUIDE_TALK	
+F	157	ItemGift	FE_WAZAMASIN64_GET	
+F	158	ItemGift	FE_WAZAMASIN78_GET	
+F	159	ItemGift	FE_WAZAMASIN77_GET	
+F	160	ItemGift	FE_WAZAMASIN51_GET	
+F	161	ItemGift	FE_WAZAMASIN88_GET	
+F	162	ItemGift	FE_WAZAMASIN48_GET	
+F	163	ItemGift	FE_WAZAMASIN92_GET	
+F	164	ItemGift	FE_WAZAMASIN42_GET	
+F	165	ItemGift	FE_WAZAMASIN63_GET	
+F	166	ItemGift	FE_WAZAMASIN66_GET	
+F	167	ItemGift	FE_WAZAMASIN56_GET	
+F	168	ItemGift	FE_WAZAMASIN11_GET	
+F	169	ItemGift	FE_WAZAMASIN18_GET	
+F	170	ItemGift	FE_WAZAMASIN37_GET	
+F	171	ItemGift	FE_WAZAMASIN07_GET	
+F	172	Event	FE_P_PARK_ADMIN	
+F	173	Event	FE_HIIDORAN_EVENT	
+F	174	ItemGift	FE_C11FS0101_ITEM_GET	
+F	175	ItemGift	FE_KAZANNOOKIISI_GET	
+F	176	Event	FE_HIIDORAN_SEE	
+F	177	Event	FE_T04R0301_SUNGLASSES_TALK	
+F	178	ItemGift	FE_R225R0101_ITEM_GET	
+F	179	ItemGift	FE_R229_ITEM_GET	
+F	180	Event	FE_D16R0101_RIVAL_TALK	
+F	181	Event	FE_T04R0301_ITEM_DEPOSIT	
+F	182	Event	FE_D16R0102_SEVEN5_TALK	
+F	183	ItemGift	FE_R217R0101_ITEM_GET	
+F	184	Event	FE_D09R0104_SEVEN4_TALK	
+F	185	Event	FE_D21R0101_SEVEN2_TALK	
+F	186	Event	FE_D24R0105_SEVEN3_TALK	
+F	187	Event	FE_D24R0105_SEVEN3_POKE_MAX	
+F	188	Event	FE_SEVEN1_CLEAR	
+F	189	Event	FE_SEVEN2_CLEAR	
+F	190	Event	FE_SEVEN3_CLEAR	
+F	191	Event	FE_SEVEN4_CLEAR	
+F	192	Event	FE_SEVEN5_CLEAR	
+F	193	Event	FE_C07R0601_WOMAN3_TALK	
+F	194	Event	FE_C06R0401_BIGMAN_TALK	
+F	195	Event	FE_T01R0102_RIVAL_TALK	
+F	196	Event	FE_C09_GYMLEADER_DEL	
+F	197	Event	FE_C01_CROWN1_TICKET	
+F	198	Event	FE_C01_CROWN2_TICKET	
+F	199	Event	FE_C01_CROWN3_TICKET	
+F	200	Event	FE_GENERATE_START	
+F	201	ItemGift	FE_TOWNMAP_GET	
+F	202	ItemGift	FE_ACCE_CASE_GET	
+F	203	ItemGift	FE_POKETCH_GET	
+F	204	InGameTrade	FE_C09R0101_POKE_CHG	
+F	205	InGameTrade	FE_W226R0101_POKE_CHG	
+F	206	Event	FE_W226R0101_ZUKAN	
+F	207	Event	FE_C08R0201_WEEK_TALK	
+F	208	Event	FE_T01R0201_MAMA_TALK2	
+F	209	Event	FE_R213R0201_FOOTMARK	
+F	210	Event	FE_T07R0101_MEMBER	
+F	211	Event	FE_C05_EGG	
+F	212	Event	FE_C08R0401_GOODS	
+F	213	Event	FE_SODATEYA_AZUKE	
+F	214	Event	FE_R210BR0101_DRAGON_TALK	
+F	215	Event	FE_C07_SUPPORT	
+F	216	Event	FE_C06_GINGAM	
+F	217	Event	FE_C06_GINGAM_2	
+F	218	Event	FE_R213_GINGAM	
+F	219	ItemGift	FE_C07R0205_ITEM_GET	
+F	220	Event	FE_L02_GINGAM	
+F	221	Event	FE_R210A_CLEAR	
+F	222	Event	FE_R228R0201_OLDMAN1_TALK	
+F	223	ItemGift	FE_C03_ITEM_GET	
+F	224	ItemGift	FE_C03R0602_ITEM_GET	
+F	225	ItemGift	FE_GAKUSYUUSOUCHI_GET	
+F	226	Event	FE_C01R0701_BOY_WIN	
+F	227	Event	FE_C01R0701_GIRL_WIN	
+F	228	Event	FE_C07R0301_OPEN	
+F	229	Event	FE_D02_OPEN	
+F	230	Misc	FE_PC_SHINOU_ZUKAN_COMP	
+F	231	Event	FE_UG_MISSION_TALK	
+F	232	ItemGift	FE_C01R0701_ITEM_GET	
+F	233	Event	FE_UG_MISSION_OK	
+F	234	ItemGift	FE_KUJI_ACCE_GET	
+F	235	Event	FE_R202_SUPPORT_TALK	
+F	236	ItemGift	FE_R209R0105_ITEM_GET	
+F	237	ItemGift	FE_SIIRUIRE_GET	
+F	238	Event	FE_R205A_BOY2_TALK	
+F	239	ItemGift	FE_C04R0601_ITEM_GET	
+F	240	Event	FE_D20R0106_LEGEND_UNSEAL	
+F	241	EventEncounter	FE_D20R0106_LEGEND_CLEAR	Captured Regigigas
+F	242	ItemGift	FE_C06R0301_ITEM_GET	
+F	243	ItemGift	FE_D24R0201_ITEM_GET	
+F	244	Event	FE_D05R0116_LEGEND_CLEAR	
+F	245	Event	FE_D15R0101_LEGEND_CLEAR	
+F	246	EventEncounter	FE_D16R0103_LEGEND_CLEAR	Captured Heatran
+F	247	EventEncounter	FE_D17R0104_LEGEND_CLEAR	Captured Giratina
+F	248	Event	FE_D18_LEGEND_CLEAR	
+F	249	Event	FE_D27R0103_LEGEND_CLEAR	
+F	250	Event	FE_D16R0103_LEGEND_UNSEAL	
+F	251	EventEncounter	FE_D28R0103_LEGEND_CLEAR	Captured Azelf
+F	252	EventEncounter	FE_D29R0103_LEGEND_CLEAR	Captured Uxie
+F	253	ItemGift	FE_C06_ACCE_GET	
+F	254	ItemGift	FE_C07R0201_ACCE_GET	
+F	255	ItemGift	FE_D03_ACCE_GET	
+F	256	ItemGift	FE_R206R0101_ACCE_GET	
+F	257	Event	FE_C02R0501_EVENT_CLEAR	
+F	258	Event	FE_R224_EVENT_CLEAR	
+F	259	ItemGift	FE_C07R0101_MIDDLEMAN1_COIN_GET	
+F	260	ItemGift	FE_C07R0101_BIGMAN1_COIN_GET	
+F	261	ItemGift	FE_C07R0101_ITEM_GET	
+F	262	ItemGift	FE_C05R0901_POKEMON_GET	
+F	263	Event	FE_C05R0901_TALK	
+F	264	Event	FE_D15_UNSEAL	
+F	265	ItemGift	FE_T05R0201_MEGANE_01_GET	
+F	266	ItemGift	FE_T05R0201_MEGANE_02_GET	
+F	267	ItemGift	FE_T05R0201_MEGANE_03_GET	
+F	268	Event	FE_R221R0201_ITEM_KEEP	
+F	269	ItemGift	FE_D04R0101_ITEM_GET	
+F	270	ItemGift	FE_R212AR0102_ITEM_GET	
+F	271	ItemGift	FE_L02R0201_ITEM_GET	
+F	272	ItemGift	FE_R217R0201_ITEM_GET	
+F	273	Event	FE_C02R0401_START	
+F	274	ItemGift	FE_C01R0202_ACCE_GET	
+F	275	Event	FE_L02_GINGA_WIN	
+F	276	ItemGift	FE_R208_ITEM_GET	
+F	277	ItemGift	FE_C06R0601_ITEM_GET_STYLE	
+F	278	ItemGift	FE_C06R0601_ITEM_GET_BEAUTIFUL	
+F	279	ItemGift	FE_C06R0601_ITEM_GET_CUTE	
+F	280	ItemGift	FE_C06R0601_ITEM_GET_CLEVER	
+F	281	ItemGift	FE_C06R0601_ITEM_GET_STRONG	
+F	282	Event	FE_T05R0101_OLDWOMAN1	
+F	283	Event	FE_SUPPORT_POKETORE_1	
+F	284	Event	FE_SUPPORT_POKETORE_2	
+F	285	Event	FE_SUPPORT_POKETORE_3	
+F	286	EventEncounter	FE_D25R0106_SPPOKE_CLEAR	Captured Rotom
+F	287	Event	FE_C05_GOODS_01	
+F	288	Event	FE_C05_GOODS_02	
+F	289	Event	FE_C05_GOODS_03	
+F	290	Event	FE_C05_GOODS_04	
+F	291	Event	FE_C05_GOODS_05	
+F	292	Event	FE_C05_GOODS_06	
+F	293	Event	FE_C05_GOODS_07	
+F	294	Event	FE_C05_GOODS_08	
+F	295	Event	FE_C05_GOODS_09	
+F	296	Event	FE_C05_GOODS_10	
+F	297	Event	FE_C05_GOODS_11	
+F	298	Event	FE_C05_GOODS_12	
+F	299	Event	FE_C05_GOODS_13	
+F	300	Event	FE_C05_GOODS_14	
+F	301	Event	FE_D30R0101_LEGEND_CLEAR	
+F	302	Event	FE_C05R1101_POFIN_INFOMATION	
+F	303	ItemGift	FE_C05R1101_POFIN_GET	
+F	304	ItemGift	FE_C05_ALL_GOODS_GET	
+F	305	Event	FE_T01R0201_GAMECLEAR_KISSAKI	
+F	306	Event	FE_T01R0201_GAMECLEAR_ZUKAN	
+F	307	Event	FE_D05R0114_CLEAR	
+F	308	EventEncounter	FE_D05R0114_SPPOKE_GET	Captured Dialga/Palkia
+F	309	ItemGift	FE_D06R0206_ITEM_GET	
+F	310	Event	FE_R213R0501_MYSTERY_TALK	
+F	311	Event	FE_C08R0801_TALK	
+F	312	Event	FE_R212AR0103_RICH_TALK	
+F	313	Event	FE_R212AR0103_BUTLER_TALK	
+F	314	Event	FV_R201_RIVAL	
+F	315	Event	FV_T02_DOCTOR	
+F	316	Event	FV_T01_RIVAL	
+F	317	Event	FV_D27R0101_DOCTOR	
+F	318	Event	FV_D27R0101_KABAN	
+F	319	Event	FV_T02_SUPPORT	
+F	320	Event	FV_R201_DOCTOR	
+F	321	Event	FV_R201_SUPPORT	
+F	322	Event	FV_C01_SUPPORT	
+F	323	Event	FV_R203_RIVAL	
+F	324	Event	FV_C03_RIVAL	
+F	325	Event	FV_C05R0701_STOPPER	
+F	326	Event	FV_HATSUDEN_GINGA	
+F	327	Event	FV_C04_CHAMP	
+F	328	Event	FV_C04_GINGA_KANBU	
+F	329	Event	FV_C04_DOCTOR	
+F	330	Event	FV_C04_GYM_TRAINER1	
+F	331	Event	FV_C04_GYM_TRAINER2	
+F	332	Event	FV_C04_GYM_TRAINER3	
+F	333	Event	FV_C04_GYM_TRAINER4	
+F	334	Event	FV_C04_GYM_LEADER	
+F	335	Event	FV_R202_SUPPORT	
+F	336	Event	FV_C01R0201_SUPPORT	
+F	337	Event	FV_D01R0102_LEADER	
+F	338	Event	FV_C01_SUNGLASSES	
+F	339	Event	FV_C01_ASSISTANTM	
+F	340	Event	FV_T01_MAMA	
+F	341	Event	FV_D02_GINGAM_A	
+F	342	Event	FV_D27R0101_POKE	
+F	343	Event	FV_C04_GINGAM	
+F	344	Event	FV_C04R0204_GKANBU	
+F	345	Event	FV_C04R0101_MIDDLEM	
+F	346	Event	FV_C04R0101_POKE	
+F	347	Event	FV_D27R0101_SUPPORT	
+F	348	Event	FV_L01_RIVAL	
+F	349	Event	FV_D27R0101_RIVAL	
+F	350	Event	FV_T02_RIVAL	
+F	351	Event	FV_T02R0101_DOCTOR	
+F	352	Event	FV_T02R0101_SUPPORT	
+F	353	Event	FV_C03_BOY1	
+F	354	Event	FV_D03R0101_SEVEN1	
+F	355	Event	FV_C01_GINGA	
+F	356	Event	FV_C01_DOCTOR	
+F	357	Event	FV_D13R0101_ITEM	
+F	358	Event	FV_D13R0101_GINGAM_A	
+F	359	Event	FV_D13R0101_GINGAM_B	
+F	360	Event	FV_T03_GINGAM	
+F	361	Event	FV_R205A_GINGAM	
+F	362	Event	FV_T03_GINGABOSS	
+F	363	Event	FV_D02R0101_GINGAM	
+F	364	Event	FV_D02R0101_GINGALEADER1	
+F	365	Event	FV_D02R0101_GINGA_ALL	
+F	366	Event	FV_UG_MOUNT	
+F	367	Event	FV_C07_SUPPORT	
+F	368	Event	FV_C06_RIVAL	
+F	369	Event	FV_C05_CHAMP	
+F	370	Event	FV_D05R0101_GINGABOSS	
+F	371	Event	FV_T05_OLDWOMAN	
+F	372	Event	FV_L02_CHAMP	
+F	373	Event	FV_L02_GINGAM	
+F	374	Event	FV_T05_GINGAM	
+F	375	Event	FV_R210A_POKE	
+F	376	Event	FV_R210A_CHAMP	
+F	377	Event	FV_C02_RIVAL	
+F	378	Event	FV_C02_DOCTOR	
+F	379	Event	FV_C02_SEAMAN	
+F	380	Event	FV_C02_SUPPORT	
+F	381	Event	FV_C02R0103_SUPPORT	
+F	382	Event	FV_C02R0103_DOCTOR	
+F	383	Event	FV_C02R0103_RIVAL	
+F	384	Event	FV_D29R0102_RIVAL	
+F	385	Event	FV_D29R0102_GKANBU2	
+F	386	Event	FV_D28R0101_GINGA	
+F	387	Event	FV_T05_GINGABOSS	
+F	388	Event	FV_D26R0104_GINGABOSS	
+F	389	Event	FV_C07_GINGAM	
+F	390	Event	FV_D27R0102_GKANBU	
+F	391	Event	FV_D28R0101_KOIKING	
+F	392	Event	FV_T05R0101_OLDWOMAN	
+F	393	Event	FV_D05R0114_SPPOKE_01	
+F	394	Event	FV_D05R0114_RIVAL	
+F	395	Event	FV_D05R0114_SUPPORT	
+F	396	Event	FV_D05R0114_DOCTOR	
+F	397	Event	FV_D05R0114_GINGAM	
+F	398	Event	FV_D05R0114_GINGAKANBU	
+F	399	Event	FV_D05R0114_GINGABOSS	
+F	400	Event	FV_D31R0205_TRAINER	
+F	401	Event	FV_R207_SUPPORT	
+F	402	Event	FV_R222_WORKMAN	
+F	403	Event	FV_D05R0114_POKE_L01	
+F	404	Event	FV_D05R0114_POKE_L02	
+F	405	Event	FV_D05R0114_POKE_L03	
+F	406	Event	FV_T04R0101_SUNGLASSES	
+F	407	Event	FV_R221R0101_OOKIDO	
+F	408	Event	FV_C11_RIVAL	
+F	409	Event	FV_C11_SEVEN2	
+F	410	Event	FV_T06_SEVEN2	
+F	411	Event	FV_T06R0101_SEVEN2	
+F	412	Event	FV_R227_RIVAL	
+F	413	Event	FV_R227_GYMLEADER	
+F	414	Event	FV_D16R0101_RIVAL	
+F	415	Event	FV_D16R0102_SEVEN5	
+F	416	Event	FV_D16R0103_SEVEN2	
+F	417	Event	FV_D16R0103_RIVAL	
+F	418	Event	FV_D16R0103_HIIDORAN	
+F	419	Event	FV_D16R0103_KAZANNOOKIISI	
+F	420	Event	FV_D27R0103_AI	
+F	421	Event	FV_D28R0103_HAI	
+F	422	Event	FV_D29R0103_REI	
+F	423	Event	FV_D11R0101_PIKACHU	
+F	424	Event	FV_D11R0101_ATYAMO	
+F	425	Event	FV_D21R0101_SEVEN2	
+F	426	Event	FV_D24R0105_SEVEN3	
+F	427	Event	FV_D09R0104_SEVEN4	
+F	428	Event	FV_D24R0105_GINGAM	
+F	429	Event	FV_D09R0101_STOPPER	
+F	430	Event	FV_D31R0201_PRIZEMAN	
+F	431	Event	FV_D31R0206_TRAINER01	
+F	432	Event	FV_D31R0206_TRAINER02	
+F	433	Event	FV_D31R0207_SEVEN1	
+F	434	Event	FV_D31R0207_SEVEN2	
+F	435	Event	FV_D31R0207_SEVEN3	
+F	436	Event	FV_D31R0207_SEVEN4	
+F	437	Event	FV_D31R0207_SEVEN5	
+F	438	Event	FV_T01R0201_RIVALMAMA	
+F	439	Event	FV_T01R0102_RIVAL	
+F	440	Event	FV_C09_GYMLEADER	
+F	441	Event	FV_C01R0701_RIVAL	
+F	442	Event	FV_C01_CROWN	
+F	443	Event	FV_C01_POKETCH	
+F	444	Event	FV_C01R0101_POKETCH	
+F	445	Event	FV_R205A_BABYGIRL1	
+F	446	Event	FV_D02R0101_BABYGIRL1	
+F	447	Event	FV_C08R0101_SEAMAN	
+F	448	Event	FV_C08R0101_SUNGLASSES	
+F	449	Event	FV_D03R0101_LEADER	
+F	450	Event	FV_C04_GINGA	
+F	451	Event	FV_C04PC0101_GONBE	
+F	452	Event	FV_C04R0204_MIDDLEM	
+F	453	Event	FV_C04R0101_PIPPI	
+F	454	Event	FV_C05R1102_CON1	
+F	455	Event	FV_C05R1102_CON2	
+F	456	Event	FV_C05R1102_CON3	
+F	457	Event	FV_C05R1102_CON4	
+F	458	Event	FV_C05R1102_CON5	
+F	459	Event	FV_C05_STOPPER	
+F	460	Event	FV_C05_RIVAL	
+F	461	Event	FV_C05R1101_MAMA	
+F	462	Event	FV_C05R1101_JUDGE	
+F	463	Event	FV_MYSTERY_POSTMAN	
+F	464	Event	FV_D02_FUUSEN	
+F	465	Event	FV_C06_GINGAM	
+F	466	Event	FV_TV_INTERVIEW_01	
+F	467	Event	FV_TV_INTERVIEW_02	
+F	468	Event	FV_TV_INTERVIEW_03	
+F	469	Event	FV_TV_INTERVIEW_04	
+F	470	Event	FV_TV_INTERVIEW_05	
+F	471	Event	FV_TV_INTERVIEW_06	
+F	472	Event	FV_TV_INTERVIEW_07	
+F	473	Event	FV_TV_INTERVIEW_08	
+F	474	Event	FV_TV_INTERVIEW_09	
+F	475	Event	FV_TV_INTERVIEW_10	
+F	476	Event	FV_TV_INTERVIEW_11	
+F	477	Event	FV_TV_INTERVIEW_12	
+F	478	Event	FV_TV_INTERVIEW_13	
+F	479	Event	FV_R213_GINGAM	
+F	480	Event	FV_L02_GINGAM_1	
+F	481	Event	FV_R218R0201_ASSISTANTM	
+F	482	Event	FV_C10R0101_RIVAL	
+F	483	Event	FV_T04R0501_BABYBOY1	
+F	484	Event	FV_D07R0105_BABYBOY1	
+F	485	Event	FV_C05_EGG	
+F	486	Event	FV_C04GYM0101_LEADER	
+F	487	Event	FV_C04R0401_ASSISTANTM	
+F	488	Event	FV_C07_GINGAM_3	
+F	489	Event	FV_D26R0101_DOOR	
+F	490	Event	FV_D26R0103_DOOR	
+F	491	Event	FV_D26R0104_DOOR	
+F	492	Event	FV_D26R0106_DOOR	
+F	493	Event	FV_C07R0301_BAR	
+F	494	Event	FV_T05R0501_OLDWOMAN	
+F	495	Event	FV_T02R0101_OOKIDO	
+F	496	Event	FV_D11R0101_PIPPI	
+F	497	Event	FV_D11R0101_KODAKKU	
+F	498	Event	FV_D11R0101_PATIRISSU	
+F	499	Event	FV_D11R0101_HUUSEN	
+F	500	Event	FV_D11R0101_MIMITTO	
+F	501	Event	FV_D11R0101_KORAKII	
+F	502	Event	FV_D11R0101_PURIN	
+F	503	Event	FV_D11R0101_ENEKO	
+F	504	Event	FV_D11R0101_KINOKOKO	
+F	505	Event	FV_L03_GINGAM	
+F	506	Event	FV_D05R0102_STOPPER	
+F	507	Event	FV_D26R0107_POKE	
+F	508	Event	FV_D26R0107_GKANBU	
+F	509	Event	FV_C01_CROWN3	
+F	510	Event	FV_C08_LEADER	
+F	511	Event	FV_C10R0112_CHAMP	
+F	512	Event	FV_C10R0112_DOCTOR	
+F	513	Event	FV_C05_JUDGE	
+F	514	Event	FV_C05_POKE	
+F	515	Event	FV_C05_LEADER	
+F	516	Event	FV_STOPPER_FRIENDBOOK	
+F	517	Event	FV_D30R0101_SPPOKE7	
+F	518	Event	FV_C02R0401_EVENT	
+F	519	Event	FV_C04R0601_OOKIDO	
+F	520	Event	FV_D20R0106_LEGEND	
+F	521	Event	FV_L02R0101_COUPLE1	
+F	522	Event	FV_L02R0101_COUPLE2	
+F	523	Event	FV_L02R0101_COUPLE3	
+F	524	Event	FV_L02R0101_COUPLE4	
+F	525	Event	FV_L02R0101_COUPLE5	
+F	526	Event	FV_L02R0101_COUPLE6	
+F	527	Event	FV_L02R0101_COUPLE7	
+F	528	Event	FV_L02R0101_COUPLE8	
+F	529	Event	FV_L02R0101_COUPLE9	
+F	530	Event	FV_D24R0201_LEADER	
+F	531	Event	FV_D05R0116_LEGEND	
+F	532	Event	FV_D15R0101_LEGEND	
+F	533	Event	FV_D17R0104_LEGEND	
+F	534	Event	FV_D18_LEGEND	
+F	535	Event	FV_R224_OOKIDO	
+F	536	Event	FV_C01R0201_SUNDAY	
+F	537	Event	FV_C01R0201_MONDAY	
+F	538	Event	FV_C01R0201_TUESDAY	
+F	539	Event	FV_C01R0201_WEDNESDAY	
+F	540	Event	FV_C01R0201_THURSDAY	
+F	541	Event	FV_C01R0201_THURSDAY2	
+F	542	Event	FV_C01R0201_FRIDAY	
+F	543	Event	FV_C01R0201_SATURDAY	
+F	544	Event	FV_C02R0501_SEAMAN	
+F	545	Event	FV_R224_LEGEND	
+F	546	Event	FV_L02_WOMAN2	
+F	547	Event	FV_L02R0201_WOMAN2	
+F	548	Event	FV_R217R0201_WOMAN1	
+F	549	Event	FV_R212A_POLICE1_NPC	
+F	550	Event	FV_R212A_POLICE1_TR	
+F	551	Event	FV_R212A_POLICE2_NPC	
+F	552	Event	FV_R212A_POLICE2_TR	
+F	553	Event	FV_R212A_POLICE3_NPC	
+F	554	Event	FV_R212A_POLICE3_TR	
+F	555	Event	FV_R212A_POLICE4_NPC	
+F	556	Event	FV_R212A_POLICE4_TR	
+F	557	Event	FV_R212B_POLICE5_NPC	
+F	558	Event	FV_R212B_POLICE5_TR	
+F	559	Event	FV_R222_POLICE6_NPC	
+F	560	Event	FV_R222_POLICE6_TR	
+F	561	Event	FV_R209_JOGGER1_NPC	
+F	562	Event	FV_R209_JOGGER1_TR	
+F	563	Event	FV_R209_JOGGER6_NPC	
+F	564	Event	FV_R209_JOGGER6_TR	
+F	565	Event	FV_R210A_JOGGER4_NPC	
+F	566	Event	FV_R210A_JOGGER4_TR	
+F	567	Event	FV_R215_JOGGER3_NPC	
+F	568	Event	FV_R215_JOGGER3_TR	
+F	569	Event	FV_R215_JOGGER5_NPC	
+F	570	Event	FV_R215_JOGGER5_TR	
+F	571	Event	FV_D31_TOWERBOSS	
+F	572	Event	FV_D31_RIVAL	
+F	573	Event	FV_D17R0104_ITEM	
+F	574	Event	FV_D30_SEAMAN	
+F	575	Event	FV_C09_SEAMAN	
+F	576	Event	FV_D25R0102_OLDMAN2	
+F	577	Event	FV_D25R0108_BABYGIRL1	
+F	578	Event	FV_L02_BIGMAN	
+F	579	Event	FV_D09R0101_BIGMAN	
+F	580	Event	FV_R221_STOPPER1	
+F	581	Event	FV_R221_STOPPER2	
+F	582	Event	FV_C08R0801_LEADER	
+F	583	Event	FV_C10R0103_DOOR_01	
+F	584	Event	FV_C10R0105_DOOR_01	
+F	585	Event	FV_C10R0107_DOOR_01	
+F	586	Event	FV_C10R0109_DOOR_01	
+F	587	Event	FV_C10R0103_DOOR_02	
+F	588	Event	FV_C10R0105_DOOR_02	
+F	589	Event	FV_C10R0107_DOOR_02	
+F	590	Event	FV_C10R0109_DOOR_02	
+F	591	Event	FV_R212AR0103_POLICEMAN	
+F	592	Event	FV_D27R0102_DOCTOR	
+F	593	Event	FV_D27R0102_SUPPORT	
+F	594	Event	FV_R227_SEVEN2	
+F	595	Event	FV_D05R0110_GINGAM	
+F	596	Event	FV_C01R0206_STOP	
+F	597	Event	FV_C01R0207_STOP	
+F	598	Event	FV_D26R0101_GKANBU	
+F	599	Event	FV_D29R0101_RIVAL	
+F	600	Event	FV_C11_STOP	
+F	601	Event	FV_D05R0112_GINGAW	
+F	602	Event	FV_D27R0103_DOCTOR	
+F	603	HiddenItem	FT_DROP_ITEM_0	Found Odd Keystone, Twinleaf Town
+F	604	HiddenItem	FT_DROP_ITEM_1	Found Potion, Verity Lakefront
+F	605	HiddenItem	FT_DROP_ITEM_2	Found Paralyze Heal, Jubilife City
+F	606	HiddenItem	FT_DROP_ITEM_3	Found Stardust, Oreburgh City
+F	607	HiddenItem	FT_DROP_ITEM_4	Found Max Elixir, Valley Windworks
+F	608	HiddenItem	FT_DROP_ITEM_5	Found Antidote, Route 205
+F	609	HiddenItem	FT_DROP_ITEM_6	Found Insect Plate, Eterna Forest
+F	610	HiddenItem	FT_DROP_ITEM_7	Found Antidote, Old Chateau, 1F
+F	611	HiddenItem	FT_DROP_ITEM_8	Found Honey, Route 205
+F	612	HiddenItem	FT_DROP_ITEM_9	Found Draco Plate, Eterna City
+F	613	HiddenItem	FT_DROP_ITEM_10	Found PP Up, Eterna City
+F	614	HiddenItem	FT_DROP_ITEM_11	Found Poké Ball, Route 211
+F	615	HiddenItem	FT_DROP_ITEM_12	Found Elixir, Route 206
+F	616	HiddenItem	FT_DROP_ITEM_13	Found Potion, Route 206
+F	617	HiddenItem	FT_DROP_ITEM_14	Found Super Potion, Wayward Cave, 1F
+F	618	HiddenItem	FT_DROP_ITEM_15	Found Nugget, Wayward Cave, 1F
+F	619	HiddenItem	FT_DROP_ITEM_16	Found Burn Heal, Wayward Cave, 1F
+F	620	HiddenItem	FT_DROP_ITEM_17	Found Potion, Wayward Cave, 1F
+F	621	HiddenItem	FT_DROP_ITEM_18	Found Potion, Wayward Cave, 1F
+F	622	HiddenItem	FT_DROP_ITEM_19	Found Tiny Mushroom, Wayward Cave, 1F
+F	623	HiddenItem	FT_DROP_ITEM_20	Found Stardust, Wayward Cave, B1F
+F	624	HiddenItem	FT_DROP_ITEM_21	Found Revive, Wayward Cave, B1F
+F	625	HiddenItem	FT_DROP_ITEM_22	Found Poké Ball, Route 207
+F	626	HiddenItem	FT_DROP_ITEM_23	Found Rare Candy, Route 207
+F	627	HiddenItem	FT_DROP_ITEM_24	Found Revive, Route 207
+F	628	HiddenItem	FT_DROP_ITEM_25	Found Ether, Mount Coronet
+F	629	HiddenItem	FT_DROP_ITEM_26	Found Iron, Route 208
+F	630	HiddenItem	FT_DROP_ITEM_27	Found Honey, Route 208
+F	631	HiddenItem	FT_DROP_ITEM_28	Found Tiny Mushroom, Hearthome City
+F	632	HiddenItem	FT_DROP_ITEM_29	Found Super Potion, Route 212
+F	633	HiddenItem	FT_DROP_ITEM_30	Found Great Ball, Route 212
+F	634	HiddenItem	FT_DROP_ITEM_31	Found Burn Heal, Pokémon Mansion
+F	635	HiddenItem	FT_DROP_ITEM_32	Found Protein, Route 212
+F	636	HiddenItem	FT_DROP_ITEM_33	Found Tiny Mushroom, Route 212
+F	637	HiddenItem	FT_DROP_ITEM_34	Found Revive, Route 212
+F	638	HiddenItem	FT_DROP_ITEM_35	Found Ether, Route 212
+F	639	HiddenItem	FT_DROP_ITEM_36	Found Heart Scale, Route 212
+F	640	HiddenItem	FT_DROP_ITEM_37	Found Hyper Potion, Route 212
+F	641	HiddenItem	FT_DROP_ITEM_38	Found Great Ball, Route 212
+F	642	HiddenItem	FT_DROP_ITEM_39	Found Rare Candy, Route 212
+F	643	HiddenItem	FT_DROP_ITEM_40	Found Full Heal, Pastoria City
+F	644	HiddenItem	FT_DROP_ITEM_41	Found Rare Candy, Great Marsh, Area 1
+F	645	HiddenItem	FT_DROP_ITEM_42	Found Toxic Plate, Great Marsh, Area 2
+F	646	HiddenItem	FT_DROP_ITEM_43	Found Ultra Ball, Great Marsh, Area 3
+F	647	HiddenItem	FT_DROP_ITEM_44	Found Nugget, Great Marsh, Area 4
+F	648	HiddenItem	FT_DROP_ITEM_45	Found Full Heal, Great Marsh, Area 5
+F	649	HiddenItem	FT_DROP_ITEM_46	Found Hyper Potion, Great Marsh, Area 6
+F	650	HiddenItem	FT_DROP_ITEM_47	Found Pearl, Route 213
+F	651	HiddenItem	FT_DROP_ITEM_48	Found Big Pearl, Route 213
+F	652	HiddenItem	FT_DROP_ITEM_49	Found Max Revive, Route 213
+F	653	HiddenItem	FT_DROP_ITEM_50	Found Awakening, Route 213
+F	654	HiddenItem	FT_DROP_ITEM_51	[unused?]
+F	655	HiddenItem	FT_DROP_ITEM_52	Found Pearl, Route 213
+F	656	HiddenItem	FT_DROP_ITEM_53	Found Hyper Potion, Route 213
+F	657	HiddenItem	FT_DROP_ITEM_54	Found Great Ball, Route 213
+F	658	HiddenItem	FT_DROP_ITEM_55	Found Calcium, Route 213
+F	659	HiddenItem	FT_DROP_ITEM_56	Found Super Potion, Route 213
+F	660	HiddenItem	FT_DROP_ITEM_57	Found Suite Key, Route 213
+F	661	HiddenItem	FT_DROP_ITEM_58	Found Max Revive, Route 213, House
+F	662	HiddenItem	FT_DROP_ITEM_59	Found Rare Candy, Valor Lakefront
+F	663	HiddenItem	FT_DROP_ITEM_60	Found Full Restore, Valor Lakefront
+F	664	HiddenItem	FT_DROP_ITEM_61	Found Max Ether, Valor Lakefront
+F	665	HiddenItem	FT_DROP_ITEM_62	Found Awakening, Route 209
+F	666	HiddenItem	FT_DROP_ITEM_63	Found Tiny Mushroom, Route 209
+F	667	HiddenItem	FT_DROP_ITEM_64	Found Super Potion, Route 209
+F	668	HiddenItem	FT_DROP_ITEM_65	Found Revive, Route 209
+F	669	HiddenItem	FT_DROP_ITEM_66	Found Stardust, Lost Tower, 2F
+F	670	HiddenItem	FT_DROP_ITEM_67	Found Great Ball, Lost Tower, 4F
+F	671	HiddenItem	FT_DROP_ITEM_68	[unused?]
+F	672	HiddenItem	FT_DROP_ITEM_69	Found Repel, Solaceon Ruin
+F	673	HiddenItem	FT_DROP_ITEM_70	Found Escape Rope, Solaceon Ruin
+F	674	HiddenItem	FT_DROP_ITEM_71	Found Big Mushroom, Solaceon Ruin
+F	675	HiddenItem	FT_DROP_ITEM_72	Found Ether, Route 210
+F	676	HiddenItem	FT_DROP_ITEM_73	Found Full Heal, Route 210
+F	677	HiddenItem	FT_DROP_ITEM_74	Found Great Ball, Route 210
+F	678	HiddenItem	FT_DROP_ITEM_75	Found Hyper Potion, Route 210
+F	679	HiddenItem	FT_DROP_ITEM_76	Found Burn Heal, Route 210
+F	680	HiddenItem	FT_DROP_ITEM_77	Found Honey, Route 215
+F	681	HiddenItem	FT_DROP_ITEM_78	Found Hyper Potion, Route 215
+F	682	HiddenItem	FT_DROP_ITEM_79	Found Zinc, Route 215
+F	683	HiddenItem	FT_DROP_ITEM_80	Found Revive, Veilstone City
+F	684	HiddenItem	FT_DROP_ITEM_81	Found Tiny Mushroom, Veilstone City
+F	685	HiddenItem	FT_DROP_ITEM_82	Found Honey, Route 214
+F	686	HiddenItem	FT_DROP_ITEM_83	Found Heart Scale, Route 214
+F	687	HiddenItem	FT_DROP_ITEM_84	Found Tiny Mushroom, Route 214
+F	688	HiddenItem	FT_DROP_ITEM_85	Found Meadow Plate, Route 210
+F	689	HiddenItem	FT_DROP_ITEM_86	Found Nugget, Route 210
+F	690	HiddenItem	FT_DROP_ITEM_87	Found Full Heal, Fuego Ironworks, Inside
+F	691	HiddenItem	FT_DROP_ITEM_88	Found Hyper Potion, Fuego Ironworks, Inside
+F	692	HiddenItem	FT_DROP_ITEM_89	[unused?]
+F	693	HiddenItem	FT_DROP_ITEM_90	[unused?]
+F	694	HiddenItem	FT_DROP_ITEM_91	Found Super Potion, Route 219
+F	695	HiddenItem	FT_DROP_ITEM_92	Found Pearl, Route 220
+F	696	HiddenItem	FT_DROP_ITEM_93	Found Tiny Mushroom, Route 221
+F	697	HiddenItem	FT_DROP_ITEM_94	Found Honey, Route 221
+F	698	HiddenItem	FT_DROP_ITEM_95	Found Ultra Ball, Route 221
+F	699	HiddenItem	FT_DROP_ITEM_96	Found Carbos, Route 221
+F	700	HiddenItem	FT_DROP_ITEM_97	Found Max Revive, Route 221
+F	701	HiddenItem	FT_DROP_ITEM_98	Found Pearl, Canalave City
+F	702	HiddenItem	FT_DROP_ITEM_99	Found Max Ether, Iron Island, Exterior
+F	703	HiddenItem	FT_DROP_ITEM_100	Found Tiny Mushroom, Iron Island, B1F 2
+F	704	HiddenItem	FT_DROP_ITEM_101	Found Iron, Iron Island, B2F 1
+F	705	HiddenItem	FT_DROP_ITEM_102	Found Full Restore, Iron Island, B2F 2
+F	706	HiddenItem	FT_DROP_ITEM_103	Found Revive, Iron Island, B2F 2
+F	707	HiddenItem	FT_DROP_ITEM_104	Found Iron Plate, Iron Island, B2F 2
+F	708	HiddenItem	FT_DROP_ITEM_105	Found HP Up, Lake Valor, Dried
+F	709	HiddenItem	FT_DROP_ITEM_106	Found Honey, Floarama Meadow
+F	710	HiddenItem	FT_DROP_ITEM_107	Found Honey, Floarama Meadow
+F	711	HiddenItem	FT_DROP_ITEM_108	Found Hyper Potion, Floarama Meadow
+F	712	HiddenItem	FT_DROP_ITEM_109	Found Full Heal, Floarama Meadow
+F	713	HiddenItem	FT_DROP_ITEM_110	Found Revive, Floarama Meadow
+F	714	HiddenItem	FT_DROP_ITEM_111	Found Antidote, Floarama Meadow
+F	715	HiddenItem	FT_DROP_ITEM_112	Found Super Potion, Floarama Meadow
+F	716	HiddenItem	FT_DROP_ITEM_113	Found Paralyze Heal, Floarama Meadow
+F	717	HiddenItem	FT_DROP_ITEM_114	Found Potion, Floarama Meadow
+F	718	HiddenItem	FT_DROP_ITEM_115	Found Max Potion, Floarama Meadow
+F	719	HiddenItem	FT_DROP_ITEM_116	Found Revive, Floarama Meadow
+F	720	HiddenItem	FT_DROP_ITEM_117	Found Zinc, Route 211
+F	721	HiddenItem	FT_DROP_ITEM_118	Found HP Up, Mount Coronet
+F	722	HiddenItem	FT_DROP_ITEM_119	Found Revive, Mount Coronet
+F	723	HiddenItem	FT_DROP_ITEM_120	Found Hyper Potion, Mount Coronet
+F	724	HiddenItem	FT_DROP_ITEM_121	Found Elixir, Mount Coronet
+F	725	HiddenItem	FT_DROP_ITEM_122	Found Tiny Mushroom, Mount Coronet
+F	726	HiddenItem	FT_DROP_ITEM_123	Found Tiny Mushroom, Mount Coronet
+F	727	HiddenItem	FT_DROP_ITEM_124	Found Nugget, Mount Coronet
+F	728	HiddenItem	FT_DROP_ITEM_125	Found PP Up, Mount Coronet
+F	729	HiddenItem	FT_DROP_ITEM_126	Found Rare Candy, Mount Coronet
+F	730	HiddenItem	FT_DROP_ITEM_127	Found Ultra Ball, Mount Coronet
+F	731	HiddenItem	FT_DROP_ITEM_128	Found Full Heal, Route 216
+F	732	HiddenItem	FT_DROP_ITEM_129	Found Calcium, Route 217
+F	733	HiddenItem	FT_DROP_ITEM_130	Found Max Revive, Route 217
+F	734	HiddenItem	FT_DROP_ITEM_131	Found Ultra Ball, Route 217
+F	735	HiddenItem	FT_DROP_ITEM_132	Found PP Up, Route 217
+F	736	HiddenItem	FT_DROP_ITEM_133	Found Max Repel, Route 217
+F	737	HiddenItem	FT_DROP_ITEM_134	Found Ultra Ball, Route 217
+F	738	HiddenItem	FT_DROP_ITEM_135	Found Protein, Route 217
+F	739	HiddenItem	FT_DROP_ITEM_136	Found Max Potion, Route 217
+F	740	HiddenItem	FT_DROP_ITEM_137	Found Full Heal, Route 217
+F	741	HiddenItem	FT_DROP_ITEM_138	Found Nugget, Route 217
+F	742	HiddenItem	FT_DROP_ITEM_139	[unused?]
+F	743	HiddenItem	FT_DROP_ITEM_140	Found Full Restore, Snowpoint Temple, B3F
+F	744	HiddenItem	FT_DROP_ITEM_141	Found PP Up, Galactic HQ, 1F
+F	745	HiddenItem	FT_DROP_ITEM_142	Found Ultra Ball, Galactic HQ, 2F
+F	746	HiddenItem	FT_DROP_ITEM_143	Found Full Heal, Galactic HQ, 2F
+F	747	HiddenItem	FT_DROP_ITEM_144	Found Elixir, Galactic HQ, 3F
+F	748	HiddenItem	FT_DROP_ITEM_145	Found Rare Candy, Galactic HQ, 3F
+F	749	HiddenItem	FT_DROP_ITEM_146	Found Full Restore, Galactic HQ, 3F
+F	750	HiddenItem	FT_DROP_ITEM_147	Found Nugget, Galactic HQ, Office
+F	751	HiddenItem	FT_DROP_ITEM_148	Found Ether, Mount Coronet
+F	752	HiddenItem	FT_DROP_ITEM_149	Found Max Revive, Mount Coronet
+F	753	HiddenItem	FT_DROP_ITEM_150	Found Super Repel, Mount Coronet
+F	754	HiddenItem	FT_DROP_ITEM_151	Found Stardust, Mount Coronet
+F	755	HiddenItem	FT_DROP_ITEM_152	Found Big Mushroom, Mount Coronet
+F	756	HiddenItem	FT_DROP_ITEM_153	Found Tiny Mushroom, Mount Coronet
+F	757	HiddenItem	FT_DROP_ITEM_154	Found Rare Candy, Mount Coronet
+F	758	HiddenItem	FT_DROP_ITEM_155	Found Max Potion, Mount Coronet
+F	759	HiddenItem	FT_DROP_ITEM_156	Found Full Heal, Mount Coronet
+F	760	HiddenItem	FT_DROP_ITEM_157	Found Nugget, Mount Coronet
+F	761	HiddenItem	FT_DROP_ITEM_158	Found Revive, Mount Coronet
+F	762	HiddenItem	FT_DROP_ITEM_159	Found Ether, Mount Coronet
+F	763	HiddenItem	FT_DROP_ITEM_160	Found Escape Rope, Mount Coronet
+F	764	HiddenItem	FT_DROP_ITEM_161	Found Ultra Ball, Mount Coronet
+F	765	HiddenItem	FT_DROP_ITEM_162	Found PP Up, Mount Coronet
+F	766	HiddenItem	FT_DROP_ITEM_163	Found Tiny Mushroom, Mount Coronet
+F	767	HiddenItem	FT_DROP_ITEM_164	Found Stone Plate, Mount Coronet
+F	768	HiddenItem	FT_DROP_ITEM_165	Found Tiny Mushroom, Mount Coronet
+F	769	HiddenItem	FT_DROP_ITEM_166	Found Stardust, Mount Coronet
+F	770	HiddenItem	FT_DROP_ITEM_167	Found Max Potion, Mount Coronet
+F	771	HiddenItem	FT_DROP_ITEM_168	Found Nugget, Mount Coronet
+F	772	HiddenItem	FT_DROP_ITEM_169	Found Rare Candy, Mount Coronet
+F	773	HiddenItem	FT_DROP_ITEM_170	Found Full Restore, Mount Coronet
+F	774	HiddenItem	FT_DROP_ITEM_171	Found Max Ether, Mount Coronet
+F	775	HiddenItem	FT_DROP_ITEM_172	Found Revive, Mount Coronet
+F	776	HiddenItem	FT_DROP_ITEM_173	Found Big Mushroom, Mount Coronet
+F	777	HiddenItem	FT_DROP_ITEM_174	Found Big Mushroom, Route 222
+F	778	HiddenItem	FT_DROP_ITEM_175	Found Honey, Route 222
+F	779	HiddenItem	FT_DROP_ITEM_176	Found Ultra Ball, Route 222
+F	780	HiddenItem	FT_DROP_ITEM_177	Found Zap Plate, Sunyshore City
+F	781	HiddenItem	FT_DROP_ITEM_178	Found Pearl, Sunyshore City
+F	782	HiddenItem	FT_DROP_ITEM_179	Found Big Pearl, Route 223
+F	783	HiddenItem	FT_DROP_ITEM_180	Found Max Elixir, Victory Road, 1F
+F	784	HiddenItem	FT_DROP_ITEM_181	Found Ultra Ball, Victory Road, 1F
+F	785	HiddenItem	FT_DROP_ITEM_182	Found Max Revive, Victory Road, 1F
+F	786	HiddenItem	FT_DROP_ITEM_183	Found Full Restore, Victory Road, 2F
+F	787	HiddenItem	FT_DROP_ITEM_184	Found Rare Candy, Victory Road, 2F
+F	788	HiddenItem	FT_DROP_ITEM_185	Found Pearl, Victory Road, B1F
+F	789	HiddenItem	FT_DROP_ITEM_186	Found Big Mushroom, Victory Road, B1F
+F	790	HiddenItem	FT_DROP_ITEM_187	Found Sky Plate, Pokémon League, Exterior
+F	791	HiddenItem	FT_DROP_ITEM_188	Found Full Restore, Victory Road, 1F Back 2
+F	792	HiddenItem	FT_DROP_ITEM_189	Found Big Mushroom, Victory Road, 1F Back 2
+F	793	HiddenItem	FT_DROP_ITEM_190	Found Max Revive, Victory Road, 1F Back 2
+F	794	HiddenItem	FT_DROP_ITEM_191	Found PP Max, Route 224
+F	795	HiddenItem	FT_DROP_ITEM_192	Found Stardust, Route 224
+F	796	HiddenItem	FT_DROP_ITEM_193	Found Stardust, Route 224
+F	797	HiddenItem	FT_DROP_ITEM_194	Found Stardust, Route 224
+F	798	HiddenItem	FT_DROP_ITEM_195	Found Pearl, Route 224
+F	799	HiddenItem	FT_DROP_ITEM_196	Found Pearl, Route 224
+F	800	HiddenItem	FT_DROP_ITEM_197	Found Big Pearl, Route 224
+F	801	HiddenItem	FT_DROP_ITEM_198	Found Nugget, Victory Road, 1F Back 2
+F	802	HiddenItem	FT_DROP_ITEM_199	Found Rare Candy, Victory Road, 1F Back 2
+F	803	HiddenItem	FT_DROP_ITEM_200	Found Ultra Ball, Route 225
+F	804	HiddenItem	FT_DROP_ITEM_201	Found Rare Candy, Route 225
+F	805	HiddenItem	FT_DROP_ITEM_202	Found Max Repel, Route 225
+F	806	HiddenItem	FT_DROP_ITEM_203	Found Hyper Potion, Route 225
+F	807	HiddenItem	FT_DROP_ITEM_204	Found Max Revive, Survival Area
+F	808	HiddenItem	FT_DROP_ITEM_205	Found Big Mushroom, Route 226
+F	809	HiddenItem	FT_DROP_ITEM_206	Found Tiny Mushroom, Route 226
+F	810	HiddenItem	FT_DROP_ITEM_207	Found Tiny Mushroom, Route 226
+F	811	HiddenItem	FT_DROP_ITEM_208	Found Big Pearl, Route 226
+F	812	HiddenItem	FT_DROP_ITEM_209	Found PP Up, Route 226
+F	813	HiddenItem	FT_DROP_ITEM_210	Found Protein, Route 227
+F	814	HiddenItem	FT_DROP_ITEM_211	Found Full Heal, Route 227
+F	815	HiddenItem	FT_DROP_ITEM_212	Found Max Elixir, Stark Mountain, Interior 1
+F	816	HiddenItem	FT_DROP_ITEM_213	Found Flame Plate, Stark Mountain, Interior 2
+F	817	HiddenItem	FT_DROP_ITEM_214	Found Zinc, Stark Mountain, Interior 2
+F	818	HiddenItem	FT_DROP_ITEM_215	Found Iron, Stark Mountain, Interior 2
+F	819	HiddenItem	FT_DROP_ITEM_216	Found Hyper Potion, Stark Mountain, Interior 2
+F	820	HiddenItem	FT_DROP_ITEM_217	Found Revive, Stark Mountain, Interior 2
+F	821	HiddenItem	FT_DROP_ITEM_218	Found Full Heal, Stark Mountain, Interior 2
+F	822	HiddenItem	FT_DROP_ITEM_219	Found Calcium, Route 228
+F	823	HiddenItem	FT_DROP_ITEM_220	Found Ultra Ball, Route 228
+F	824	HiddenItem	FT_DROP_ITEM_221	Found Stardust, Route 228
+F	825	HiddenItem	FT_DROP_ITEM_222	Found Rare Candy, Route 228
+F	826	HiddenItem	FT_DROP_ITEM_223	Found PP Up, Route 228
+F	827	HiddenItem	FT_DROP_ITEM_224	Found Full Restore, Route 228
+F	828	HiddenItem	FT_DROP_ITEM_225	Found Big Mushroom, Route 229
+F	829	HiddenItem	FT_DROP_ITEM_226	Found Nugget, Resort Area
+F	830	HiddenItem	FT_DROP_ITEM_227	Found Carbos, Route 230
+F	831	HiddenItem	FT_DROP_ITEM_228	[unused?]
+F	832	HiddenItem	FT_DROP_ITEM_229	Found Ultra Ball, Fuego Ironworks, Outside
+F	833	HiddenItem	FT_DROP_ITEM_230	Found Max Potion, Fuego Ironworks, Outside
+F	834	HiddenItem	FT_DROP_ITEM_231	Found Honey, Solaceon Town
+F	835	HiddenItem	FT_DROP_ITEM_232	Found Hyper Potion, Snowpoint City
+F	836	HiddenItem	FT_DROP_ITEM_233	Found HP Up, Route 230
+F	837	HiddenItem	FT_DROP_ITEM_234	[unused?]
+F	838	HiddenItem	FT_DROP_ITEM_235	[unused?]
+F	839	HiddenItem	FT_DROP_ITEM_236	[unused?]
+F	840	HiddenItem	FT_DROP_ITEM_237	[unused?]
+F	841	HiddenItem	FT_DROP_ITEM_238	[unused?]
+F	842	HiddenItem	FT_DROP_ITEM_239	[unused?]
+F	843	HiddenItem	FT_DROP_ITEM_240	[unused?]
+F	844	HiddenItem	FT_DROP_ITEM_241	[unused?]
+F	845	HiddenItem	FT_DROP_ITEM_242	[unused?]
+F	846	HiddenItem	FT_DROP_ITEM_243	[unused?]
+F	847	HiddenItem	FT_DROP_ITEM_244	[unused?]
+F	848	HiddenItem	FT_DROP_ITEM_245	[unused?]
+F	849	HiddenItem	FT_DROP_ITEM_246	[unused?]
+F	850	HiddenItem	FT_DROP_ITEM_247	[unused?]
+F	851	HiddenItem	FT_DROP_ITEM_248	[unused?]
+F	852	HiddenItem	FT_DROP_ITEM_249	[unused?]
+F	853	HiddenItem	FT_DROP_ITEM_250	[unused?]
+F	854	HiddenItem	FT_DROP_ITEM_251	[unused?]
+F	855	HiddenItem	FT_DROP_ITEM_252	[unused?]
+F	856	HiddenItem	FT_DROP_ITEM_253	[unused?]
+F	857	HiddenItem	FT_DROP_ITEM_254	[unused?]
+F	858	HiddenItem	FT_DROP_ITEM_255	[unused?]
+F	859	FieldItem	FV_FLD_ITEM_0	Potion item ball disappeared, Route 202
+F	860	FieldItem	FV_FLD_ITEM_1	Repel item ball disappeared, Route 203
+F	861	FieldItem	FV_FLD_ITEM_2	Poké Ball item ball disappeared, Route 203
+F	862	FieldItem	FV_FLD_ITEM_3	TM01 (Focus Punch) item ball disappeared, Oreburgh Gate, B1F
+F	863	FieldItem	FV_FLD_ITEM_4	TM31 (Brick Break) item ball disappeared, Oreburgh Gate, B1F
+F	864	FieldItem	FV_FLD_ITEM_5	TM70 (Flash) item ball disappeared, Oreburgh Gate, B1F
+F	865	FieldItem	FV_FLD_ITEM_6	Earth Plate item ball disappeared, Oreburgh Gate, B1F
+F	866	FieldItem	FV_FLD_ITEM_7	Escape Rope item ball disappeared, Oreburgh Mine, B2F
+F	867	FieldItem	FV_FLD_ITEM_8	Potion item ball disappeared, Oreburgh Mine, B2F
+F	868	FieldItem	FV_FLD_ITEM_9	Sea Incense item ball disappeared, Route 204
+F	869	FieldItem	FV_FLD_ITEM_10	HP Up item ball disappeared, Route 204
+F	870	FieldItem	FV_FLD_ITEM_11	TM39 (Rock Tomb) item ball disappeared, Ravaged Path
+F	871	FieldItem	FV_FLD_ITEM_12	Luck Incense item ball disappeared, Ravaged Path
+F	872	FieldItem	FV_FLD_ITEM_13	TM03 (Water Pulse) item ball disappeared, Ravaged Path
+F	873	FieldItem	FV_FLD_ITEM_14	TM09 (Bullet Seed) item ball disappeared, Route 204
+F	874	FieldItem	FV_FLD_ITEM_15	TM24 (Thunderbolt) item ball disappeared, Valley Windworks
+F	875	FieldItem	FV_FLD_ITEM_16	Poké Ball item ball disappeared, Route 205
+F	876	FieldItem	FV_FLD_ITEM_17	X Attack item ball disappeared, Route 205
+F	877	FieldItem	FV_FLD_ITEM_18	Antidote item ball disappeared, Eterna Forest
+F	878	FieldItem	FV_FLD_ITEM_19	Paralyze Heal item ball disappeared, Eterna Forest
+F	879	FieldItem	FV_FLD_ITEM_20	Great Ball item ball disappeared, Eterna Forest
+F	880	FieldItem	FV_FLD_ITEM_21	Honey item ball disappeared, Eterna Forest
+F	881	FieldItem	FV_FLD_ITEM_22	Old Gateau item ball disappeared, Old Chateau, 2F Room
+F	882	FieldItem	FV_FLD_ITEM_23	Potion item ball disappeared, Route 205
+F	883	FieldItem	FV_FLD_ITEM_24	TM46 (Thief) item ball disappeared, Eterna City
+F	885	FieldItem	FV_FLD_ITEM_26	Super Potion item ball disappeared, Eterna City
+F	886	FieldItem	FV_FLD_ITEM_27	TM12 (Taunt) item ball disappeared, Route 211
+F	887	FieldItem	FV_FLD_ITEM_28	TM82 (Sleep Talk) item ball disappeared, Eterna Forest, Outside
+F	888	FieldItem	FV_FLD_ITEM_29	Silver Powder item ball disappeared, Eterna Forest, Outside
+F	889	FieldItem	FV_FLD_ITEM_30	Poison Barb item ball disappeared, Route 206
+F	890	FieldItem	FV_FLD_ITEM_31	Full Heal item ball disappeared, Route 206
+F	891	FieldItem	FV_FLD_ITEM_32	Super Repel item ball disappeared, Route 206
+F	892	FieldItem	FV_FLD_ITEM_33	Burn Heal item ball disappeared, Route 206
+F	893	FieldItem	FV_FLD_ITEM_34	TM32 (Double Team) item ball disappeared, Wayward Cave, 1F
+F	894	FieldItem	FV_FLD_ITEM_35	Rare Candy item ball disappeared, Wayward Cave, 1F
+F	895	FieldItem	FV_FLD_ITEM_36	Escape Rope item ball disappeared, Wayward Cave, 1F
+F	896	FieldItem	FV_FLD_ITEM_37	Adamant Orb (BD) item ball disappeared, Spear Pillar
+F	897	FieldItem	FV_FLD_ITEM_38	TM26 (Earthquake) item ball disappeared, Wayward Cave, 1F
+F	898	FieldItem	FV_FLD_ITEM_39	Lustrous Orb (SP) item ball disappeared, Spear Pillar
+F	899	FieldItem	FV_FLD_ITEM_40	Max Ether item ball disappeared, Wayward Cave, B1F
+F	900	FieldItem	FV_FLD_ITEM_41	Revive item ball disappeared, Wayward Cave, B1F
+F	901	FieldItem	FV_FLD_ITEM_42	Grip Claw item ball disappeared, Wayward Cave, B1F
+F	902	FieldItem	FV_FLD_ITEM_43	Poké Ball item ball disappeared, Route 207
+F	903	FieldItem	FV_FLD_ITEM_44	Dire Hit item ball disappeared, Route 207
+F	904	FieldItem	FV_FLD_ITEM_45	Iron item ball disappeared, Route 207
+F	905	FieldItem	FV_FLD_ITEM_46	Protein item ball disappeared, Mount Coronet
+F	906	FieldItem	FV_FLD_ITEM_47	Dawn Stone item ball disappeared, Mount Coronet
+F	907	FieldItem	FV_FLD_ITEM_48	Carbos item ball disappeared, Route 208
+F	908	FieldItem	FV_FLD_ITEM_49	X Speed item ball disappeared, Route 208
+F	909	FieldItem	FV_FLD_ITEM_50	Poké Ball item ball disappeared, Route 208
+F	910	FieldItem	FV_FLD_ITEM_51	TM45 (Attract) item ball disappeared, Amity Square
+F	911	FieldItem	FV_FLD_ITEM_52	TM43 (Volt Switch) item ball disappeared, Amity Square
+F	912	FieldItem	FV_FLD_ITEM_53	Spooky Plate item ball disappeared, Amity Square
+F	913	FieldItem	FV_FLD_ITEM_54	TM11 (Sunny Day) item ball disappeared, Route 212
+F	914	FieldItem	FV_FLD_ITEM_55	Rose Incense item ball disappeared, Route 212
+F	915	FieldItem	FV_FLD_ITEM_56	Elixir item ball disappeared, Route 212
+F	916	FieldItem	FV_FLD_ITEM_57	TM87 (Swagger) item ball disappeared, Pokémon Mansion
+F	917	FieldItem	FV_FLD_ITEM_58	Great Ball item ball disappeared, Pokémon Mansion
+F	918	FieldItem	FV_FLD_ITEM_59	Antidote item ball disappeared, Route 212
+F	919	FieldItem	FV_FLD_ITEM_60	TM84 (Poison Jab) item ball disappeared, Route 212
+F	920	FieldItem	FV_FLD_ITEM_61	TM62 (Bug Buzz) item ball disappeared, Route 212
+F	921	FieldItem	FV_FLD_ITEM_62	Zinc item ball disappeared, Route 212
+F	922	FieldItem	FV_FLD_ITEM_63	X Sp. Attack item ball disappeared, Route 212
+F	923	FieldItem	FV_FLD_ITEM_64	TM06 (Toxic) item ball disappeared, Route 212
+F	924	FieldItem	FV_FLD_ITEM_65	Revive item ball disappeared, Route 212
+F	925	FieldItem	FV_FLD_ITEM_66	Super Repel item ball disappeared, Great Marsh, Area 1
+F	926	FieldItem	FV_FLD_ITEM_67	Potion item ball disappeared, Great Marsh, Area 1
+F	927	FieldItem	FV_FLD_ITEM_68	Great Ball item ball disappeared, Great Marsh, Area 2
+F	928	FieldItem	FV_FLD_ITEM_69	Super Potion item ball disappeared, Great Marsh, Area 4
+F	929	FieldItem	FV_FLD_ITEM_70	Honey item ball disappeared, Great Marsh, Area 3
+F	930	FieldItem	FV_FLD_ITEM_71	Poké Ball item ball disappeared, Great Marsh, Area 4
+F	931	FieldItem	FV_FLD_ITEM_72	Antidote item ball disappeared, Great Marsh, Area 5
+F	932	FieldItem	FV_FLD_ITEM_73	Paralyze Heal item ball disappeared, Great Marsh, Area 6
+F	933	FieldItem	FV_FLD_ITEM_74	Mystic Water item ball disappeared, Pastoria City
+F	934	FieldItem	FV_FLD_ITEM_75	TM05 (Roar) item ball disappeared, Route 213
+F	935	FieldItem	FV_FLD_ITEM_76	TM40 (Aerial Ace) item ball disappeared, Route 213
+F	936	FieldItem	FV_FLD_ITEM_77	Red Shard item ball disappeared, Route 213
+F	937	FieldItem	FV_FLD_ITEM_78	Max Revive item ball disappeared, Route 213
+F	938	FieldItem	FV_FLD_ITEM_79	Water Stone item ball disappeared, Route 213
+F	939	FieldItem	FV_FLD_ITEM_80	PP Up item ball disappeared, Route 213
+F	940	FieldItem	FV_FLD_ITEM_81	Protein item ball disappeared, Route 213
+F	941	FieldItem	FV_FLD_ITEM_82	Paralyze Heal item ball disappeared, Route 204
+F	942	FieldItem	FV_FLD_ITEM_83	TM85 (Dream Eater) item ball disappeared, Valor Lakefront
+F	943	FieldItem	FV_FLD_ITEM_84	Paralyze Heal item ball disappeared, Valor Lakefront
+F	944	FieldItem	FV_FLD_ITEM_85	Ether item ball disappeared, Eterna Forest
+F	945	FieldItem	FV_FLD_ITEM_86	Honey item ball disappeared, Route 209
+F	946	FieldItem	FV_FLD_ITEM_87	X Accuracy item ball disappeared, Route 209
+F	947	FieldItem	FV_FLD_ITEM_88	Calcium item ball disappeared, Route 209
+F	948	FieldItem	FV_FLD_ITEM_89	TM47 (Steel Wing) item ball disappeared, Route 209
+F	949	FieldItem	FV_FLD_ITEM_90	TM19 (Giga Drain) item ball disappeared, Route 209
+F	950	FieldItem	FV_FLD_ITEM_91	Oval Stone item ball disappeared, Lost Tower, 2F
+F	951	FieldItem	FV_FLD_ITEM_92	Lunar Feather item ball disappeared, Fullmoon Island
+F	952	FieldItem	FV_FLD_ITEM_93	Revive item ball disappeared, Lost Tower, 3F
+F	953	FieldItem	FV_FLD_ITEM_94	TM27 (Low Sweep) item ball disappeared, Lost Tower, 4F
+F	954	FieldItem	FV_FLD_ITEM_95	Mind Plate item ball disappeared, Solaceon Ruin
+F	955	FieldItem	FV_FLD_ITEM_96	Odd Incense item ball disappeared, Solaceon Ruin
+F	956	FieldItem	FV_FLD_ITEM_97	Nugget item ball disappeared, Solaceon Ruin
+F	957	FieldItem	FV_FLD_ITEM_98	Rare Candy item ball disappeared, Solaceon Ruin
+F	958	FieldItem	FV_FLD_ITEM_99	Great Ball item ball disappeared, Route 210
+F	959	FieldItem	FV_FLD_ITEM_100	Super Repel item ball disappeared, Route 210
+F	960	FieldItem	FV_FLD_ITEM_101	Pure Incense item ball disappeared, Route 221
+F	961	FieldItem	FV_FLD_ITEM_102	Ultra Ball item ball disappeared, Route 210
+F	962	FieldItem	FV_FLD_ITEM_103	Hyper Potion item ball disappeared, Route 210
+F	963	FieldItem	FV_FLD_ITEM_104	Fist Plate item ball disappeared, Route 215
+F	964	FieldItem	FV_FLD_ITEM_105	Guard Spec. item ball disappeared, Route 215
+F	965	FieldItem	FV_FLD_ITEM_106	Ether item ball disappeared, Route 215
+F	966	FieldItem	FV_FLD_ITEM_107	Full Heal item ball disappeared, Route 215
+F	967	FieldItem	FV_FLD_ITEM_108	TM34 (Shock Wave) item ball disappeared, Route 215
+F	968	FieldItem	FV_FLD_ITEM_109	Full Incense item ball disappeared, Veilstone City
+F	969	FieldItem	FV_FLD_ITEM_110	PP Up item ball disappeared, Veilstone City
+F	970	FieldItem	FV_FLD_ITEM_111	Dusk Stone item ball disappeared, Veilstone City, Galactic Warehouse
+F	971	FieldItem	FV_FLD_ITEM_112	Big Root item ball disappeared, Route 214
+F	972	FieldItem	FV_FLD_ITEM_113	Max Potion item ball disappeared, Route 214
+F	973	FieldItem	FV_FLD_ITEM_114	X Sp. Def item ball disappeared, Route 214
+F	974	FieldItem	FV_FLD_ITEM_115	Rare Candy item ball disappeared, Route 214
+F	975	FieldItem	FV_FLD_ITEM_116	TM28 (Dig) item ball disappeared, Ruin Maniac Cave
+F	976	FieldItem	FV_FLD_ITEM_117	Smoke Ball item ball disappeared, Route 210
+F	977	FieldItem	FV_FLD_ITEM_118	Wave Incense item ball disappeared, Route 210
+F	978	FieldItem	FV_FLD_ITEM_119	TM30 (Shadow Ball) item ball disappeared, Route 210
+F	979	FieldItem	FV_FLD_ITEM_120	TM35 (Flamethrower) item ball disappeared, Fuego Ironworks, Inside
+F	980	FieldItem	FV_FLD_ITEM_121	Rock Incense item ball disappeared, Fuego Ironworks, Inside
+F	981	FieldItem	FV_FLD_ITEM_122	Burn Heal item ball disappeared, Fuego Ironworks, Inside
+F	982	FieldItem	FV_FLD_ITEM_123	Fire Stone item ball disappeared, Fuego Ironworks, Inside
+F	983	FieldItem	FV_FLD_ITEM_124	Antidote item ball disappeared, Route 219
+F	984	FieldItem	FV_FLD_ITEM_125	Splash Plate item ball disappeared, Route 220
+F	985	FieldItem	FV_FLD_ITEM_126	Repel item ball disappeared, Route 205
+F	986	FieldItem	FV_FLD_ITEM_127	Carbos item ball disappeared, Route 220
+F	987	FieldItem	FV_FLD_ITEM_128	Ether item ball disappeared, Route 220
+F	988	FieldItem	FV_FLD_ITEM_129	Honey item ball disappeared, Route 221
+F	989	FieldItem	FV_FLD_ITEM_130	Protein item ball disappeared, Route 221
+F	990	FieldItem	FV_FLD_ITEM_131	TM81 (X-Scissor) item ball disappeared, Route 221
+F	991	FieldItem	FV_FLD_ITEM_132	Rare Candy item ball disappeared, Route 218
+F	992	FieldItem	FV_FLD_ITEM_133	Honey item ball disappeared, Route 218
+F	993	FieldItem	FV_FLD_ITEM_134	TM89 (U-turn) item ball disappeared, Canalave City
+F	994	FieldItem	FV_FLD_ITEM_135	Iron Ball item ball disappeared, Iron Island, B1F 1
+F	995	FieldItem	FV_FLD_ITEM_136	Escape Rope item ball disappeared, Iron Island, B1F 2
+F	996	FieldItem	FV_FLD_ITEM_137	Super Repel item ball disappeared, Iron Island, B1F 2
+F	997	FieldItem	FV_FLD_ITEM_138	Max Ether item ball disappeared, Iron Island, B2F 1
+F	998	FieldItem	FV_FLD_ITEM_139	TM23 (Iron Tail) item ball disappeared, Iron Island, B2F 1
+F	999	FieldItem	FV_FLD_ITEM_140	Ultra Ball item ball disappeared, Iron Island, B2F 2
+F	1000	FieldItem	FV_FLD_ITEM_141	Max Potion item ball disappeared, Iron Island, B2F 2
+F	1001	FieldItem	FV_FLD_ITEM_142	Magnet item ball disappeared, Iron Island, B2F 2
+F	1002	FieldItem	FV_FLD_ITEM_143	HP Up item ball disappeared, Iron Island, B2F 2
+F	1003	FieldItem	FV_FLD_ITEM_144	Shiny Stone item ball disappeared, Iron Island, B3F 2
+F	1004	FieldItem	FV_FLD_ITEM_145	Super Potion item ball disappeared, Route 207
+F	1005	FieldItem	FV_FLD_ITEM_146	Miracle Seed item ball disappeared, Floarama Meadow
+F	1006	FieldItem	FV_FLD_ITEM_147	TM29 (Psychic) item ball disappeared, Route 211
+F	1007	FieldItem	FV_FLD_ITEM_148	TM69 (Rock Polish) item ball disappeared, Mount Coronet
+F	1008	FieldItem	FV_FLD_ITEM_149	Escape Rope item ball disappeared, Mount Coronet
+F	1009	FieldItem	FV_FLD_ITEM_150	Rare Candy item ball disappeared, Mount Coronet
+F	1010	FieldItem	FV_FLD_ITEM_151	Soft Sand item ball disappeared, Mount Coronet
+F	1011	FieldItem	FV_FLD_ITEM_152	Light Clay item ball disappeared, Mount Coronet
+F	1012	FieldItem	FV_FLD_ITEM_153	Stardust item ball disappeared, Mount Coronet
+F	1013	FieldItem	FV_FLD_ITEM_154	Full Restore item ball disappeared, Mount Coronet
+F	1014	FieldItem	FV_FLD_ITEM_155	Max Elixir item ball disappeared, Mount Coronet
+F	1015	FieldItem	FV_FLD_ITEM_156	Revive item ball disappeared, Mount Coronet
+F	1016	FieldItem	FV_FLD_ITEM_157	TM13 (Ice Beam) item ball disappeared, Route 216
+F	1017	FieldItem	FV_FLD_ITEM_158	Mental Herb item ball disappeared, Route 216
+F	1018	FieldItem	FV_FLD_ITEM_159	Ice Heal item ball disappeared, Route 216
+F	1019	FieldItem	FV_FLD_ITEM_160	TM07 (Hail) item ball disappeared, Route 217
+F	1020	FieldItem	FV_FLD_ITEM_161	TM100 (Rock Climb) item ball disappeared, Route 217
+F	1021	FieldItem	FV_FLD_ITEM_162	Iron item ball disappeared, Route 217
+F	1022	FieldItem	FV_FLD_ITEM_163	Ultra Ball item ball disappeared, Acuity Lakefront
+F	1023	FieldItem	FV_FLD_ITEM_164	TM36 (Sludge Bomb) item ball disappeared, Galactic HQ, Underpass
+F	1024	FieldItem	FV_FLD_ITEM_165	TM49 (Scald) item ball disappeared, Galactic HQ, 1F
+F	1025	FieldItem	FV_FLD_ITEM_166	TM21 (Dazzling Gleam) item ball disappeared, Galactic HQ, 3F
+F	1026	FieldItem	FV_FLD_ITEM_167	Max Revive item ball disappeared, Galactic HQ, 2F
+F	1027	FieldItem	FV_FLD_ITEM_168	Elixir item ball disappeared, Galactic HQ, 3F
+F	1028	FieldItem	FV_FLD_ITEM_169	Stardust item ball disappeared, Oreburgh Gate, B1F
+F	1029	FieldItem	FV_FLD_ITEM_170	Revive item ball disappeared, Mount Coronet
+F	1030	FieldItem	FV_FLD_ITEM_171	TM80 (Rock Slide) item ball disappeared, Mount Coronet
+F	1031	FieldItem	FV_FLD_ITEM_172	Max Potion item ball disappeared, Mount Coronet
+F	1032	FieldItem	FV_FLD_ITEM_173	Escape Rope item ball disappeared, Mount Coronet
+F	1033	FieldItem	FV_FLD_ITEM_174	TM02 (Dragon Claw) item ball disappeared, Mount Coronet
+F	1034	FieldItem	FV_FLD_ITEM_175	Carbos item ball disappeared, Route 222
+F	1035	FieldItem	FV_FLD_ITEM_176	Honey item ball disappeared, Route 222
+F	1036	FieldItem	FV_FLD_ITEM_177	Thunder Stone item ball disappeared, Sunyshore City
+F	1037	FieldItem	FV_FLD_ITEM_178	Pearl item ball disappeared, Route 223
+F	1039	FieldItem	FV_FLD_ITEM_180	TM18 (Rain Dance) item ball disappeared, Route 223
+F	1040	FieldItem	FV_FLD_ITEM_181	TM41 (Torment) item ball disappeared, Victory Road, 1F
+F	1041	FieldItem	FV_FLD_ITEM_182	Full Heal item ball disappeared, Victory Road, 1F
+F	1042	FieldItem	FV_FLD_ITEM_183	Rare Candy item ball disappeared, Victory Road, 1F
+F	1043	FieldItem	FV_FLD_ITEM_184	Zinc item ball disappeared, Victory Road, 1F
+F	1044	FieldItem	FV_FLD_ITEM_185	Razor Claw item ball disappeared, Victory Road, 1F
+F	1045	FieldItem	FV_FLD_ITEM_186	Max Ether item ball disappeared, Victory Road, 2F
+F	1046	FieldItem	FV_FLD_ITEM_187	Full Restore item ball disappeared, Victory Road, 2F
+F	1047	FieldItem	FV_FLD_ITEM_188	TM79 (Dark Pulse) item ball disappeared, Victory Road, 2F
+F	1048	FieldItem	FV_FLD_ITEM_189	TM71 (Stone Edge) item ball disappeared, Victory Road, 2F
+F	1049	FieldItem	FV_FLD_ITEM_190	TM59 (Dragon Pulse) item ball disappeared, Victory Road, B1F
+F	1050	FieldItem	FV_FLD_ITEM_191	Elixir item ball disappeared, Victory Road, 1F Back 2
+F	1051	FieldItem	FV_FLD_ITEM_192	Dusk Stone item ball disappeared, Victory Road, 1F Back 2
+F	1052	FieldItem	FV_FLD_ITEM_193	Big Pearl item ball disappeared, Victory Road, 1F Back 2
+F	1053	FieldItem	FV_FLD_ITEM_194	Razor Claw item ball disappeared, Route 224
+F	1054	FieldItem	FV_FLD_ITEM_195	Rare Candy item ball disappeared, Route 224
+F	1055	FieldItem	FV_FLD_ITEM_196	Destiny Knot item ball disappeared, Route 224
+F	1056	FieldItem	FV_FLD_ITEM_197	Leftovers item ball disappeared, Victory Road, 1F Back 2
+F	1057	FieldItem	FV_FLD_ITEM_198	HP Up item ball disappeared, Route 225
+F	1058	FieldItem	FV_FLD_ITEM_199	Rare Candy item ball disappeared, Route 225
+F	1059	FieldItem	FV_FLD_ITEM_200	Ultra Ball item ball disappeared, Route 225
+F	1060	FieldItem	FV_FLD_ITEM_201	Lax Incense item ball disappeared, Route 225
+F	1061	FieldItem	FV_FLD_ITEM_202	Dubious Disc item ball disappeared, Route 225
+F	1062	FieldItem	FV_FLD_ITEM_203	Dawn Stone item ball disappeared, Route 225
+F	1063	FieldItem	FV_FLD_ITEM_204	Revive item ball disappeared, Route 225
+F	1064	FieldItem	FV_FLD_ITEM_205	TM53 (Energy Ball) item ball disappeared, Route 226
+F	1065	FieldItem	FV_FLD_ITEM_206	Lagging Tail item ball disappeared, Route 226
+F	1066	FieldItem	FV_FLD_ITEM_207	Carbos item ball disappeared, Route 226
+F	1067	FieldItem	FV_FLD_ITEM_208	Charcoal item ball disappeared, Route 227
+F	1068	FieldItem	FV_FLD_ITEM_209	Zinc item ball disappeared, Route 227
+F	1069	FieldItem	FV_FLD_ITEM_210	Ether item ball disappeared, Stark Mountain, Exterior
+F	1070	FieldItem	FV_FLD_ITEM_211	Life Orb item ball disappeared, Stark Mountain, Exterior
+F	1071	FieldItem	FV_FLD_ITEM_212	Burn Heal item ball disappeared, Stark Mountain, Interior 1
+F	1072	FieldItem	FV_FLD_ITEM_213	Escape Rope item ball disappeared, Stark Mountain, Interior 1
+F	1073	FieldItem	FV_FLD_ITEM_214	PP Up item ball disappeared, Stark Mountain, Interior 1
+F	1074	FieldItem	FV_FLD_ITEM_215	Full Restore item ball disappeared, Stark Mountain, Interior 1
+F	1075	FieldItem	FV_FLD_ITEM_216	TM50 (Overheat) item ball disappeared, Stark Mountain, Interior 2
+F	1076	FieldItem	FV_FLD_ITEM_217	Iron Ball item ball disappeared, Stark Mountain, Interior 2
+F	1077	FieldItem	FV_FLD_ITEM_218	Max Elixir item ball disappeared, Stark Mountain, Interior 2
+F	1078	FieldItem	FV_FLD_ITEM_219	Nugget item ball disappeared, Stark Mountain, Interior 2
+F	1079	FieldItem	FV_FLD_ITEM_220	Rare Candy item ball disappeared, Stark Mountain, Interior 2
+F	1080	FieldItem	FV_FLD_ITEM_221	Ultra Ball item ball disappeared, Stark Mountain, Interior 2
+F	1081	FieldItem	FV_FLD_ITEM_222	Max Revive item ball disappeared, Stark Mountain, Interior 2
+F	1082	FieldItem	FV_FLD_ITEM_223	Calcium item ball disappeared, Stark Mountain, Interior 2
+F	1083	FieldItem	FV_FLD_ITEM_224	Protector item ball disappeared, Route 228
+F	1084	FieldItem	FV_FLD_ITEM_225	Iron item ball disappeared, Route 228
+F	1085	FieldItem	FV_FLD_ITEM_226	Shiny Stone item ball disappeared, Route 228
+F	1086	FieldItem	FV_FLD_ITEM_227	Shed Shell item ball disappeared, Route 228
+F	1087	FieldItem	FV_FLD_ITEM_228	TM37 (Sandstorm) item ball disappeared, Route 228
+F	1088	FieldItem	FV_FLD_ITEM_229	Reaper Cloth item ball disappeared, Route 229
+F	1089	FieldItem	FV_FLD_ITEM_230	Protein item ball disappeared, Route 229
+F	1090	FieldItem	FV_FLD_ITEM_231	Full Restore item ball disappeared, Route 229
+F	1091	FieldItem	FV_FLD_ITEM_232	Nugget item ball disappeared, Resort Area
+F	1092	FieldItem	FV_FLD_ITEM_233	Rare Candy item ball disappeared, Route 230
+F	1093	FieldItem	FV_FLD_ITEM_234	Leaf Stone item ball disappeared, Floarama Meadow
+F	1094	FieldItem	FV_FLD_ITEM_235	X Defense item ball disappeared, Oreburgh Mine, B1F
+F	1095	FieldItem	FV_FLD_ITEM_236	TM94 (Fly) item ball disappeared, Veilstone City, Galactic Warehouse
+F	1096	FieldItem	FV_FLD_ITEM_237	Galactic Key item ball disappeared, Galactic HQ, Underpass
+F	1097	FieldItem	FV_FLD_ITEM_238	Storage Key item ball disappeared, Veilstone City
+F	1098	FieldItem	FV_FLD_ITEM_239	TM38 (Fire Blast) item ball disappeared, Lake Verity
+F	1099	FieldItem	FV_FLD_ITEM_240	TM25 (Thunder) item ball disappeared, Lake Valor
+F	1100	FieldItem	FV_FLD_ITEM_241	TM14 (Blizzard) item ball disappeared, Lake Acuity
+F	1101	FieldItem	FV_FLD_ITEM_242	Calcium item ball disappeared, Snowpoint Temple, B1F
+F	1102	FieldItem	FV_FLD_ITEM_243	Never-Melt Ice item ball disappeared, Snowpoint Temple, B4F
+F	1103	FieldItem	FV_FLD_ITEM_244	Zinc item ball disappeared, Galactic HQ, Underpass
+F	1104	FieldItem	FV_FLD_ITEM_245	Razor Fang item ball disappeared, Battle Park
+F	1105	FieldItem	FV_FLD_ITEM_246	HP Up item ball disappeared, Route 216
+F	1106	FieldItem	FV_FLD_ITEM_247	Dread Plate item ball disappeared, Old Chateau, 2F West Room
+F	1107	FieldItem	FV_FLD_ITEM_248	TM90 (Substitute) item ball disappeared, Old Chateau, 2F East Room
+F	1108	FieldItem	FV_FLD_ITEM_249	Potion item ball disappeared, Eterna Forest
+F	1109	FieldItem	FV_FLD_ITEM_250	Amulet Coin item ball disappeared, Amity Square
+F	1110	FieldItem	FV_FLD_ITEM_251	Antidote item ball disappeared, Ravaged Path
+F	1111	FieldItem	FV_FLD_ITEM_252	Potion item ball disappeared, Valley Windworks
+F	1112	FieldItem	FV_FLD_ITEM_253	Super Potion item ball disappeared, Route 205
+F	1113	FieldItem	FV_FLD_ITEM_254	Awakening item ball disappeared, Route 204
+F	1115	Event	TMFLG_SEED_PRESENT	
+F	1116	ItemGift	TMFLG_T05PC0101_ITEM_GET	
+F	1117	Event	TMFLG_URANIWA_ENCOUNT	
+F	1118	Event	TMFLG_C06R0201_SEED_PRESENT	
+F	1119	ItemGift	TMFLG_C08R0201_RIBBON_GET	
+F	1120	Event	TMFLG_T07R0101_ESTHTIQUE	
+F	1121	Event	TMFLG_C08R0201_WEEK_TALK	
+F	1122	Event	TMFLG_C08R0201_FIRST_DAY	
+F	1123	Event	TMFLG_D02_FUUSEN	
+F	1124	Event	TMFLG_KUJI_DAY	
+F	1125	Event	TMFLG_T03R0101_SEED_PRESENT	
+F	1126	Event	TMFLG_L02R0101_INIT	
+F	1127	Event	TMFLG_C07R0801_DRESSING	
+F	1128	Event	TMFLG_C09R0201_NANKAI	
+F	1129	ItemGift	TMFLG_R221R0201_ITEM_GET	
+F	1130	Event	TMFLG_C01R0201_BATTLE_END	
+F	1131	Event	TMFLG_D25R0106_SPPOKE_END	
+F	1132	Event	TMFLG_T04R0301_NEWS_END	
+F	1133	Event	TMFLG_C11_RIVAL_BTL	
+F	1134	Event	FV_ROTOMU_HOT	
+F	1135	Event	FV_ROTOMU_WASH	
+F	1136	Event	FV_ROTOMU_COLD	
+F	1137	Event	FV_ROTOMU_FAN	
+F	1138	Event	FV_ROTOMU_CUT	
+F	1139	Event	FV_C04R0205_DOCTOR	
+F	1140	Event	FE_ROTOMU_FORM_FIRST	
+F	1141	Event	FV_C04R0201_DOOR	
+F	1142	Event	FV_R224_MAI	
+F	1143	Misc	FE_D31R0201_JUDGE_TALK	
+F	1144	Event	FV_D31R0201_PRIZEMAN2	
+F	1145	Event	F_PD_LOAD_001	
+F	1146	Event	F_PD_LOAD_002	
+F	1147	Event	F_PD_LOAD_003	
+F	1148	Event	F_PD_LOAD_004	
+F	1149	Event	F_PD_LOAD_005	
+F	1150	Event	F_PD_LOAD_006	
+F	1151	Event	F_PD_LOAD_007	
+F	1152	Event	F_PD_LOAD_008	
+F	1153	Event	F_PD_LOAD_009	
+F	1154	Event	F_PD_LOAD_010	
+F	1155	Event	F_PD_LOAD_011	
+F	1156	Event	F_PD_LOAD_012	
+F	1157	Event	F_PD_LOAD_013	
+F	1158	Event	F_PD_LOAD_014	
+F	1159	Event	F_PD_LOAD_015	
+F	1160	Event	F_PD_LOAD_016	
+F	1161	Event	F_PD_LOAD_017	
+F	1162	Event	F_PD_LOAD_018	
+F	1163	Event	F_PD_LOAD_019	
+F	1164	Event	F_PD_LOAD_020	
+F	1165	Event	F_PD_LOAD_021	
+F	1166	Event	F_PD_LOAD_022	
+F	1167	Event	F_PD_LOAD_023	
+F	1168	Event	F_PD_LOAD_024	
+F	1169	Event	F_PD_LOAD_025	
+F	1170	Event	F_PD_LOAD_026	
+F	1171	Event	F_PD_LOAD_027	
+F	1172	Event	F_PD_LOAD_028	
+F	1173	Event	F_PD_LOAD_029	
+F	1174	Event	F_PD_LOAD_030	
+F	1175	Event	F_PD_LOAD_031	
+F	1176	Event	F_PD_LOAD_032	
+F	1177	Event	F_PD_LOAD_033	
+F	1178	Event	F_PD_LOAD_034	
+F	1179	Event	F_PD_LOAD_035	
+F	1180	Event	F_PD_LOAD_036	
+F	1181	Event	F_PD_LOAD_037	
+F	1182	Event	F_PD_LOAD_038	
+F	1183	Event	F_PD_LOAD_039	
+F	1184	Event	F_PD_LOAD_040	
+F	1185	Event	F_PD_LOAD_041	
+F	1186	Event	F_PD_LOAD_042	
+F	1187	Event	F_PD_LOAD_043	
+F	1188	Event	F_PD_LOAD_044	
+F	1189	Event	F_PD_LOAD_045	
+F	1190	Event	F_PD_LOAD_046	
+F	1191	Event	F_PD_LOAD_047	
+F	1192	Event	F_PD_LOAD_048	
+F	1193	Event	F_PD_LOAD_049	
+F	1194	Event	F_PD_LOAD_050	
+F	1195	Event	F_PD_LOAD_051	
+F	1196	Event	F_PD_LOAD_052	
+F	1197	Event	F_PD_LOAD_053	
+F	1198	Event	F_PD_LOAD_054	
+F	1199	Event	F_PD_LOAD_055	
+F	1200	Event	F_PD_LOAD_056	
+F	1201	Event	F_PD_LOAD_057	
+F	1202	Event	F_PD_LOAD_058	
+F	1203	Event	F_PD_LOAD_059	
+F	1204	Event	F_PD_LOAD_060	
+F	1205	Event	F_PD_LOAD_061	
+F	1206	Event	F_PD_LOAD_062	
+F	1207	Event	F_PD_LOAD_063	
+F	1208	Event	F_PD_LOAD_064	
+F	1209	Event	F_PD_LOAD_065	
+F	1210	Event	F_PD_LOAD_066	
+F	1211	Event	F_PD_LOAD_067	
+F	1212	Event	F_PD_LOAD_068	
+F	1213	Event	F_PD_LOAD_069	
+F	1214	Event	F_PD_LOAD_070	
+F	1215	Event	F_PD_LOAD_071	
+F	1216	Event	F_PD_LOAD_072	
+F	1217	Event	F_PD_LOAD_073	
+F	1218	Event	F_PD_LOAD_074	
+F	1219	Event	F_PD_LOAD_075	
+F	1220	Event	F_PD_LOAD_076	
+F	1221	Event	F_PD_LOAD_077	
+F	1222	Event	F_PD_LOAD_078	
+F	1223	Event	F_PD_LOAD_079	
+F	1224	Event	F_PD_LOAD_080	
+F	1225	Event	F_PD_LOAD_081	
+F	1226	Event	F_PD_LOAD_082	
+F	1227	Event	F_PD_LOAD_083	
+F	1228	Event	F_PD_LOAD_084	
+F	1229	Event	F_PD_LOAD_085	
+F	1230	Event	F_PD_LOAD_086	
+F	1231	Event	F_PD_LOAD_087	
+F	1232	Event	F_PD_LOAD_088	
+F	1233	Event	F_PD_LOAD_089	
+F	1234	Event	F_PD_LOAD_090	
+F	1235	Event	F_PD_LOAD_091	
+F	1236	Event	F_PD_LOAD_092	
+F	1237	Event	F_PD_LOAD_093	
+F	1238	Event	F_PD_LOAD_094	
+F	1239	Event	F_PD_LOAD_095	
+F	1240	Event	F_PD_LOAD_096	
+F	1241	Event	F_PD_LOAD_097	
+F	1242	Event	F_PD_LOAD_098	
+F	1243	Event	F_PD_LOAD_099	
+F	1244	Event	F_PD_LOAD_100	
+F	1245	Event	FE_MAN_WOMAN	
+F	1246	Misc	FE_STAYLE_001	
+F	1247	Misc	FE_STAYLE_002	
+F	1248	Misc	FE_STAYLE_003	
+F	1249	Misc	FE_STAYLE_004	
+F	1250	Misc	FE_STAYLE_005	
+F	1251	Misc	FE_STAYLE_006	
+F	1252	Misc	FE_STAYLE_007	
+F	1253	Misc	FE_STAYLE_008	
+F	1254	Misc	FE_STAYLE_009	
+F	1255	Misc	FE_STAYLE_010	
+F	1256	Misc	FE_STAYLE_011	
+F	1257	Misc	FE_STAYLE_012	
+F	1258	Event	FE_C05R1101_CONTEST_FIRST	
+F	1259	ItemGift	FE_C05R1101_SEAL_GET1	
+F	1260	ItemGift	FE_R209_SEAL_GET1	
+F	1261	ItemGift	FE_R209_SEAL_GET2	
+F	1262	ItemGift	FE_R209_SEAL_GET3	
+F	1263	ItemGift	FE_R209_SEAL_GET4	
+F	1264	ItemGift	FE_C07_ITEM_GET1	
+F	1265	ItemGift	FE_C07_ITEM_GET2	
+F	1266	ItemGift	FE_C07_ITEM_GET3	
+F	1267	ItemGift	FE_C07_ITEM_GET4	
+F	1268	ItemGift	FE_R213_SEAL_GET1	
+F	1269	ItemGift	FE_R213_SEAL_GET2	
+F	1270	ItemGift	FE_R213_SEAL_GET3	
+F	1271	ItemGift	FE_R213_SEAL_GET4	
+F	1272	ItemGift	FE_R213_SEAL_GET5	
+F	1273	ItemGift	FE_R213_POOL_GET1	
+F	1274	ItemGift	FE_R218_SEAL_GET1	
+F	1275	ItemGift	FE_R218_SEAL_GET2	
+F	1276	Event	FE_R218_TALKED1	
+F	1277	Event	FE_R218_TALKED2	
+F	1278	Event	FE_C02R0301_MONOWASURE_FIRST	
+F	1279	ItemGift	FE_C02_SEAL_GET1	
+F	1280	ItemGift	FE_C02_SEAL_GET2	
+F	1281	HiddenItem	FV_FLD_ITEM_256	Found Silk Scarf, Veilstone City
+F	1282	ItemGift	FE_C01_SEAL_GET1	
+F	1283	EventEncounter	FE_D10R0202POKE_01	Captured Regirock
+F	1284	EventEncounter	FE_D10R0202POKE_02	Captured Regice
+F	1285	EventEncounter	FE_D10R0202POKE_03	Captured Registeel
+F	1286	EventEncounter	FE_D10R0301POKE_01	(SP) Captured Articuno
+F	1287	EventEncounter	FE_D10R0301POKE_02	(SP) Captured Zapdos
+F	1288	EventEncounter	FE_D10R0301POKE_03	(SP) Captured Moltres
+F	1289	EventEncounter	FE_D10R0302POKE_01	(BD) Captured Raikou
+F	1290	EventEncounter	FE_D10R0302POKE_02	(BD) Captured Entei
+F	1291	EventEncounter	FE_D10R0302POKE_03	(BD) Captured Suicune
+F	1292	EventEncounter	FE_D10R0303POKE_01	Captured Latias
+F	1293	EventEncounter	FE_D10R0303POKE_02	Captured Latios
+F	1294	Event	FE_D10R0303POKE_03	
+F	1295	EventEncounter	FE_D10R0501POKE_01	(BD) Captured Ho-Oh
+F	1296	EventEncounter	FE_D10R0502POKE_01	(SP) Captured Lugia
+F	1297	EventEncounter	FE_D10R0401POKE_01	Captured Groudon
+F	1298	EventEncounter	FE_D10R0402POKE_01	Captured Kyogre
+F	1299	EventEncounter	FE_D10R0403POKE_01	Captured Rayquaza
+F	1300	EventEncounter	FE_D10R0601POKE_01	Captured Mewtwo
+F	1301	EventEncounter	FE_D10R0901POKE_01	Defeated Distortion Room's Giratina
+F	1302	Event	FE_PC_USE_START	
+F	1303	ItemGift	FE_TURIZAO_GET	
+F	1304	Event	FE_DONE_FUREAI	
+F	1305	Event	FE_USE_BOUTIQUE	
+F	1306	Event	FE_DONE_KASEKIHORI	
+F	1307	Event	FE_DONE_KAKUREGA	
+F	1308	Event	FE_HAMANASU_START	
+F	1309	Event	FE_UNIONROOM_START	
+F	1310	Event	FV_HAMAPOKE_1	
+F	1311	Event	FV_HAMAPOKE_2	
+F	1312	Event	FV_HAMAPOKE_3	
+F	1313	Event	FV_HAMAPOKE_4	
+F	1314	Event	FV_HAMAPOKE_5	
+F	1315	Event	FV_HAMAPOKE_6	
+F	1316	Event	FV_HAMAPOKE_7	
+F	1317	Event	FV_HAMAPOKE_8	
+F	1318	Event	FV_HAMAPOKE_9	
+F	1319	Event	FV_HAMAPOKE_10	
+F	1320	Event	FV_HAMAPOKE_11	
+F	1321	Event	FV_HAMAPOKE_12	
+F	1322	Event	FV_HAMAPOKE_13	
+F	1323	Event	FV_HAMAPOKE_14	
+F	1324	Event	FV_HAMAPOKE_15	
+F	1325	Event	FV_HAMAPOKE_16	
+F	1326	Event	FV_HAMAPOKE_17	
+F	1327	Event	FV_HAMAPOKE_18	
+F	1328	Event	FE_ROTOMU_HOT	
+F	1329	Event	FE_ROTOMU_WASH	
+F	1330	Event	FE_ROTOMU_COLD	
+F	1331	Event	FE_ROTOMU_FAN	
+F	1332	Event	FE_ROTOMU_CUT	
+F	1333	Event	TMFLG_C01R0203_PRODUCER	
+F	1334	Event	FE_POWER_UP_GYM_LEADER	
+F	1335	Event	FE_POWER_UP_P_LEAGUE2	
+F	1336	Event	FE_POWER_UP_P_LEAGUE3	
+F	1337	Event	FV_T02_HYOUTA	
+F	1338	Event	TMFLG_C02_GYM_RETRUN_MATCH	
+F	1339	Event	TMFLG_C03_GYM_RETRUN_MATCH	
+F	1340	Event	TMFLG_C04_GYM_RETRUN_MATCH	
+F	1341	Event	TMFLG_C05_GYM_RETRUN_MATCH	
+F	1342	Event	TMFLG_C06_GYM_RETRUN_MATCH	
+F	1343	Event	TMFLG_C07_GYM_RETRUN_MATCH	
+F	1344	Event	TMFLG_C08_GYM_RETRUN_MATCH	
+F	1345	Event	TMFLG_C09_GYM_RETRUN_MATCH	
+F	1346	Event	FE_C02_GYM_RETRUN_MATCH_FIRST	
+F	1347	Event	FE_C03_GYM_RETRUN_MATCH_FIRST	
+F	1348	Event	FE_C04_GYM_RETRUN_MATCH_FIRST	
+F	1349	Event	FE_C05_GYM_RETRUN_MATCH_FIRST	
+F	1350	Event	FE_C06_GYM_RETRUN_MATCH_FIRST	
+F	1351	Event	FE_C07_GYM_RETRUN_MATCH_FIRST	
+F	1352	Event	FE_C08_GYM_RETRUN_MATCH_FIRST	
+F	1353	Event	FE_C09_GYM_RETRUN_MATCH_FIRST	
+F	1354	Event	FV_C01R0205_GAKUBUCHI1	
+F	1355	Event	FV_C01R0205_GAKUBUCHI2	
+F	1356	Event	FV_C01R0205_GAKUBUCHI3	
+F	1357	Event	FV_C01R0205_GAKUBUCHI4	
+F	1358	Event	FV_C01R0205_GAKUBUCHI5	
+F	1359	Event	FV_C01R0205_GAKUBUCHI6	
+F	1360	Event	FV_C01R0205_GAKUBUCHI7	
+F	1361	Event	FV_C01R0205_GAKUBUCHI8	
+F	1362	Event	FV_C01R0205_BALL_GAKUBUCHI1	
+F	1363	Event	FV_C01R0205_BALL_GAKUBUCHI2	
+F	1364	Event	FV_C01R0205_BALL_GAKUBUCHI3	
+F	1365	Event	FV_C01R0205_BALL_GAKUBUCHI4	
+F	1366	Event	FV_C01R0205_BALL_GAKUBUCHI5	
+F	1367	Event	FV_C01R0205_BALL_GAKUBUCHI6	
+F	1368	Event	FV_C01R0205_BALL_GAKUBUCHI7	
+F	1369	Event	FV_C01R0205_BALL_GAKUBUCHI8	
+F	1370	Event	FV_C10R0101_GAKUBUCHI1	
+F	1371	Event	FV_C10R0101_GAKUBUCHI2	
+F	1372	Event	FV_C10R0205_BALL_GAKUBUCHI1	
+F	1373	Event	FV_C10R0205_BALL_GAKUBUCHI2	
+F	1374	Event	FV_D31R0201_GAKUBUCHI1	
+F	1375	Event	FV_D31R0201_BALL_GAKUBUCHI1	
+F	1376	Event	FV_C04_TANKEN_OJISAN	
+F	1377	Event	FE_C01_BIRTHDAY	
+F	1378	Event	FE_SAVE_GIMMICK_001	
+F	1379	Event	FE_SAVE_GIMMICK_002	
+F	1380	Event	FE_SAVE_GIMMICK_003	
+F	1381	Event	FE_SAVE_GIMMICK_004	
+F	1382	Event	FE_SAVE_GIMMICK_005	
+F	1383	Event	FE_SAVE_GIMMICK_006	
+F	1384	Event	FE_SAVE_GIMMICK_007	
+F	1385	Event	FE_SAVE_GIMMICK_008	
+F	1386	Event	FE_SAVE_GIMMICK_009	
+F	1387	Event	FE_SAVE_GIMMICK_010	
+F	1388	Event	FE_SAVE_GIMMICK_011	
+F	1389	Event	FE_SAVE_GIMMICK_012	
+F	1390	Event	FE_SAVE_GIMMICK_013	
+F	1391	Event	FE_SAVE_GIMMICK_014	
+F	1392	Event	FE_SAVE_GIMMICK_015	
+F	1393	Event	FE_SAVE_GIMMICK_016	
+F	1394	Event	FE_SAVE_GIMMICK_017	
+F	1395	Event	FE_SAVE_GIMMICK_018	
+F	1396	Event	FE_SAVE_GIMMICK_019	
+F	1397	Event	FE_SAVE_GIMMICK_020	
+F	1398	Event	FE_SAVE_GIMMICK_021	
+F	1399	Event	FE_SAVE_GIMMICK_022	
+F	1400	Event	FE_SAVE_GIMMICK_023	
+F	1401	Event	FE_SAVE_GIMMICK_024	
+F	1402	Event	FE_SAVE_GIMMICK_025	
+F	1403	Event	FE_SAVE_GIMMICK_026	
+F	1404	Event	FE_SAVE_GIMMICK_027	
+F	1405	Event	FE_SAVE_GIMMICK_028	
+F	1406	Event	FE_SAVE_GIMMICK_029	
+F	1407	Event	FE_SAVE_GIMMICK_030	
+F	1408	Event	FV_C04_BICYCLE_UNCLE	
+F	1409	Event	FE_FUSIGI_POKE01	
+F	1410	Event	FE_FUSIGI_POKE02	
+F	1411	Event	TMFLG_T04R0301_NEWS_ONEDAY	
+F	1412	Event	TMFLG_T02_SUP_RETRUN_MATCH	
+F	1413	Event	FV_L02R0301_GUITER	
+F	1414	Event	FE_L02R0301_GUITER	
+F	1415	Event	FE_DONE_PORUTO	
+F	1416	Event	FE_SAFARI_START	
+F	1417	Event	FE_DONE_HIMITUKITI	
+F	1418	Event	FE_GMS_START	
+F	1419	Event	TMFLG_POKE_TUREARUI_PEMALTY	
+F	1420	Event	TMFLG_4_POKE_TUREARUI_ITEM	
+F	1421	Event	FE_BTLTW_N_SINGLE_SUSPENSION	
+F	1422	Event	FE_BTLTW_N_DOUBLE_SUSPENSION	
+F	1423	Event	FE_BTLTW_M_SINGLE_SUSPENSION	
+F	1424	Event	FE_BTLTW_M_DOUBLE_SUSPENSION	
+F	1425	Event	FV_C08_LEADER_F	
+F	1426	Misc	FE_TOWER_MASTER_WINED	
+F	1427	Event	FE_SEE_ANNOUN_FORM_A	
+F	1428	Event	FE_SEE_ANNOUN_FORM_B	
+F	1429	Event	FE_SEE_ANNOUN_FORM_C	
+F	1430	Event	FE_SEE_ANNOUN_FORM_D	
+F	1431	Event	FE_SEE_ANNOUN_FORM_E	
+F	1432	Event	FE_SEE_ANNOUN_FORM_F	
+F	1433	Event	FE_SEE_ANNOUN_FORM_G	
+F	1434	Event	FE_SEE_ANNOUN_FORM_H	
+F	1435	Event	FE_SEE_ANNOUN_FORM_I	
+F	1436	Event	FE_SEE_ANNOUN_FORM_J	
+F	1437	Event	FE_SEE_ANNOUN_FORM_K	
+F	1438	Event	FE_SEE_ANNOUN_FORM_L	
+F	1439	Event	FE_SEE_ANNOUN_FORM_M	
+F	1440	Event	FE_SEE_ANNOUN_FORM_N	
+F	1441	Event	FE_SEE_ANNOUN_FORM_O	
+F	1442	Event	FE_SEE_ANNOUN_FORM_P	
+F	1443	Event	FE_SEE_ANNOUN_FORM_Q	
+F	1444	Event	FE_SEE_ANNOUN_FORM_R	
+F	1445	Event	FE_SEE_ANNOUN_FORM_S	
+F	1446	Event	FE_SEE_ANNOUN_FORM_T	
+F	1447	Event	FE_SEE_ANNOUN_FORM_U	
+F	1448	Event	FE_SEE_ANNOUN_FORM_V	
+F	1449	Event	FE_SEE_ANNOUN_FORM_W	
+F	1450	Event	FE_SEE_ANNOUN_FORM_X	
+F	1451	Event	FE_SEE_ANNOUN_FORM_Y	
+F	1452	Event	FE_SEE_ANNOUN_FORM_Z	
+F	1453	Event	FE_SEE_ANNOUN_FORM_SP1	
+F	1454	Event	FE_SEE_ANNOUN_FORM_SP2	
+F	1455	FieldItem	FV_FLD_ITEM_257	Rare Candy item ball disappeared, Grand Underground, Spacious Cave
+F	1456	FieldItem	FV_FLD_ITEM_258	Big Mushroom item ball disappeared, Grand Underground, Riverbank Cave
+F	1457	FieldItem	FV_FLD_ITEM_259	TM87 (Swagger) item ball disappeared, Grand Underground, Fountainspring Cave
+F	1458	FieldItem	FV_FLD_ITEM_260	TM09 (Bullet Seed) item ball disappeared, Grand Underground, Still-Water Cavern
+F	1459	FieldItem	FV_FLD_ITEM_261	Big Mushroom item ball disappeared, Grand Underground, Still-Water Cavern
+F	1460	FieldItem	FV_FLD_ITEM_262	TM04 (Calm Mind) item ball disappeared, Grand Underground, Rocky Cave
+F	1461	FieldItem	FV_FLD_ITEM_263	TM37 (Sandstorm) item ball disappeared, Grand Underground, Rocky Cave
+F	1462	FieldItem	FV_FLD_ITEM_264	PP Up item ball disappeared, Grand Underground, Rocky Cave
+F	1463	FieldItem	FV_FLD_ITEM_265	Charcoal item ball disappeared, Grand Underground, Sandsear Cave
+F	1464	FieldItem	FV_FLD_ITEM_266	Nugget item ball disappeared, Grand Underground, Rocky Cave
+F	1465	FieldItem	FV_FLD_ITEM_267	TM34 (Shock Wave) item ball disappeared, Grand Underground, Big Bluff Cavern
+F	1466	FieldItem	FV_FLD_ITEM_268	TM62 (Bug Buzz) item ball disappeared, Grand Underground, Grassland Cave
+F	1467	FieldItem	FV_FLD_ITEM_269	TM01 (Focus Punch) item ball disappeared, Grand Underground, Swampy Cave
+F	1468	FieldItem	FV_FLD_ITEM_270	Rare Candy item ball disappeared, Grand Underground, Spacious Cave
+F	1469	FieldItem	FV_FLD_ITEM_271	TM06 (Toxic) item ball disappeared, Grand Underground, Swampy Cave
+F	1470	FieldItem	FV_FLD_ITEM_272	TM81 (X-Scissor) item ball disappeared, Grand Underground, Sunlit Cavern
+F	1471	FieldItem	FV_FLD_ITEM_273	PP Up item ball disappeared, Grand Underground, Sunlit Cavern
+F	1472	FieldItem	FV_FLD_ITEM_274	TM59 (Dragon Pulse) item ball disappeared, Grand Underground, Stargleam Cavern
+F	1473	FieldItem	FV_FLD_ITEM_275	Nugget item ball disappeared, Grand Underground, Stargleam Cavern
+F	1474	FieldItem	FV_FLD_ITEM_276	TM45 (Attract) item ball disappeared, Grand Underground, Dazzling Cave
+F	1475	FieldItem	FV_FLD_ITEM_277	Lucky Egg item ball disappeared, Grand Underground, Icy Cave
+F	1476	FieldItem	FV_FLD_ITEM_278	Sharp Beak item ball disappeared, Grand Underground, Whiteout Cave
+F	1477	FieldItem	FV_FLD_ITEM_279	Dawn Stone item ball disappeared, Grand Underground, Whiteout Cave
+F	1478	FieldItem	FV_FLD_ITEM_280	Leftovers item ball disappeared, Grand Underground, Glacial Cavern
+F	1479	FieldItem	FV_FLD_ITEM_281	TM80 (Rock Slide) item ball disappeared, Grand Underground, Glacial Cavern
+F	1480	FieldItem	FV_FLD_ITEM_282	PP Max item ball disappeared, Grand Underground, Spacious Cave
+F	1481	FieldItem	FV_FLD_ITEM_283	TM39 (Rock Tomb) item ball disappeared, Grand Underground, Rocky Cave
+F	1482	FieldItem	FV_FLD_ITEM_284	Dragon Fang item ball disappeared, Grand Underground, Sandsear Cave
+F	1483	FieldItem	FV_FLD_ITEM_285	TM19 (Giga Drain) item ball disappeared, Grand Underground, Bogsunk Cavern
+F	1484	FieldItem	FV_FLD_ITEM_286	Dusk Stone item ball disappeared, Grand Underground, Bogsunk Cavern
+F	1485	FieldItem	FV_FLD_ITEM_287	Twisted Spoon item ball disappeared, Grand Underground, Dazzling Cave
+F	1486	FieldItem	FV_FLD_ITEM_288	Shiny Stone item ball disappeared, Grand Underground, Spacious Cave
+F	1487	FieldItem	FV_FLD_ITEM_289	TM49 (Scald) item ball disappeared, Grand Underground, Volcanic Cave
+F	1488	FieldItem	FV_FLD_ITEM_290	TM50 (Overheat) item ball disappeared, Grand Underground, Typhlo Cavern
+F	1489	FieldItem	FV_FLD_ITEM_291	TM71 (Stone Edge) item ball disappeared, Grand Underground, Typhlo Cavern
+F	1490	Event	TMFLG_R213_POOL	
+F	1491	Event	FE_R213_POOL_TALKED	
+F	1492	ItemGift	FE_HOKAKU_OMAMORI_GET	
+F	1493	ItemGift	FE_HIKARU_OMAMORI_GET	
+F	1494	Event	FE_UEDA_BTW_CELEBRATION	
+F	1495	Event	FE_BTW_ALL_CREAR	
+F	1496	ItemGift	FE_R213_SEAL_GET6	
+F	1497	Event	FE_USE_SHIP	
+F	1498	Event	FE_C04R0801_MISSION2	
+F	1499	Event	FE_C04R0801_MISSION3	
+F	1500	Event	FE_C04R0801_MISSION4	
+F	1501	Event	FE_C04R0801_MISSION5	
+F	1502	Event	FE_C04R0801_MISSION6	
+F	1503	Event	FE_HIMITUKITI_INTO	
+F	1504	Event	FE_ROAD_ONECE01	
+F	1505	Event	FE_ROAD_ONECE02	
+F	1506	Event	FE_ROAD_ONECE03	
+F	1507	ItemGift	FE_C09_SEAL_GET1	
+F	1508	Event	FE_WILDCARD_000	
+F	1509	Event	FE_WILDCARD_001	
+F	1510	Event	FE_WILDCARD_002	
+F	1511	Event	FE_WILDCARD_003	
+F	1512	Event	FE_WILDCARD_004	
+F	1513	Event	FE_WILDCARD_005	
+F	1514	Event	FE_WILDCARD_006	
+F	1515	Event	FE_WILDCARD_007	
+F	1516	Event	FE_WILDCARD_008	
+F	1517	Event	FE_WILDCARD_009	
+F	1518	Event	FE_WILDCARD_010	
+F	1519	Event	FE_WILDCARD_011	
+F	1520	Event	FE_WILDCARD_012	
+F	1521	Event	FE_WILDCARD_013	
+F	1522	Event	FE_WILDCARD_014	
+F	1523	Event	FE_WILDCARD_015	
+F	1524	Event	FE_WILDCARD_016	
+F	1525	Event	FE_WILDCARD_017	
+F	1526	Event	FE_WILDCARD_018	
+F	1527	Event	FE_WILDCARD_019	
+F	1528	Event	FE_WILDCARD_020	
+F	1529	Event	FE_WILDCARD_021	
+F	1530	Event	FE_WILDCARD_022	
+F	1531	Event	FE_WILDCARD_023	
+F	1532	Event	FE_WILDCARD_024	
+F	1533	Event	FE_WILDCARD_025	
+F	1534	Event	FE_WILDCARD_026	
+F	1535	Event	FE_WILDCARD_027	
+F	1536	Event	FE_WILDCARD_028	
+F	1537	Event	FE_WILDCARD_029	
+F	1538	Event	FE_WILDCARD_030	
+F	1539	Event	FE_WILDCARD_031	
+F	1540	Event	FE_WILDCARD_032	
+F	1541	Event	FE_WILDCARD_033	
+F	1542	Event	FE_WILDCARD_034	
+F	1543	Event	FE_WILDCARD_035	
+F	1544	Event	FE_WILDCARD_036	
+F	1545	Event	FE_WILDCARD_037	
+F	1546	Event	FE_WILDCARD_038	
+F	1547	Event	FE_WILDCARD_039	
+F	1548	Event	FE_WILDCARD_040	
+F	1549	Event	FE_WILDCARD_041	
+F	1550	Event	FE_WILDCARD_042	
+F	1551	Event	FE_WILDCARD_043	
+F	1552	Event	FE_WILDCARD_044	
+F	1553	Event	FE_WILDCARD_045	
+F	1554	Event	FE_WILDCARD_046	
+F	1555	Event	FE_WILDCARD_047	
+F	1556	Event	FE_WILDCARD_048	
+F	1557	Event	FE_WILDCARD_049	
+F	1558	Event	FE_WILDCARD_050	
+F	1559	Event	FE_WILDCARD_051	
+F	1560	Event	FE_WILDCARD_052	
+F	1561	Event	FE_WILDCARD_053	
+F	1562	Event	FE_WILDCARD_054	
+F	1563	Event	FE_WILDCARD_055	
+F	1564	Event	FE_WILDCARD_056	
+F	1565	Event	FE_WILDCARD_057	
+F	1566	Event	FE_WILDCARD_058	
+F	1567	Event	FE_WILDCARD_059	
+F	1568	Event	FE_WILDCARD_060	
+F	1569	Event	FE_WILDCARD_061	
+F	1570	Event	FE_WILDCARD_062	
+F	1571	Event	FE_WILDCARD_063	
+F	1572	Event	FE_WILDCARD_064	
+F	1573	Event	FE_WILDCARD_065	
+F	1574	Event	FE_WILDCARD_066	
+F	1575	Event	FE_WILDCARD_067	
+F	1576	Event	FE_WILDCARD_068	
+F	1577	Event	FE_WILDCARD_069	
+F	1578	Event	FE_WILDCARD_070	
+F	1579	Event	FE_WILDCARD_071	
+F	1580	Event	FE_WILDCARD_072	
+F	1581	Event	FE_WILDCARD_073	
+F	1582	Event	FE_WILDCARD_074	
+F	1583	Event	FE_WILDCARD_075	
+F	1584	Event	FE_WILDCARD_076	
+F	1585	Event	FE_WILDCARD_077	
+F	1586	Event	FE_WILDCARD_078	
+F	1587	Event	FE_WILDCARD_079	
+F	1588	Event	FE_WILDCARD_080	
+F	1589	Event	FE_WILDCARD_081	
+F	1590	Event	FE_WILDCARD_082	
+F	1591	Event	FE_WILDCARD_083	
+F	1592	Event	FE_WILDCARD_084	
+F	1593	Event	FE_WILDCARD_085	
+F	1594	Event	FE_WILDCARD_086	
+F	1595	Event	FE_WILDCARD_087	
+F	1596	Event	FE_WILDCARD_088	
+F	1597	Event	FE_WILDCARD_089	
+F	1598	Event	FE_WILDCARD_090	
+F	1599	Event	FE_WILDCARD_091	
+F	1600	Event	FE_WILDCARD_092	
+F	1601	Event	FE_WILDCARD_093	
+F	1602	Event	FE_WILDCARD_094	
+F	1603	Event	FE_WILDCARD_095	
+F	1604	Event	FE_WILDCARD_096	
+F	1605	Event	FE_WILDCARD_097	
+F	1606	Event	FE_WILDCARD_098	
+F	1607	Event	FE_WILDCARD_099	
+F	1608	Event	FE_WILDCARD_100	
+F	1609	Event	FE_TRAINERS_CAMERA	
+F	1610	Event	FE_UG_FIRST_GAMEOVER	
+F	1611	Event	FV_C07_SUPPORT2	
+F	1612	ItemGift	FE_C07R0101_SEAL_GET_01	
+F	1613	Event	FE_C07_ITEM_REPORT1	
+F	1614	Event	FE_C07_ITEM_REPORT2	
+F	1615	Event	FE_D17R0104_RETRY	
+F	1616	Event	FE_T02R0101_HYOUTA_WAITING	
+F	1617	Event	FE_C10R0101_REACH	
+F	1618	Event	FV_R214_KAKURE_ROAD	
+F	1619	Event	FE_D29R0103_RETRY	
+F	1620	Event	FE_D28R0103_RETRY	
+F	1621	Event	FE_D20R0106_RETRY	
+F	1622	Event	FE_D16R0103_RETRY	
+F	1623	Event	FE_D05R0114_RETRY	
+F	1624	Event	FE_D05R0114_SIN_CLEAR	
+F	1625	Event	BGM_FLAG_C04_GINGA_FALSE	
+F	1626	Event	FV_WALL_PUT	
+F	1627	Event	FE_UG_FIRST_GAMEOVER_B	
+F	1628	Event	FE_T01_OUT_FIRST	
+F	1629	ItemGift	FE_HAMAPOKE_GET	
+F	1630	FieldItem	FV_FLD_ITEM_292	Deep Sea Tooth item ball disappeared, Grand Underground, Fountainspring Cave
+F	1631	FieldItem	FV_FLD_ITEM_293	Deep Sea Scale item ball disappeared, Grand Underground, Icy Cave
+F	1632	Event	FV_C10R0101_VETERAN1	
+F	1633	Event	FV_C10R0101_VETERAN2	
+F	1634	Event	FE_UNIONROOM_TIPS_LOOK	
+F	1635	Event	FE_R209_TALK1	
+F	1636	Event	FE_R209_TALK2	
+F	1637	Event	FE_R209_TALK3	
+F	1638	Event	FE_R209_TALK4	
+F	1639	Event	FE_R213_TALK1	
+F	1640	Event	FE_C05R0111_TALK1	
+F	1641	Event	FE_C05R0111_TALK2	
+F	1642	Event	FV_WALL_PUT2	
+F	1643	Event	FE_C02R1101_LOVE_M_TALK01	
+F	1644	Event	FE_C02R1101_LOVE_W_TALK01	
+F	1645	Event	FE_R213_GORGGEOUSM_TALK01	
+F	1646	Event	FV_D18_RETRY	
+F	1647	Event	FV_R212AR0103_RICH	
+F	1648	Event	FE_BT_M_FIRST_TALK	
+F	1649	ItemGift	FE_BT_M_WINS_PRESENT_GET_10	
+F	1650	ItemGift	FE_BT_M_WINS_PRESENT_GET_20	
+F	1651	ItemGift	FE_BT_M_WINS_PRESENT_GET_30	
+F	1652	ItemGift	FE_BT_M_WINS_PRESENT_GET_40	
+F	1653	ItemGift	FE_BT_M_WINS_PRESENT_GET_50	
+F	1654	ItemGift	FE_BT_M_WINS_PRESENT_GET_75	
+F	1655	ItemGift	FE_BT_M_WINS_PRESENT_GET_100	
+F	1656	ItemGift	FE_BT_M_WINS_PRESENT_GET_200	
+F	1657	Event	FE_BT_M_WINS_PRESENT_LOOP	
+F	1658	Event	FE_BT_M_WINS_PRESENT_MINTO	
+F	1659	Event	FE_R213_NAMINORI_CLEAR	
+F	1660	Event	FE_C03PC0101_DEL_STOPPER	
+F	1661	FieldItem	FV_FLD_ITEM_294	[unused?]
+F	1662	FieldItem	FV_FLD_ITEM_295	[unused?]
+F	1663	ItemGift	FE_D10R0902_ITEM_GET	
+F	1664	ItemGift	FE_D10R0303_ITEM_GET	
+F	1665	Event	FE_D10R0401_EVENT_FIRST	
+F	1666	Event	FE_D10R0402_EVENT_FIRST	
+F	1667	Event	FE_D10R0403_EVENT_FIRST	
+F	1668	Event	FE_D10R0501_EVENT_FIRST	
+F	1669	Event	FE_D10R0502_EVENT_FIRST	
+F	1670	Event	FE_D10R0601_EVENT_FIRST	
+F	1671	Event	FE_D10R0902_EVENT_FIRST	
+F	1672	Event	FE_D10R0202_EVENT_FIRST	
+F	1673	Event	FE_D10R0301_EVENT_FIRST	
+F	1674	Event	FE_D10R0302_EVENT_FIRST	
+F	1675	Event	FE_D10R0303_EVENT_FIRST	
+F	1676	Event	FE_D10R0401_SEKIZOU_END	
+F	1677	Event	FE_D10R0402_SEKIZOU_END	
+F	1678	Event	FE_D10R0403_SEKIZOU_END	
+F	1679	Event	FE_D10R0501_SEKIZOU_END	
+F	1680	Event	FE_D10R0502_SEKIZOU_END	
+F	1681	Event	FE_D10R0601_SEKIZOU_END	
+F	1682	Event	FE_D10R0902_SEKIZOU_END	
+F	1683	Event	FE_D10R0202_SEKIZOU_END	
+F	1684	Event	FE_D10R0301_SEKIZOU_END	
+F	1685	Event	FE_D10R0302_SEKIZOU_END	
+F	1686	Event	FE_D10R0303_SEKIZOU_END	
+F	1687	Event	FE_CHECK_ONLINE_FIRST	
+F	1688	Event	FE_BT_M_LOSE_RUNK_DOWN	
+F	1689	Event	FE_D20R0106_ZOU_FIRST	
+F	1690	Event	FE_BT_M_RUNK_MAX	
+F	1691	Event	FE_D10R0901_EVENT_FIRST	
+F	1692	Event	FE_D10R0901_SEKIZOU_END	
+F	1693	Event	FE_D10R0202PREZENT_SEKIZOU_01	
+F	1694	Event	FE_D10R0202PREZENT_SEKIZOU_02	
+F	1695	Event	FE_D10R0202PREZENT_SEKIZOU_03	
+F	1696	Event	FE_D10R0301PREZENT_SEKIZOU_01	
+F	1697	Event	FE_D10R0301PREZENT_SEKIZOU_02	
+F	1698	Event	FE_D10R0301PREZENT_SEKIZOU_03	
+F	1699	Event	FE_D10R0302PREZENT_SEKIZOU_01	
+F	1700	Event	FE_D10R0302PREZENT_SEKIZOU_02	
+F	1701	Event	FE_D10R0302PREZENT_SEKIZOU_03	
+F	1702	Event	FE_D10R0303PREZENT_SEKIZOU_01	
+F	1703	Event	FE_D10R0303PREZENT_SEKIZOU_02	
+F	1704	Event	FE_D10R0401PREZENT_SEKIZOU_01	
+F	1705	Event	FE_D10R0402PREZENT_SEKIZOU_01	
+F	1706	Event	FE_D10R0403PREZENT_SEKIZOU_01	
+F	1707	Event	FE_D10R0501PREZENT_SEKIZOU_01	
+F	1708	Event	FE_D10R0502PREZENT_SEKIZOU_01	
+F	1709	Event	FE_D10R0601PREZENT_SEKIZOU_01	
+F	1710	Event	FE_D10R0901PREZENT_SEKIZOU_01	
+F	1711	Event	FLAG_DAILY_RANDOM	
+F	1712	Event	FE_D16R0103_LEGEND_WIN	
+F	1713	Event	FE_C10R0111_LEAGUE2_CHAMP_WIN	
+F	1714	Event	FLAG_STOP_ZONE_PROGRAM	
+F	1715	ItemGift	FE_BT_M_RETURN_PRESENT_GET	
+F	1716	Event	FE_R221R0101ADMIN_FAST	
+F	1717	FieldItem	FV_FLD_ITEM_296	[unused?]
+F	1718	FieldItem	FV_FLD_ITEM_297	[unused?]
+F	1719	FieldItem	FV_FLD_ITEM_298	[unused?]
+F	1720	FieldItem	FV_FLD_ITEM_299	[unused?]
+F	1721	FieldItem	FV_FLD_ITEM_300	[unused?]
+F	1722	FieldItem	FV_FLD_ITEM_301	[unused?]
+F	1723	FieldItem	FV_FLD_ITEM_302	[unused?]
+F	1724	FieldItem	FV_FLD_ITEM_303	[unused?]
+F	1725	FieldItem	FV_FLD_ITEM_304	[unused?]
+F	1726	FieldItem	FV_FLD_ITEM_305	[unused?]
+F	1727	FieldItem	FV_FLD_ITEM_306	[unused?]
+F	1728	ItemGift	FE_D10R0303_ITEM_GET_KINOMI1	
+F	1729	ItemGift	FE_D10R0303_ITEM_GET_KINOMI2	
+F	1730	ItemGift	FE_D10R0401_ITEM_GET_KINOMI1	
+F	1731	ItemGift	FE_D10R0401_ITEM_GET_KINOMI2	
+F	1732	ItemGift	FE_D10R0401_ITEM_GET_KINOMI3	
+F	1733	ItemGift	FE_D10R0402_ITEM_GET_KINOMI1	
+F	1734	ItemGift	FE_D10R0402_ITEM_GET_KINOMI2	
+F	1735	ItemGift	FE_D10R0402_ITEM_GET_KINOMI3	
+F	1736	ItemGift	FE_D10R0403_ITEM_GET_KINOMI1	
+F	1737	ItemGift	FE_D10R0403_ITEM_GET_KINOMI2	
+F	1738	ItemGift	FE_D10R0403_ITEM_GET_KINOMI3	
+F	1739	Event	FE_C11_RIVAL_BTL_WIN	
+F	1740	Event	FE_T02_SUP_BTL_WIN	
+F	1741	Event	FE_BT_M_S_CREAR	
+F	1742	Event	FE_BT_M_W_CREAR	
+F	1743	Event	FE_C04R0401_IS_RAID_BICYCLE	
+F	1744	Event	FE_BT_DECO_PLAYER_SEE01	
+F	1745	Event	FE_BT_DECO_PLAYER_SEE02	
+F	1746	Event	FE_BT_DECO_PLAYER_SEE03	
+F	1747	Event	FE_BT_DECO_PLAYER_SEE04	
+F	1748	Event	FE_BT_DECO_PLAYER_SEE05	
+F	1749	Event	FE_BT_DECO_PLAYER_SEE06	
+F	1750	ItemGift	FE_D2_FUSEN_POKE_GET	
+F	1751	Event	FE_PLAY_REPO	
+F	1752	ItemGift	FE_R221R0101_ZOU_FAST_GET	
+F	1753	Event	FH_NECK_LOCK	
+F	1754	Event	FE_BT_CONTINUE_NOW	
+F	1755	Event	FE_BT_UPDATE_A	
+F	1756	Event	FE_BTLTW_CLEAR_ALL_SUB	
+S	0	Event	SYS_FLAG_ARRIVE_START	
+S	1	ItemGift	SYS_FLAG_BAG_GET	
+S	2	Event	SYS_FLAG_PAIR	
+S	3	Event	SYS_FLAG_KAIRIKI	
+S	4	ItemGift	SYS_FLAG_FNOTE_GET	
+S	5	Misc	SYS_FLAG_GAME_CLEAR	
+S	6	Event	SYS_FLAG_ONE_STEP	
+S	7	Event	SYS_FLAG_COMM_COUNTER	
+S	8	Event	SYS_FLAG_SAFARI_MODE	
+S	9	Misc	SYS_FLAG_CON_STYLE_MASTER	
+S	10	Misc	SYS_FLAG_CON_BEAUTIFUL_MASTER	
+S	11	Misc	SYS_FLAG_CON_CUTE_MASTER	
+S	12	Misc	SYS_FLAG_CON_CLEVER_MASTER	
+S	13	Misc	SYS_FLAG_CON_STRONG_MASTER	
+S	14	Event	SYS_FLAG_BTL_SEARCHER_USE	
+S	15	Event	SYS_FLAG_UG_ARRIVE	
+S	16	Event	SYS_FLAG_UG_DIG	
+S	17	Event	SYS_FLAG_UG_TAMA	
+S	18	Event	SYS_FLAG_UG_BASE	
+S	19	Event	SYS_FLAG_UG_GOODS	
+S	20	Event	SYS_FLAG_UG_HATA	
+S	21	Event	SYS_FLAG_GTC_OPEN	
+S	22	Event	SYS_FLAG_BTOWER_OPEN	
+S	23	Event	SYS_FLAG_SHIP	
+S	24	Event	SYS_FLAG_PST	
+S	25	Event	SYS_FLAG_POKEPARK_MODE	
+S	26	Event	SYS_FLAG_FLASH	
+S	27	Event	SYS_FLAG_KIRIBARAI	
+S	28	Event	SYS_FLAG_POKETCH_HOOK	
+S	29	Event	SYS_FLAG_REIAIHAI	
+S	30	Event	SYS_FLAG_MIZUKI	
+S	31	Event	SYS_FLAG_BS_LV1	
+S	32	Event	SYS_FLAG_BS_LV2	
+S	33	Event	SYS_FLAG_BS_LV3	
+S	34	Event	SYS_FLAG_BS_LV4	
+S	35	Event	SYS_FLAG_BS_LV5	
+S	36	Event	SYS_FLAG_BGM_D28	
+S	37	Event	SYS_FLAG_BGM_GINGA	
+S	38	Event	SYS_FLAG_BGM_D26	
+S	39	Event	SYS_FLAG_BGM_C04	
+S	40	Event	SYS_FLAG_BGM_D02	
+S	41	Event	SYS_FLAG_BGM_D13	
+S	42	Event	SYS_FLAG_BGM_R224	
+S	43	Event	SYS_FLAG_BGM_C10	
+S	44	Event	SYS_FLAG_WIFI_USE	
+S	45	Event	SYS_FLAG_T05_GINGA_EVENT	
+S	46	Event	SYS_FLAG_BGM_D27	
+S	47	Event	SYS_FLAG_BGM_D29	
+S	48	Event	SYS_FLAG_BGM_D16	
+S	49	Event	SYS_FLAG_BGM_C02	
+S	50	Event	SYS_FLAG_UG_FIRST	
+S	51	Event	SYS_FLAG_BGM_T02	
+S	52	Event	SYS_FLAG_CYCLINGROAD	
+S	53	Event	SYS_FLAG_BGM_D10	
+S	54	Event	OLD_FLAG_ARRIVE_T01	
+S	55	Event	OLD_FLAG_ARRIVE_T02	
+S	56	Event	OLD_FLAG_ARRIVE_T03	
+S	57	Event	OLD_FLAG_ARRIVE_T04	
+S	58	Event	OLD_FLAG_ARRIVE_T05	
+S	59	Event	OLD_FLAG_ARRIVE_T06	
+S	60	Event	OLD_FLAG_ARRIVE_T07	
+S	61	Event	OLD_FLAG_ARRIVE_C01	
+S	62	Event	OLD_FLAG_ARRIVE_C02	
+S	63	Event	OLD_FLAG_ARRIVE_C03	
+S	64	Event	OLD_FLAG_ARRIVE_C04	
+S	65	Event	OLD_FLAG_ARRIVE_C05	
+S	66	Event	OLD_FLAG_ARRIVE_C06	
+S	67	Event	OLD_FLAG_ARRIVE_C07	
+S	68	Event	OLD_FLAG_ARRIVE_C08	
+S	69	Event	OLD_FLAG_ARRIVE_C09	
+S	70	Event	OLD_FLAG_ARRIVE_C10	
+S	71	Event	OLD_FLAG_ARRIVE_C11	
+S	72	Event	OLD_FLAG_ARRIVE_D01R0101	
+S	73	Event	OLD_FLAG_ARRIVE_D02R0101	
+S	74	Event	OLD_FLAG_ARRIVE_D03	
+S	75	Event	OLD_FLAG_ARRIVE_D04R0101	
+S	76	Event	OLD_FLAG_ARRIVE_D05	
+S	77	Event	OLD_FLAG_ARRIVE_D05R0114	
+S	78	Event	OLD_FLAG_ARRIVE_D06	
+S	79	Event	OLD_FLAG_ARRIVE_D07R0102	
+S	80	Event	OLD_FLAG_ARRIVE_D09R0101	
+S	81	Event	OLD_FLAG_ARRIVE_D10R0101	
+S	82	Event	OLD_FLAG_ARRIVE_D11R0101	
+S	83	Event	OLD_FLAG_ARRIVE_D12R0101	
+S	84	Event	OLD_FLAG_ARRIVE_D13R0101	
+S	85	Event	OLD_FLAG_ARRIVE_D14R0101	
+S	86	Event	OLD_FLAG_ARRIVE_D15	
+S	87	Event	OLD_FLAG_ARRIVE_D16	
+S	88	Event	OLD_FLAG_ARRIVE_D16R0101	
+S	89	Event	OLD_FLAG_ARRIVE_D17	
+S	90	Event	OLD_FLAG_ARRIVE_D17R0102	
+S	91	Event	OLD_FLAG_ARRIVE_D18	
+S	92	Event	OLD_FLAG_ARRIVE_D20R0101	
+S	93	Event	OLD_FLAG_ARRIVE_D21R0101	
+S	94	Event	OLD_FLAG_ARRIVE_D22R0101	
+S	95	Event	OLD_FLAG_ARRIVE_D23R0101	
+S	96	Event	OLD_FLAG_ARRIVE_D24	
+S	97	Event	OLD_FLAG_ARRIVE_D24R0101	
+S	98	Event	OLD_FLAG_ARRIVE_D25R0101	
+S	99	Event	OLD_FLAG_ARRIVE_D26R0101	
+S	100	Event	OLD_FLAG_ARRIVE_D27	
+S	101	Event	OLD_FLAG_ARRIVE_D27R0103	
+S	102	Event	OLD_FLAG_ARRIVE_D28	
+S	103	Event	OLD_FLAG_ARRIVE_D28R0103	
+S	104	Event	OLD_FLAG_ARRIVE_D29	
+S	105	Event	OLD_FLAG_ARRIVE_D29R0103	
+S	106	Event	OLD_FLAG_ARRIVE_D30	
+S	107	Event	OLD_FLAG_ARRIVE_C11R0101	
+S	108	Event	OLD_FLAG_ARRIVE_R206	
+S	109	Event	OLD_FLAG_ARRIVE_R208R0101	
+S	110	Event	OLD_FLAG_ARRIVE_R209R0101	
+S	111	Event	OLD_FLAG_ARRIVE_R210AR0101	
+S	112	Event	OLD_FLAG_ARRIVE_R210BR0101	
+S	113	Event	OLD_FLAG_ARRIVE_R212AR0101	
+S	114	Event	OLD_FLAG_ARRIVE_R212BR0101	
+S	115	Event	OLD_FLAG_ARRIVE_R213R0201	
+S	116	Event	OLD_FLAG_ARRIVE_L02R0101	
+S	117	Event	OLD_FLAG_ARRIVE_R222R0101	
+S	118	Event	OLD_FLAG_ARRIVE_R222R0201	
+S	119	Event	OLD_FLAG_ARRIVE_W226R0101	
+S	120	Event	OLD_FLAG_ARRIVE_R221	
+S	121	Event	OLD_FLAG_ARRIVE_R221R0101	
+S	122	Event	OLD_FLAG_ARRIVE_CHAMPLEAGUE	
+S	123	Event	OLD_FLAG_ARRIVE_MAX	
+S	124	StoryProgress	BADGE_ID_C03	
+S	125	StoryProgress	BADGE_ID_C04	
+S	126	StoryProgress	BADGE_ID_C07	
+S	127	StoryProgress	BADGE_ID_C06	
+S	128	StoryProgress	BADGE_ID_C05	
+S	129	StoryProgress	BADGE_ID_C02	
+S	130	StoryProgress	BADGE_ID_C09	
+S	131	StoryProgress	BADGE_ID_C08	
+S	132	Event	BADGE_MAX	
+S	133	Event	FIRST_SAVE	
+S	134	Event	FLAG_ARRIVE_C01	
+S	135	Event	FLAG_ARRIVE_C01FS0101	
+S	136	Event	FLAG_ARRIVE_C01PC0101	
+S	137	Event	FLAG_ARRIVE_C01PC0102	
+S	138	Event	FLAG_ARRIVE_C01PC0103	
+S	139	Event	FLAG_ARRIVE_C01R0101	
+S	140	Event	FLAG_ARRIVE_C01R0102	
+S	141	Event	FLAG_ARRIVE_C01R0103	
+S	142	Event	FLAG_ARRIVE_C01R0201	
+S	143	Event	FLAG_ARRIVE_C01R0202	
+S	144	Event	FLAG_ARRIVE_C01R0203	
+S	145	Event	FLAG_ARRIVE_C01R0204	
+S	146	Event	FLAG_ARRIVE_C01R0205	
+S	147	Event	FLAG_ARRIVE_C01R0206	
+S	148	Event	FLAG_ARRIVE_C01R0207	
+S	149	Event	FLAG_ARRIVE_C01R0208	
+S	150	Event	FLAG_ARRIVE_C01R0301	
+S	151	Event	FLAG_ARRIVE_C01R0302	
+S	152	Event	FLAG_ARRIVE_C01R0501	
+S	153	Event	FLAG_ARRIVE_C01R0502	
+S	154	Event	FLAG_ARRIVE_C01R0601	
+S	155	Event	FLAG_ARRIVE_C01R0701	
+S	156	Event	FLAG_ARRIVE_C01R0801	
+S	157	Event	FLAG_ARRIVE_C01R0802	
+S	158	Event	FLAG_ARRIVE_C02	
+S	159	Event	FLAG_ARRIVE_C02FS0101	
+S	160	Event	FLAG_ARRIVE_C02GYM0101	
+S	161	Event	FLAG_ARRIVE_C02PC0101	
+S	162	Event	FLAG_ARRIVE_C02PC0102	
+S	163	Event	FLAG_ARRIVE_C02PC0103	
+S	164	Event	FLAG_ARRIVE_C02R0101	
+S	165	Event	FLAG_ARRIVE_C02R0102	
+S	166	Event	FLAG_ARRIVE_C02R0103	
+S	167	Event	FLAG_ARRIVE_C02R0201	
+S	168	Event	FLAG_ARRIVE_C02R0301	
+S	169	Event	FLAG_ARRIVE_C02R0401	
+S	170	Event	FLAG_ARRIVE_C02R0501	
+S	171	Event	FLAG_ARRIVE_C02R0601	
+S	172	Event	FLAG_ARRIVE_C03	
+S	173	Event	FLAG_ARRIVE_C03FS0101	
+S	174	Event	FLAG_ARRIVE_C03GYM0101	
+S	175	Event	FLAG_ARRIVE_C03PC0101	
+S	176	Event	FLAG_ARRIVE_C03PC0102	
+S	177	Event	FLAG_ARRIVE_C03PC0103	
+S	178	Event	FLAG_ARRIVE_C03R0101	
+S	179	Event	FLAG_ARRIVE_C03R0102	
+S	180	Event	FLAG_ARRIVE_C03R0201	
+S	181	Event	FLAG_ARRIVE_C03R0202	
+S	182	Event	FLAG_ARRIVE_C03R0301	
+S	183	Event	FLAG_ARRIVE_C03R0401	
+S	184	Event	FLAG_ARRIVE_C03R0501	
+S	185	Event	FLAG_ARRIVE_C03R0601	
+S	186	Event	FLAG_ARRIVE_C03R0602	
+S	187	Event	FLAG_ARRIVE_C03R0701	
+S	188	Event	FLAG_ARRIVE_C04	
+S	189	Event	FLAG_ARRIVE_C04FS0101	
+S	190	Event	FLAG_ARRIVE_C04GYM0101	
+S	191	Event	FLAG_ARRIVE_C04GYM0102	
+S	192	Event	FLAG_ARRIVE_C04PC0101	
+S	193	Event	FLAG_ARRIVE_C04PC0102	
+S	194	Event	FLAG_ARRIVE_C04PC0103	
+S	195	Event	FLAG_ARRIVE_C04R0101	
+S	196	Event	FLAG_ARRIVE_C04R0201	
+S	197	Event	FLAG_ARRIVE_C04R0202	
+S	198	Event	FLAG_ARRIVE_C04R0203	
+S	199	Event	FLAG_ARRIVE_C04R0204	
+S	200	Event	FLAG_ARRIVE_C04R0301	
+S	201	Event	FLAG_ARRIVE_C04R0302	
+S	202	Event	FLAG_ARRIVE_C04R0303	
+S	203	Event	FLAG_ARRIVE_C04R0401	
+S	204	Event	FLAG_ARRIVE_C04R0501	
+S	205	Event	FLAG_ARRIVE_C04R0601	
+S	206	Event	FLAG_ARRIVE_C04R0701	
+S	207	Event	FLAG_ARRIVE_C04R0801	
+S	208	Event	FLAG_ARRIVE_C05	
+S	209	Event	FLAG_ARRIVE_C05FS0101	
+S	210	Event	FLAG_ARRIVE_C05GYM0101	
+S	211	Event	FLAG_ARRIVE_C05GYM0102	
+S	212	Event	FLAG_ARRIVE_C05GYM0103	
+S	213	Event	FLAG_ARRIVE_C05GYM0104	
+S	214	Event	FLAG_ARRIVE_C05GYM0105	
+S	215	Event	FLAG_ARRIVE_C05GYM0106	
+S	216	Event	FLAG_ARRIVE_C05GYM0107	
+S	217	Event	FLAG_ARRIVE_C05GYM0108	
+S	218	Event	FLAG_ARRIVE_C05GYM0109	
+S	219	Event	FLAG_ARRIVE_C05GYM0110	
+S	220	Event	FLAG_ARRIVE_C05GYM0111	
+S	221	Event	FLAG_ARRIVE_C05GYM0112	
+S	222	Event	FLAG_ARRIVE_C05GYM0113	
+S	223	Event	FLAG_ARRIVE_C05PC0101	
+S	224	Event	FLAG_ARRIVE_C05PC0102	
+S	225	Event	FLAG_ARRIVE_C05PC0103	
+S	226	Event	FLAG_ARRIVE_C05R0101	
+S	227	Event	FLAG_ARRIVE_C05R0102	
+S	228	Event	FLAG_ARRIVE_C05R0103	
+S	229	Event	FLAG_ARRIVE_C05R0201	
+S	230	Event	FLAG_ARRIVE_C05R0301	
+S	231	Event	FLAG_ARRIVE_C05R0401	
+S	232	Event	FLAG_ARRIVE_C05R0501	
+S	233	Event	FLAG_ARRIVE_C05R0601	
+S	234	Event	FLAG_ARRIVE_C05R0701	
+S	235	Event	FLAG_ARRIVE_C05R0801	
+S	236	Event	FLAG_ARRIVE_C05R0802	
+S	237	Event	FLAG_ARRIVE_C05R0803	
+S	238	Event	FLAG_ARRIVE_C05R0901	
+S	239	Event	FLAG_ARRIVE_C05R1001	
+S	240	Event	FLAG_ARRIVE_C05R1101	
+S	241	Event	FLAG_ARRIVE_C05R1102	
+S	242	Event	FLAG_ARRIVE_C05R1103	
+S	243	Event	FLAG_ARRIVE_C05R1201	
+S	244	Event	FLAG_ARRIVE_C06	
+S	245	Event	FLAG_ARRIVE_C06FS0101	
+S	246	Event	FLAG_ARRIVE_C06GYM0101	
+S	247	Event	FLAG_ARRIVE_C06PC0101	
+S	248	Event	FLAG_ARRIVE_C06PC0102	
+S	249	Event	FLAG_ARRIVE_C06PC0103	
+S	250	Event	FLAG_ARRIVE_C06R0101	
+S	251	Event	FLAG_ARRIVE_C06R0102	
+S	252	Event	FLAG_ARRIVE_C06R0201	
+S	253	Event	FLAG_ARRIVE_C06R0301	
+S	254	Event	FLAG_ARRIVE_C06R0401	
+S	255	Event	FLAG_ARRIVE_C06R0501	
+S	256	Event	FLAG_ARRIVE_C06R0601	
+S	257	Event	FLAG_ARRIVE_C07	
+S	258	Event	FLAG_ARRIVE_C07GYM0101	
+S	259	Event	FLAG_ARRIVE_C07PC0101	
+S	260	Event	FLAG_ARRIVE_C07PC0102	
+S	261	Event	FLAG_ARRIVE_C07PC0103	
+S	262	Event	FLAG_ARRIVE_C07R0101	
+S	263	Event	FLAG_ARRIVE_C07R0201	
+S	264	Event	FLAG_ARRIVE_C07R0202	
+S	265	Event	FLAG_ARRIVE_C07R0203	
+S	266	Event	FLAG_ARRIVE_C07R0204	
+S	267	Event	FLAG_ARRIVE_C07R0205	
+S	268	Event	FLAG_ARRIVE_C07R0206	
+S	269	Event	FLAG_ARRIVE_C07R0301	
+S	270	Event	FLAG_ARRIVE_C07R0401	
+S	271	Event	FLAG_ARRIVE_C07R0501	
+S	272	Event	FLAG_ARRIVE_C07R0601	
+S	273	Event	FLAG_ARRIVE_C07R0701	
+S	274	Event	FLAG_ARRIVE_C07R0801	
+S	275	Event	FLAG_ARRIVE_C07R0901	
+S	276	Event	FLAG_ARRIVE_C08	
+S	277	Event	FLAG_ARRIVE_C08FS0101	
+S	278	Event	FLAG_ARRIVE_C08GYM0101	
+S	279	Event	FLAG_ARRIVE_C08GYM0102	
+S	280	Event	FLAG_ARRIVE_C08GYM0103	
+S	281	Event	FLAG_ARRIVE_C08PC0101	
+S	282	Event	FLAG_ARRIVE_C08PC0102	
+S	283	Event	FLAG_ARRIVE_C08PC0103	
+S	284	Event	FLAG_ARRIVE_C08R0101	
+S	285	Event	FLAG_ARRIVE_C08R0201	
+S	286	Event	FLAG_ARRIVE_C08R0301	
+S	287	Event	FLAG_ARRIVE_C08R0401	
+S	288	Event	FLAG_ARRIVE_C08R0501	
+S	289	Event	FLAG_ARRIVE_C08R0601	
+S	290	Event	FLAG_ARRIVE_C08R0701	
+S	291	Event	FLAG_ARRIVE_C08R0801	
+S	292	Event	FLAG_ARRIVE_C08R0802	
+S	293	Event	FLAG_ARRIVE_C09	
+S	294	Event	FLAG_ARRIVE_C09FS0101	
+S	295	Event	FLAG_ARRIVE_C09GYM0101	
+S	296	Event	FLAG_ARRIVE_C09PC0101	
+S	297	Event	FLAG_ARRIVE_C09PC0102	
+S	298	Event	FLAG_ARRIVE_C09PC0103	
+S	299	Event	FLAG_ARRIVE_C09R0101	
+S	300	Event	FLAG_ARRIVE_C09R0201	
+S	301	Event	FLAG_ARRIVE_C10	
+S	302	Event	FLAG_ARRIVE_C10PC0101	
+S	303	Event	FLAG_ARRIVE_C10PC0102	
+S	304	Event	FLAG_ARRIVE_C10PC0103	
+S	305	Event	FLAG_ARRIVE_C10R0101	
+S	306	Event	FLAG_ARRIVE_C10R0102	
+S	307	Event	FLAG_ARRIVE_C10R0103	
+S	308	Event	FLAG_ARRIVE_C10R0104	
+S	309	Event	FLAG_ARRIVE_C10R0105	
+S	310	Event	FLAG_ARRIVE_C10R0106	
+S	311	Event	FLAG_ARRIVE_C10R0107	
+S	312	Event	FLAG_ARRIVE_C10R0108	
+S	313	Event	FLAG_ARRIVE_C10R0109	
+S	314	Event	FLAG_ARRIVE_C10R0110	
+S	315	Event	FLAG_ARRIVE_C10R0111	
+S	316	Event	FLAG_ARRIVE_C10R0112	
+S	317	Event	FLAG_ARRIVE_C10R0113	
+S	318	Event	FLAG_ARRIVE_C10R0114	
+S	319	Event	FLAG_ARRIVE_C10R0115	
+S	320	Event	FLAG_ARRIVE_C11	
+S	321	Event	FLAG_ARRIVE_C11FS0101	
+S	322	Event	FLAG_ARRIVE_C11PC0101	
+S	323	Event	FLAG_ARRIVE_C11PC0102	
+S	324	Event	FLAG_ARRIVE_C11PC0103	
+S	325	Event	FLAG_ARRIVE_C11R0101	
+S	326	Event	FLAG_ARRIVE_C11R0201	
+S	327	Event	FLAG_ARRIVE_C11R0301	
+S	328	Event	FLAG_ARRIVE_C11R0401	
+S	329	Event	FLAG_ARRIVE_D01R0101	
+S	330	Event	FLAG_ARRIVE_D01R0102	
+S	331	Event	FLAG_ARRIVE_D02	
+S	332	Event	FLAG_ARRIVE_D02R0101	
+S	333	Event	FLAG_ARRIVE_D03	
+S	334	Event	FLAG_ARRIVE_D03R0101	
+S	335	Event	FLAG_ARRIVE_D04	
+S	336	Event	FLAG_ARRIVE_D04R0101	
+S	337	Event	FLAG_ARRIVE_D05R0101	
+S	338	Event	FLAG_ARRIVE_D05R0102	
+S	339	Event	FLAG_ARRIVE_D05R0103	
+S	340	Event	FLAG_ARRIVE_D05R0104	
+S	341	Event	FLAG_ARRIVE_D05R0105	
+S	342	Event	FLAG_ARRIVE_D05R0106	
+S	343	Event	FLAG_ARRIVE_D05R0107	
+S	344	Event	FLAG_ARRIVE_D05R0108	
+S	345	Event	FLAG_ARRIVE_D05R0109	
+S	346	Event	FLAG_ARRIVE_D05R0110	
+S	347	Event	FLAG_ARRIVE_D05R0111	
+S	348	Event	FLAG_ARRIVE_D05R0112	
+S	349	Event	FLAG_ARRIVE_D05R0113	
+S	350	Event	FLAG_ARRIVE_D05R0114	
+S	351	Event	FLAG_ARRIVE_D05R0115	
+S	352	Event	FLAG_ARRIVE_D05R0116	
+S	353	Event	FLAG_ARRIVE_D06R0201	
+S	354	Event	FLAG_ARRIVE_D06R0202	
+S	355	Event	FLAG_ARRIVE_D06R0203	
+S	356	Event	FLAG_ARRIVE_D06R0204	
+S	357	Event	FLAG_ARRIVE_D06R0205	
+S	358	Event	FLAG_ARRIVE_D06R0206	
+S	359	Event	FLAG_ARRIVE_D07R0101	
+S	360	Event	FLAG_ARRIVE_D07R0102	
+S	361	Event	FLAG_ARRIVE_D07R0103	
+S	362	Event	FLAG_ARRIVE_D07R0104	
+S	363	Event	FLAG_ARRIVE_D07R0105	
+S	364	Event	FLAG_ARRIVE_D07R0106	
+S	365	Event	FLAG_ARRIVE_D07R0107	
+S	366	Event	FLAG_ARRIVE_D07R0108	
+S	367	Event	FLAG_ARRIVE_D07R0109	
+S	368	Event	FLAG_ARRIVE_D07R0110	
+S	369	Event	FLAG_ARRIVE_D07R0111	
+S	370	Event	FLAG_ARRIVE_D07R0112	
+S	371	Event	FLAG_ARRIVE_D07R0113	
+S	372	Event	FLAG_ARRIVE_D07R0114	
+S	373	Event	FLAG_ARRIVE_D07R0115	
+S	374	Event	FLAG_ARRIVE_D07R0116	
+S	375	Event	FLAG_ARRIVE_D07R0117	
+S	376	Event	FLAG_ARRIVE_D07R0118	
+S	377	Event	FLAG_ARRIVE_D07R0119	
+S	378	Event	FLAG_ARRIVE_D09R0101	
+S	379	Event	FLAG_ARRIVE_D09R0102	
+S	380	Event	FLAG_ARRIVE_D09R0103	
+S	381	Event	FLAG_ARRIVE_D09R0104	
+S	382	Event	FLAG_ARRIVE_D09R0105	
+S	383	Event	FLAG_ARRIVE_D09R0106	
+S	384	Event	FLAG_ARRIVE_D10R0101	
+S	385	Event	FLAG_ARRIVE_D11R0101	
+S	386	Event	FLAG_ARRIVE_D12R0101	
+S	387	Event	FLAG_ARRIVE_D13R0101	
+S	388	Event	FLAG_ARRIVE_D13R0102	
+S	389	Event	FLAG_ARRIVE_D14R0101	
+S	390	Event	FLAG_ARRIVE_D14R0102	
+S	391	Event	FLAG_ARRIVE_D15	
+S	392	Event	FLAG_ARRIVE_D15R0101	
+S	393	Event	FLAG_ARRIVE_D16	
+S	394	Event	FLAG_ARRIVE_D16R0101	
+S	395	Event	FLAG_ARRIVE_D16R0102	
+S	396	Event	FLAG_ARRIVE_D16R0103	
+S	397	Event	FLAG_ARRIVE_D17R0101	
+S	398	Event	FLAG_ARRIVE_D17R0102	
+S	399	Event	FLAG_ARRIVE_D17R0103	
+S	400	Event	FLAG_ARRIVE_D17R0104	
+S	401	Event	FLAG_ARRIVE_D17R0105	
+S	402	Event	FLAG_ARRIVE_D17R0106	
+S	403	Event	FLAG_ARRIVE_D17R0107	
+S	404	Event	FLAG_ARRIVE_D17R0108	
+S	405	Event	FLAG_ARRIVE_D17R0109	
+S	406	Event	FLAG_ARRIVE_D17R0110	
+S	407	Event	FLAG_ARRIVE_D17R0111	
+S	408	Event	FLAG_ARRIVE_D17R0112	
+S	409	Event	FLAG_ARRIVE_D17R0113	
+S	410	Event	FLAG_ARRIVE_D17R0114	
+S	411	Event	FLAG_ARRIVE_D17R0115	
+S	412	Event	FLAG_ARRIVE_D17R0116	
+S	413	Event	FLAG_ARRIVE_D17R0117	
+S	414	Event	FLAG_ARRIVE_D17R0118	
+S	415	Event	FLAG_ARRIVE_D17R0119	
+S	416	Event	FLAG_ARRIVE_D17R0120	
+S	417	Event	FLAG_ARRIVE_D17R0121	
+S	418	Event	FLAG_ARRIVE_D17R0122	
+S	419	Event	FLAG_ARRIVE_D18	
+S	420	Event	FLAG_ARRIVE_D20R0101	
+S	421	Event	FLAG_ARRIVE_D20R0102	
+S	422	Event	FLAG_ARRIVE_D20R0103	
+S	423	Event	FLAG_ARRIVE_D20R0104	
+S	424	Event	FLAG_ARRIVE_D20R0105	
+S	425	Event	FLAG_ARRIVE_D20R0106	
+S	426	Event	FLAG_ARRIVE_D21R0101	
+S	427	Event	FLAG_ARRIVE_D21R0102	
+S	428	Event	FLAG_ARRIVE_D22R0101	
+S	429	Event	FLAG_ARRIVE_D22R0102	
+S	430	Event	FLAG_ARRIVE_D22R0103	
+S	431	Event	FLAG_ARRIVE_D23R0101	
+S	432	Event	FLAG_ARRIVE_D24	
+S	433	Event	FLAG_ARRIVE_D24R0101	
+S	434	Event	FLAG_ARRIVE_D24R0102	
+S	435	Event	FLAG_ARRIVE_D24R0103	
+S	436	Event	FLAG_ARRIVE_D24R0104	
+S	437	Event	FLAG_ARRIVE_D24R0105	
+S	438	Event	FLAG_ARRIVE_D24R0106	
+S	439	Event	FLAG_ARRIVE_D24R0201	
+S	440	Event	FLAG_ARRIVE_D25R0101	
+S	441	Event	FLAG_ARRIVE_D25R0102	
+S	442	Event	FLAG_ARRIVE_D25R0103	
+S	443	Event	FLAG_ARRIVE_D25R0104	
+S	444	Event	FLAG_ARRIVE_D25R0105	
+S	445	Event	FLAG_ARRIVE_D25R0106	
+S	446	Event	FLAG_ARRIVE_D25R0107	
+S	447	Event	FLAG_ARRIVE_D25R0108	
+S	448	Event	FLAG_ARRIVE_D25R0109	
+S	449	Event	FLAG_ARRIVE_D26R0101	
+S	450	Event	FLAG_ARRIVE_D26R0102	
+S	451	Event	FLAG_ARRIVE_D26R0103	
+S	452	Event	FLAG_ARRIVE_D26R0104	
+S	453	Event	FLAG_ARRIVE_D26R0105	
+S	454	Event	FLAG_ARRIVE_D26R0106	
+S	455	Event	FLAG_ARRIVE_D26R0107	
+S	456	Event	FLAG_ARRIVE_D26R0108	
+S	457	Event	FLAG_ARRIVE_D27R0101	
+S	458	Event	FLAG_ARRIVE_D27R0102	
+S	459	Event	FLAG_ARRIVE_D27R0103	
+S	460	Event	FLAG_ARRIVE_D28R0101	
+S	461	Event	FLAG_ARRIVE_D28R0102	
+S	462	Event	FLAG_ARRIVE_D28R0103	
+S	463	Event	FLAG_ARRIVE_D29R0101	
+S	464	Event	FLAG_ARRIVE_D29R0102	
+S	465	Event	FLAG_ARRIVE_D29R0103	
+S	466	Event	FLAG_ARRIVE_D30	
+S	467	Event	FLAG_ARRIVE_D30R0101	
+S	468	Event	FLAG_ARRIVE_D31	
+S	469	Event	FLAG_ARRIVE_D31R0101	
+S	470	Event	FLAG_ARRIVE_D31R0201	
+S	471	Event	FLAG_ARRIVE_D31R0202	
+S	472	Event	FLAG_ARRIVE_D31R0203	
+S	473	Event	FLAG_ARRIVE_D31R0204	
+S	474	Event	FLAG_ARRIVE_D31R0205	
+S	475	Event	FLAG_ARRIVE_D31R0206	
+S	476	Event	FLAG_ARRIVE_D31R0207	
+S	477	Event	FLAG_ARRIVE_DIRECT2	
+S	478	Event	FLAG_ARRIVE_DIRECT4	
+S	479	Event	FLAG_ARRIVE_EVERYWHERE	
+S	480	Event	FLAG_ARRIVE_L01	
+S	481	Event	FLAG_ARRIVE_L02	
+S	482	Event	FLAG_ARRIVE_L02R0101	
+S	483	Event	FLAG_ARRIVE_L02R0201	
+S	484	Event	FLAG_ARRIVE_L02R0301	
+S	485	Event	FLAG_ARRIVE_L03	
+S	486	Event	FLAG_ARRIVE_L04	
+S	487	Event	FLAG_ARRIVE_NOTHING	
+S	488	Event	FLAG_ARRIVE_R201	
+S	489	Event	FLAG_ARRIVE_R202	
+S	490	Event	FLAG_ARRIVE_R203	
+S	491	Event	FLAG_ARRIVE_R204A	
+S	492	Event	FLAG_ARRIVE_R204B	
+S	493	Event	FLAG_ARRIVE_R205A	
+S	494	Event	FLAG_ARRIVE_R205AR0101	
+S	495	Event	FLAG_ARRIVE_R205B	
+S	496	Event	FLAG_ARRIVE_R206	
+S	497	Event	FLAG_ARRIVE_R206R0101	
+S	498	Event	FLAG_ARRIVE_R207	
+S	499	Event	FLAG_ARRIVE_R208	
+S	500	Event	FLAG_ARRIVE_R208R0101	
+S	501	Event	FLAG_ARRIVE_R209	
+S	502	Event	FLAG_ARRIVE_R209R0101	
+S	503	Event	FLAG_ARRIVE_R209R0102	
+S	504	Event	FLAG_ARRIVE_R209R0103	
+S	505	Event	FLAG_ARRIVE_R209R0104	
+S	506	Event	FLAG_ARRIVE_R209R0105	
+S	507	Event	FLAG_ARRIVE_R210A	
+S	508	Event	FLAG_ARRIVE_R210AR0101	
+S	509	Event	FLAG_ARRIVE_R210B	
+S	510	Event	FLAG_ARRIVE_R210BR0101	
+S	511	Event	FLAG_ARRIVE_R211A	
+S	512	Event	FLAG_ARRIVE_R211B	
+S	513	Event	FLAG_ARRIVE_R212A	
+S	514	Event	FLAG_ARRIVE_R212AR0101	
+S	515	Event	FLAG_ARRIVE_R212AR0102	
+S	516	Event	FLAG_ARRIVE_R212AR0103	
+S	517	Event	FLAG_ARRIVE_R212B	
+S	518	Event	FLAG_ARRIVE_R212BR0101	
+S	519	Event	FLAG_ARRIVE_R213	
+S	520	Event	FLAG_ARRIVE_R213R0101	
+S	521	Event	FLAG_ARRIVE_R213R0201	
+S	522	Event	FLAG_ARRIVE_R213R0301	
+S	523	Event	FLAG_ARRIVE_R213R0401	
+S	524	Event	FLAG_ARRIVE_R213R0501	
+S	525	Event	FLAG_ARRIVE_R213R0601	
+S	526	Event	FLAG_ARRIVE_R214	
+S	527	Event	FLAG_ARRIVE_R214R0101	
+S	528	Event	FLAG_ARRIVE_R215	
+S	529	Event	FLAG_ARRIVE_R216	
+S	530	Event	FLAG_ARRIVE_R216R0101	
+S	531	Event	FLAG_ARRIVE_R217	
+S	532	Event	FLAG_ARRIVE_R217R0101	
+S	533	Event	FLAG_ARRIVE_R217R0201	
+S	534	Event	FLAG_ARRIVE_R218	
+S	535	Event	FLAG_ARRIVE_R218R0101	
+S	536	Event	FLAG_ARRIVE_R218R0201	
+S	537	Event	FLAG_ARRIVE_R219	
+S	538	Event	FLAG_ARRIVE_R221	
+S	539	Event	FLAG_ARRIVE_R221R0101	
+S	540	Event	FLAG_ARRIVE_R221R0201	
+S	541	Event	FLAG_ARRIVE_R222	
+S	542	Event	FLAG_ARRIVE_R222R0101	
+S	543	Event	FLAG_ARRIVE_R222R0201	
+S	544	Event	FLAG_ARRIVE_R222R0301	
+S	545	Event	FLAG_ARRIVE_R224	
+S	546	Event	FLAG_ARRIVE_R225	
+S	547	Event	FLAG_ARRIVE_R225R0101	
+S	548	Event	FLAG_ARRIVE_R227	
+S	549	Event	FLAG_ARRIVE_R227R0101	
+S	550	Event	FLAG_ARRIVE_R228	
+S	551	Event	FLAG_ARRIVE_R228R0101	
+S	552	Event	FLAG_ARRIVE_R228R0201	
+S	553	Event	FLAG_ARRIVE_R228R0301	
+S	554	Event	FLAG_ARRIVE_R229	
+S	555	Event	FLAG_ARRIVE_RECORD	
+S	556	Event	FLAG_ARRIVE_T01	
+S	557	Event	FLAG_ARRIVE_T01R0101	
+S	558	Event	FLAG_ARRIVE_T01R0102	
+S	559	Event	FLAG_ARRIVE_T01R0201	
+S	560	Event	FLAG_ARRIVE_T01R0202	
+S	561	Event	FLAG_ARRIVE_T01R0301	
+S	562	Event	FLAG_ARRIVE_T01R0401	
+S	563	Event	FLAG_ARRIVE_T02	
+S	564	Event	FLAG_ARRIVE_T02FS0101	
+S	565	Event	FLAG_ARRIVE_T02PC0101	
+S	566	Event	FLAG_ARRIVE_T02PC0102	
+S	567	Event	FLAG_ARRIVE_T02PC0103	
+S	568	Event	FLAG_ARRIVE_T02R0101	
+S	569	Event	FLAG_ARRIVE_T02R0201	
+S	570	Event	FLAG_ARRIVE_T02R0202	
+S	571	Event	FLAG_ARRIVE_T02R0301	
+S	572	Event	FLAG_ARRIVE_T03	
+S	573	Event	FLAG_ARRIVE_T03FS0101	
+S	574	Event	FLAG_ARRIVE_T03PC0101	
+S	575	Event	FLAG_ARRIVE_T03PC0102	
+S	576	Event	FLAG_ARRIVE_T03PC0103	
+S	577	Event	FLAG_ARRIVE_T03R0101	
+S	578	Event	FLAG_ARRIVE_T03R0201	
+S	579	Event	FLAG_ARRIVE_T03R0301	
+S	580	Event	FLAG_ARRIVE_T04	
+S	581	Event	FLAG_ARRIVE_T04FS0101	
+S	582	Event	FLAG_ARRIVE_T04PC0101	
+S	583	Event	FLAG_ARRIVE_T04PC0102	
+S	584	Event	FLAG_ARRIVE_T04PC0103	
+S	585	Event	FLAG_ARRIVE_T04R0101	
+S	586	Event	FLAG_ARRIVE_T04R0201	
+S	587	Event	FLAG_ARRIVE_T04R0301	
+S	588	Event	FLAG_ARRIVE_T04R0401	
+S	589	Event	FLAG_ARRIVE_T04R0501	
+S	590	Event	FLAG_ARRIVE_T05	
+S	591	Event	FLAG_ARRIVE_T05PC0101	
+S	592	Event	FLAG_ARRIVE_T05PC0102	
+S	593	Event	FLAG_ARRIVE_T05PC0103	
+S	594	Event	FLAG_ARRIVE_T05R0101	
+S	595	Event	FLAG_ARRIVE_T05R0201	
+S	596	Event	FLAG_ARRIVE_T05R0301	
+S	597	Event	FLAG_ARRIVE_T05R0401	
+S	598	Event	FLAG_ARRIVE_T05R0501	
+S	599	Event	FLAG_ARRIVE_T06	
+S	600	Event	FLAG_ARRIVE_T06FS0101	
+S	601	Event	FLAG_ARRIVE_T06PC0101	
+S	602	Event	FLAG_ARRIVE_T06PC0102	
+S	603	Event	FLAG_ARRIVE_T06PC0103	
+S	604	Event	FLAG_ARRIVE_T06R0101	
+S	605	Event	FLAG_ARRIVE_T06R0201	
+S	606	Event	FLAG_ARRIVE_T06R0301	
+S	607	Event	FLAG_ARRIVE_T07	
+S	608	Event	FLAG_ARRIVE_T07FS0101	
+S	609	Event	FLAG_ARRIVE_T07PC0101	
+S	610	Event	FLAG_ARRIVE_T07PC0102	
+S	611	Event	FLAG_ARRIVE_T07PC0103	
+S	612	Event	FLAG_ARRIVE_T07R0101	
+S	613	Event	FLAG_ARRIVE_T07R0102	
+S	614	Event	FLAG_ARRIVE_T07R0103	
+S	615	Event	FLAG_ARRIVE_T07R0201	
+S	616	Event	FLAG_ARRIVE_T07R0301	
+S	617	Event	FLAG_ARRIVE_UG	
+S	618	Event	FLAG_ARRIVE_UNION	
+S	619	Event	FLAG_ARRIVE_W220	
+S	620	Event	FLAG_ARRIVE_W223	
+S	621	Event	FLAG_ARRIVE_W226	
+S	622	Event	FLAG_ARRIVE_W226R0101	
+S	623	Event	FLAG_ARRIVE_W230	
+S	624	Event	FLAG_ARRIVE_W231	
+S	625	Event	FLAG_ARRIVE_UNION01	
+S	626	Event	FLAG_ARRIVE_UNION02	
+S	627	Event	FLAG_ARRIVE_UNION03	
+S	628	Event	FLAG_ARRIVE_C04R0205	
+S	629	Event	FLAG_ARRIVE_D10R0201	
+S	630	Event	FLAG_ARRIVE_D10R0202	
+S	631	Event	FLAG_ARRIVE_D10R0301	
+S	632	Event	FLAG_ARRIVE_D10R0302	
+S	633	Event	FLAG_ARRIVE_D10R0303	
+S	634	Event	FLAG_ARRIVE_D10R0401	
+S	635	Event	FLAG_ARRIVE_D10R0402	
+S	636	Event	FLAG_ARRIVE_D10R0403	
+S	637	Event	FLAG_ARRIVE_D10R0501	
+S	638	Event	FLAG_ARRIVE_D10R0502	
+S	639	Event	FLAG_ARRIVE_D10R0601	
+S	640	Event	FLAG_ARRIVE_D10R0701	
+S	641	Event	FLAG_ARRIVE_D10R0801	
+S	642	Event	FLAG_ARRIVE_UGA01	
+S	643	Event	FLAG_ARRIVE_UGA02	
+S	644	Event	FLAG_ARRIVE_UGA03	
+S	645	Event	FLAG_ARRIVE_UGA04	
+S	646	Event	FLAG_ARRIVE_UGA05	
+S	647	Event	FLAG_ARRIVE_UGA06	
+S	648	Event	FLAG_ARRIVE_UGA07	
+S	649	Event	FLAG_ARRIVE_UGA08	
+S	650	Event	FLAG_ARRIVE_UGA09	
+S	651	Event	FLAG_ARRIVE_UGA10	
+S	652	Event	FLAG_ARRIVE_UGB01	
+S	653	Event	FLAG_ARRIVE_UGB02	
+S	654	Event	FLAG_ARRIVE_UGB03	
+S	655	Event	FLAG_ARRIVE_UGB04	
+S	656	Event	FLAG_ARRIVE_UGB05	
+S	657	Event	FLAG_ARRIVE_UGB06	
+S	658	Event	FLAG_ARRIVE_UGB07	
+S	659	Event	FLAG_ARRIVE_UGC01	
+S	660	Event	FLAG_ARRIVE_UGD01	
+S	661	Event	FLAG_ARRIVE_UGD02	
+S	662	Event	FLAG_ARRIVE_UGD03	
+S	663	Event	FLAG_ARRIVE_UGD04	
+S	664	Event	FLAG_ARRIVE_UGD05	
+S	665	Event	FLAG_ARRIVE_UGE01	
+S	666	Event	FLAG_ARRIVE_UGE02	
+S	667	Event	FLAG_ARRIVE_UGE03	
+S	668	Event	FLAG_ARRIVE_UGE04	
+S	669	Event	FLAG_ARRIVE_UGE05	
+S	670	Event	FLAG_ARRIVE_UGF01	
+S	671	Event	FLAG_ARRIVE_UGF02	
+S	672	Event	FLAG_ARRIVE_UGF03	
+S	673	Event	FLAG_ARRIVE_UGF04	
+S	674	Event	FLAG_ARRIVE_UGF05	
+S	675	Event	FLAG_ARRIVE_UGF06	
+S	676	Event	FLAG_ARRIVE_UGF07	
+S	677	Event	FLAG_ARRIVE_UGSPACE01	
+S	678	Event	FLAG_ARRIVE_UGSPACE02	
+S	679	Event	FLAG_ARRIVE_UGSPACE03	
+S	680	Event	FLAG_ARRIVE_UGSPACE04	
+S	681	Event	FLAG_ARRIVE_UGSPACE05	
+S	682	Event	FLAG_ARRIVE_UGSPACE06	
+S	683	Event	FLAG_ARRIVE_UGSPACE07	
+S	684	Event	FLAG_ARRIVE_UGSPACE08	
+S	685	Event	FLAG_ARRIVE_UGSPACE09	
+S	686	Event	FLAG_ARRIVE_UGSPACE10	
+S	687	Event	FLAG_ARRIVE_UGSPACE11	
+S	688	Event	FLAG_ARRIVE_UGSPACE12	
+S	689	Event	FLAG_ARRIVE_UGSPACE13	
+S	690	Event	FLAG_ARRIVE_UGSPACE14	
+S	691	Event	FLAG_ARRIVE_UGSPACE15	
+S	692	Event	FLAG_ARRIVE_UGSPACE16	
+S	693	Event	FLAG_ARRIVE_UGSPACE17	
+S	694	Event	FLAG_ARRIVE_UGSPACE18	
+S	695	Event	FLAG_ARRIVE_UGSPACE19	
+S	696	Event	FLAG_ARRIVE_UGSPACE20	
+S	697	Event	FLAG_ARRIVE_UGSPACE21	
+S	698	Event	FLAG_ARRIVE_UGSPACE22	
+S	699	Event	FLAG_ARRIVE_UGSPACE23	
+S	700	Event	FLAG_ARRIVE_UGSPACE24	
+S	701	Event	FLAG_ARRIVE_UGSPACE25	
+S	702	Event	FLAG_ARRIVE_UGSPACE26	
+S	703	Event	FLAG_ARRIVE_UGSPACE27	
+S	704	Event	FLAG_ARRIVE_UGSPACE28	
+S	705	Event	FLAG_ARRIVE_UGSPACE29	
+S	706	Event	FLAG_ARRIVE_UGSPACE30	
+S	707	Event	FLAG_ARRIVE_UGSPACE31	
+S	708	Event	FLAG_ARRIVE_UGSPACE32	
+S	709	Event	FLAG_ARRIVE_UGSPACE33	
+S	710	Event	FLAG_ARRIVE_UGSPACE34	
+S	711	Event	FLAG_ARRIVE_UGSPACE35	
+S	712	Event	FLAG_ARRIVE_UGSPACE36	
+S	713	Event	FLAG_ARRIVE_UGSPACE37	
+S	714	Event	FLAG_ARRIVE_UGSPACE38	
+S	715	Event	FLAG_ARRIVE_UGSPACE39	
+S	716	Event	FLAG_ARRIVE_UGSPACE40	
+S	717	Event	FLAG_ARRIVE_UGSPACE41	
+S	718	Event	FLAG_ARRIVE_UGSPACE42	
+S	719	Event	FLAG_ARRIVE_UGSPACE43	
+S	720	Event	FLAG_ARRIVE_UGSPACE44	
+S	721	Event	FLAG_ARRIVE_UGSPACE45	
+S	722	Event	FLAG_ARRIVE_UGSPACE46	
+S	723	Event	FLAG_ARRIVE_UGSPACE47	
+S	724	Event	FLAG_ARRIVE_UGSPACE48	
+S	725	Event	FLAG_ARRIVE_UGSPACE49	
+S	726	Event	FLAG_ARRIVE_UGSPACE50	
+S	727	Event	FLAG_ARRIVE_UGSPACE51	
+S	728	Event	FLAG_ARRIVE_UGSPACE52	
+S	729	Event	FLAG_ARRIVE_UGSPACE53	
+S	730	Event	FLAG_ARRIVE_UGSPACE54	
+S	731	Event	FLAG_ARRIVE_UGSPACE55	
+S	732	Event	FLAG_ARRIVE_UGSPACE56	
+S	733	Event	FLAG_ARRIVE_UGSPACE57	
+S	734	Event	FLAG_ARRIVE_UGSPACE58	
+S	735	Event	FLAG_ARRIVE_UGSPACE59	
+S	736	Event	FLAG_ARRIVE_UGSPACE60	
+S	737	Event	FLAG_ARRIVE_UGSPACE61	
+S	738	Event	FLAG_ARRIVE_UGSPACE62	
+S	739	Event	FLAG_ARRIVE_UGSPACE63	
+S	740	Event	FLAG_ARRIVE_UGSPACE64	
+S	741	Event	FLAG_ARRIVE_UGSPACE65	
+S	742	Event	FLAG_ARRIVE_UGSPACE66	
+S	743	Event	FLAG_ARRIVE_UGSPACE67	
+S	744	Event	FLAG_ARRIVE_UGSPACE68	
+S	745	Event	FLAG_ARRIVE_UGSPACEL01	
+S	746	Event	FLAG_ARRIVE_UGSPACEL02	
+S	747	Event	FLAG_ARRIVE_UGSPACEL03	
+S	748	Event	FLAG_ARRIVE_UGSPACEL04	
+S	749	Event	FLAG_ARRIVE_UGSPACEL05	
+S	750	Event	FLAG_ARRIVE_UGSPACEL06	
+S	751	Event	FLAG_ARRIVE_UGSPACEL07	
+S	752	Event	FLAG_ARRIVE_D05R0117	
+S	753	Event	FLAG_ARRIVE_D10R0901	
+S	754	Event	FLAG_ARRIVE_UGSECRETBASE01	
+S	755	Event	FLAG_ARRIVE_UGSECRETBASE02	
+S	756	Event	FLAG_ARRIVE_UGSECRETBASE03	
+S	757	Event	FLAG_ARRIVE_UGSECRETBASE04	
+S	758	Misc	SYS_FLAG_CON_STYLE_NORMAL	
+S	759	Misc	SYS_FLAG_CON_STYLE_GREAT	
+S	760	Misc	SYS_FLAG_CON_STYLE_ULTRA	
+S	761	Misc	SYS_FLAG_CON_BEAUTIFUL_NORMAL	
+S	762	Misc	SYS_FLAG_CON_BEAUTIFUL_GREAT	
+S	763	Misc	SYS_FLAG_CON_BEAUTIFUL_ULTRA	
+S	764	Misc	SYS_FLAG_CON_CUTE_NORMAL	
+S	765	Misc	SYS_FLAG_CON_CUTE_GREAT	
+S	766	Misc	SYS_FLAG_CON_CUTE_ULTRA	
+S	767	Misc	SYS_FLAG_CON_CLEVER_NORMAL	
+S	768	Misc	SYS_FLAG_CON_CLEVER_GREAT	
+S	769	Misc	SYS_FLAG_CON_CLEVER_ULTRA	
+S	770	Misc	SYS_FLAG_CON_STRONG_NORMAL	
+S	771	Misc	SYS_FLAG_CON_STRONG_GREAT	
+S	772	Misc	SYS_FLAG_CON_STRONG_ULTRA	
+S	773	Event	SYS_FLAG_CAMERA_REVERSAL	
+S	774	Event	SYS_FLAG_ZENKOKU_GYM_KAIHOU	
+S	775	Event	SYS_FLAG_FIELD_STOPER_NOTHING	
+S	776	Event	SYS_FLAG_BATTLE_TOWER_M_S_OPEN	
+S	777	Event	SYS_FUREAI_EXIT	
+S	778	Event	SYS_HUSIGINAOKURIMONO_OPEN_FLAG	
+S	779	ItemGift	SYS_GET_CAP	
+S	780	Event	SYS_NO_CAP_MODEL	
+S	781	Event	SYS_INPUT_OFF	
+S	782	Event	SYS_BOX_SYSTEM_OFF	
+S	783	Event	SYS_DENDOU_OFF	
+S	784	Event	SYS_ZENMETU_MUSI	
+S	785	Event	SYS_FLAG_BATTLE_TOWER_M_D_OPEN	
+S	786	Event	SYS_ROTOMU_HOT	
+S	787	Event	SYS_ROTOMU_WASH	
+S	788	Event	SYS_ROTOMU_COLD	
+S	789	Event	SYS_ROTOMU_FAN	
+S	790	Event	SYS_ROTOMU_CUT	
+S	791	Event	SYS_TRAINER_CARD_OPEN	
+S	792	Misc	SYS_FLAG_CON_FUR_NORMAL	
+S	793	Misc	SYS_FLAG_CON_FUR_GREAT	
+S	794	Misc	SYS_FLAG_CON_FUR_ULTRA	
+S	795	Event	SYS_FLAG_SUPPORT_HOUSE	
+S	796	Event	SYS_FLAG_USE_TODAY_IWAKUDAKI	
+S	797	Event	SYS_FLAG_USE_TODAY_IAIGIRI	
+S	798	Event	SYS_FLAG_USE_TODAY_SORAWOTOBU	
+S	799	Event	SYS_FLAG_USE_TODAY_KIRIBARAI	
+S	800	Event	SYS_FLAG_USE_TODAY_NAMINORI	
+S	801	Event	SYS_FLAG_USE_TODAY_KAIRIKI	
+S	802	Event	SYS_FLAG_USE_TODAY_ROKKUKURAIMU	
+S	803	Event	SYS_FLAG_USE_TODAY_TAKINOBORI	
+S	804	Event	SYS_FLAG_UG_FRIEND_KASEKIHORI_SUCCESS	
+S	805	Event	SYS_FLAG_UG_HIMITUKITI_INTO	
+S	806	Event	SYS_FLAG_WILDCARD_000	
+S	807	Event	SYS_FLAG_WILDCARD_001	
+S	808	Event	SYS_FLAG_WILDCARD_002	
+S	809	Event	SYS_FLAG_WILDCARD_003	
+S	810	Event	SYS_FLAG_WILDCARD_004	
+S	811	Event	SYS_FLAG_WILDCARD_005	
+S	812	Event	SYS_FLAG_WILDCARD_006	
+S	813	Event	SYS_FLAG_WILDCARD_007	
+S	814	Event	SYS_FLAG_WILDCARD_008	
+S	815	Event	SYS_FLAG_WILDCARD_009	
+S	816	Event	SYS_FLAG_WILDCARD_010	
+S	817	Event	SYS_FLAG_WILDCARD_011	
+S	818	Event	SYS_FLAG_WILDCARD_012	
+S	819	Event	SYS_FLAG_WILDCARD_013	
+S	820	Event	SYS_FLAG_WILDCARD_014	
+S	821	Event	SYS_FLAG_WILDCARD_015	
+S	822	Event	SYS_FLAG_WILDCARD_016	
+S	823	Event	SYS_FLAG_WILDCARD_017	
+S	824	Event	SYS_FLAG_WILDCARD_018	
+S	825	Event	SYS_FLAG_WILDCARD_019	
+S	826	Event	SYS_FLAG_WILDCARD_020	
+S	827	Event	SYS_FLAG_WILDCARD_021	
+S	828	Event	SYS_FLAG_WILDCARD_022	
+S	829	Event	SYS_FLAG_WILDCARD_023	
+S	830	Event	SYS_FLAG_WILDCARD_024	
+S	831	Event	SYS_FLAG_WILDCARD_025	
+S	832	Event	SYS_FLAG_WILDCARD_026	
+S	833	Event	SYS_FLAG_WILDCARD_027	
+S	834	Event	SYS_FLAG_WILDCARD_028	
+S	835	Event	SYS_FLAG_WILDCARD_029	
+S	836	Event	SYS_FLAG_WILDCARD_030	
+S	837	Event	SYS_FLAG_WILDCARD_031	
+S	838	Event	SYS_FLAG_WILDCARD_032	
+S	839	Event	SYS_FLAG_WILDCARD_033	
+S	840	Event	SYS_FLAG_WILDCARD_034	
+S	841	Event	SYS_FLAG_WILDCARD_035	
+S	842	Event	SYS_FLAG_WILDCARD_036	
+S	843	Event	SYS_FLAG_WILDCARD_037	
+S	844	Event	SYS_FLAG_WILDCARD_038	
+S	845	Event	SYS_FLAG_WILDCARD_039	
+S	846	Event	SYS_FLAG_WILDCARD_040	
+S	847	Event	SYS_FLAG_WILDCARD_041	
+S	848	Event	SYS_FLAG_WILDCARD_042	
+S	849	Event	SYS_FLAG_WILDCARD_043	
+S	850	Event	SYS_FLAG_WILDCARD_044	
+S	851	Event	SYS_FLAG_WILDCARD_045	
+S	852	Event	SYS_FLAG_WILDCARD_046	
+S	853	Event	SYS_FLAG_WILDCARD_047	
+S	854	Event	SYS_FLAG_WILDCARD_048	
+S	855	Event	SYS_FLAG_WILDCARD_049	
+S	856	Event	SYS_FLAG_WILDCARD_050	
+S	857	Event	SYS_FLAG_WILDCARD_051	
+S	858	Event	SYS_FLAG_WILDCARD_052	
+S	859	Event	SYS_FLAG_WILDCARD_053	
+S	860	Event	SYS_FLAG_WILDCARD_054	
+S	861	Event	SYS_FLAG_WILDCARD_055	
+S	862	Event	SYS_FLAG_WILDCARD_056	
+S	863	Event	SYS_FLAG_WILDCARD_057	
+S	864	Event	SYS_FLAG_WILDCARD_058	
+S	865	Event	SYS_FLAG_WILDCARD_059	
+S	866	Event	SYS_FLAG_WILDCARD_060	
+S	867	Event	SYS_FLAG_WILDCARD_061	
+S	868	Event	SYS_FLAG_WILDCARD_062	
+S	869	Event	SYS_FLAG_WILDCARD_063	
+S	870	Event	SYS_FLAG_WILDCARD_064	
+S	871	Event	SYS_FLAG_WILDCARD_065	
+S	872	Event	SYS_FLAG_WILDCARD_066	
+S	873	Event	SYS_FLAG_WILDCARD_067	
+S	874	Event	SYS_FLAG_WILDCARD_068	
+S	875	Event	SYS_FLAG_WILDCARD_069	
+S	876	Event	SYS_FLAG_WILDCARD_070	
+S	877	Event	SYS_FLAG_WILDCARD_071	
+S	878	Event	SYS_FLAG_WILDCARD_072	
+S	879	Event	SYS_FLAG_WILDCARD_073	
+S	880	Event	SYS_FLAG_WILDCARD_074	
+S	881	Event	SYS_FLAG_WILDCARD_075	
+S	882	Event	SYS_FLAG_WILDCARD_076	
+S	883	Event	SYS_FLAG_WILDCARD_077	
+S	884	Event	SYS_FLAG_WILDCARD_078	
+S	885	Event	SYS_FLAG_WILDCARD_079	
+S	886	Event	SYS_FLAG_WILDCARD_080	
+S	887	Event	SYS_FLAG_WILDCARD_081	
+S	888	Event	SYS_FLAG_WILDCARD_082	
+S	889	Event	SYS_FLAG_WILDCARD_083	
+S	890	Event	SYS_FLAG_WILDCARD_084	
+S	891	Event	SYS_FLAG_WILDCARD_085	
+S	892	Event	SYS_FLAG_WILDCARD_086	
+S	893	Event	SYS_FLAG_WILDCARD_087	
+S	894	Event	SYS_FLAG_WILDCARD_088	
+S	895	Event	SYS_FLAG_WILDCARD_089	
+S	896	Event	SYS_FLAG_WILDCARD_090	
+S	897	Event	SYS_FLAG_WILDCARD_091	
+S	898	Event	SYS_FLAG_WILDCARD_092	
+S	899	Event	SYS_FLAG_WILDCARD_093	
+S	900	Event	SYS_FLAG_WILDCARD_094	
+S	901	Event	SYS_FLAG_WILDCARD_095	
+S	902	Event	SYS_FLAG_WILDCARD_096	
+S	903	Event	SYS_FLAG_WILDCARD_097	
+S	904	Event	SYS_FLAG_WILDCARD_098	
+S	905	Event	SYS_FLAG_WILDCARD_099	
+S	906	Event	SYS_FLAG_WILDCARD_100	
+S	907	Event	SYS_FLAG_AUTOSAVE_STOP	
+S	908	Event	SYS_FLAG_MAP_INFO_STOP	
+S	909	Event	SYS_FLAG_BTL_RETURN_CALL_SP	
+S	910	Event	FLAG_ARRIVE_D10R0902	
+S	911	Event	FLAG_ARRIVE_SEA01	
+S	912	Event	FLAG_ARRIVE_C01R0209	
+S	913	Event	FLAG_ARRIVE_UGAASECRETBASE01	
+S	914	Event	FLAG_ARRIVE_UGAASECRETBASE02	
+S	915	Event	FLAG_ARRIVE_UGAASECRETBASE03	
+S	916	Event	FLAG_ARRIVE_UGABSECRETBASE01	
+S	917	Event	FLAG_ARRIVE_UGABSECRETBASE02	
+S	918	Event	FLAG_ARRIVE_UGABSECRETBASE03	
+S	919	Event	FLAG_ARRIVE_UGBASECRETBASE01	
+S	920	Event	FLAG_ARRIVE_UGBASECRETBASE02	
+S	921	Event	FLAG_ARRIVE_UGBASECRETBASE03	
+S	922	Event	FLAG_ARRIVE_UGCASECRETBASE01	
+S	923	Event	FLAG_ARRIVE_UGCASECRETBASE02	
+S	924	Event	FLAG_ARRIVE_UGCASECRETBASE03	
+S	925	Event	FLAG_ARRIVE_UGDASECRETBASE01	
+S	926	Event	FLAG_ARRIVE_UGDASECRETBASE02	
+S	927	Event	FLAG_ARRIVE_UGDASECRETBASE03	
+S	928	Event	FLAG_ARRIVE_UGEASECRETBASE01	
+S	929	Event	FLAG_ARRIVE_UGEASECRETBASE02	
+S	930	Event	FLAG_ARRIVE_UGEASECRETBASE03	
+S	931	Event	FLAG_ARRIVE_UGFASECRETBASE01	
+S	932	Event	FLAG_ARRIVE_UGFASECRETBASE02	
+S	933	Event	FLAG_ARRIVE_UGFASECRETBASE03	
+S	934	Event	FLAG_ARRIVE_D10R0202B	
+S	935	Event	FLAG_ARRIVE_D10R0301B	
+S	936	Event	FLAG_ARRIVE_D10R0302B	
+S	937	Event	FLAG_ARRIVE_D10R0303B	
+S	938	Event	FLAG_ARRIVE_D10R0401B	
+S	939	Event	FLAG_ARRIVE_D10R0402B	
+S	940	Event	FLAG_ARRIVE_D10R0403B	
+S	941	Event	FLAG_ARRIVE_D10R0501B	
+S	942	Event	FLAG_ARRIVE_D10R0502B	
+S	943	Event	FLAG_ARRIVE_D10R0601B	
+S	944	Event	FLAG_ARRIVE_OTHER_ZONE1	
+S	945	Event	FLAG_ARRIVE_OTHER_ZONE2	
+S	946	Event	FLAG_ARRIVE_OTHER_ZONE3	
+S	947	Event	FLAG_ARRIVE_OTHER_ZONE4	
+S	948	Event	FLAG_ARRIVE_OTHER_ZONE5	
+S	949	Event	FLAG_ARRIVE_OTHER_ZONE6	
+S	950	Event	FLAG_ARRIVE_OTHER_ZONE7	
+S	951	Event	FLAG_ARRIVE_OTHER_ZONE8	
+S	952	Event	FLAG_ARRIVE_OTHER_ZONE9	
+S	953	Event	FLAG_ARRIVE_OTHER_ZONE10	
+S	954	Event	FLAG_ARRIVE_OTHER_ZONE11	
+S	955	Event	FLAG_ARRIVE_OTHER_ZONE12	
+S	956	Event	FLAG_ARRIVE_OTHER_ZONE13	
+S	957	Event	FLAG_ARRIVE_OTHER_ZONE14	
+S	958	Event	FLAG_ARRIVE_OTHER_ZONE15	
+S	959	Event	FLAG_ARRIVE_OTHER_ZONE16	
+S	960	Event	FLAG_ARRIVE_OTHER_ZONE17	
+S	961	Event	FLAG_ARRIVE_OTHER_ZONE18	
+S	962	Event	FLAG_ARRIVE_OTHER_ZONE19	
+S	963	Event	FLAG_ARRIVE_OTHER_ZONE20	
+S	964	Event	FLAG_STOP_EYE_ENCOUNT	
+W	0	None	LOCALWORK0	
+W	1	None	LOCALWORK1	
+W	2	None	LOCALWORK2	
+W	3	None	LOCALWORK3	
+W	4	None	LOCALWORK4	
+W	5	None	LOCALWORK5	
+W	6	None	LOCALWORK6	
+W	7	None	LOCALWORK7	
+W	8	None	LOCALWORK8	
+W	9	None	LOCALWORK9	
+W	10	None	LOCALWORK10	
+W	11	None	LOCALWORK11	
+W	12	None	LOCALWORK12	
+W	13	None	LOCALWORK13	
+W	14	None	LOCALWORK14	
+W	15	None	LOCALWORK15	
+W	16	None	LOCALWORK16	
+W	17	None	LOCALWORK17	
+W	18	None	LOCALWORK18	
+W	19	None	LOCALWORK19	
+W	20	None	LOCALWORK20	
+W	21	None	LOCALWORK21	
+W	22	None	LOCALWORK22	
+W	23	None	LOCALWORK23	
+W	24	None	LOCALWORK24	
+W	25	None	LOCALWORK25	
+W	26	None	LOCALWORK26	
+W	27	None	LOCALWORK27	
+W	28	None	LOCALWORK28	
+W	29	None	LOCALWORK29	
+W	30	None	LOCALWORK30	
+W	31	None	LOCALWORK31	
+W	32	None	OBJCHRWORK0	
+W	33	None	OBJCHRWORK1	
+W	34	None	OBJCHRWORK2	
+W	35	None	OBJCHRWORK3	
+W	36	None	OBJCHRWORK4	
+W	37	None	OBJCHRWORK5	
+W	38	None	OBJCHRWORK6	
+W	39	None	OBJCHRWORK7	
+W	40	None	OBJCHRWORK8	
+W	41	None	OBJCHRWORK9	
+W	42	None	OBJCHRWORK10	
+W	43	None	OBJCHRWORK11	
+W	44	None	OBJCHRWORK12	
+W	45	None	OBJCHRWORK13	
+W	46	None	OBJCHRWORK14	
+W	47	None	OBJCHRWORK15	
+W	48	None	WK_SCENE_T01	
+W	49	None	WK_SCENE_T02	
+W	50	None	WK_SCENE_T03	
+W	51	None	WK_SCENE_T04	
+W	52	None	WK_SCENE_T05	
+W	53	None	WK_SCENE_C01	
+W	54	None	WK_SCENE_C02	
+W	55	None	WK_SCENE_C03	
+W	56	None	WK_SCENE_C04	
+W	57	None	WK_SCENE_C05	
+W	58	None	WK_SCENE_C06	
+W	59	None	WK_SCENE_C07	
+W	60	None	WK_SCENE_C08	
+W	61	None	WK_SCENE_C09	
+W	62	None	WK_SCENE_C10	
+W	63	None	WK_SCENE_C11	
+W	64	None	WK_SCENE_L01	
+W	65	None	WK_SCENE_L02	
+W	66	None	WK_SCENE_L03	
+W	67	None	WK_SCENE_L04	
+W	68	None	WK_SCENE_R201	
+W	69	None	WK_SCENE_R202	
+W	70	None	WK_SCENE_R203	
+W	71	None	WK_SCENE_R205A	
+W	72	None	WK_SCENE_R209	
+W	73	None	WK_SCENE_R227	
+W	74	None	WK_SCENE_R207	
+W	75	None	WK_SCENE_R224	
+W	76	None	WK_SCENE_D09R0104	
+W	77	None	WK_SCENE_D21R0101	
+W	78	None	WK_SCENE_D24R0105	
+W	79	None	WK_SCENE_D14R0101	
+W	80	None	WK_SCENE_D16R0102	
+W	81	None	WK_SCENE_D27R0101	
+W	82	None	WK_SCENE_D05R0101	
+W	83	None	WK_SCENE_D27R0102	
+W	84	None	WK_SCENE_D05R0114	
+W	85	None	WK_SCENE_D11R0101	
+W	86	None	WK_SCENE_D11R0101_MONSNO	
+W	87	None	WK_SCENE_D11R0101_PRESENT	
+W	88	None	WK_SCENE_D11R0101_PRESENT_ACCE_NO	
+W	89	None	WK_SCENE_D11R0101_TNO	
+W	90	None	WK_SCENE_D16R0103	
+W	91	None	WK_SCENE_D11R0101_PRESENT_KINOMI_NO	
+W	92	None	WK_SCENE_T01R0101	
+W	93	None	WK_SCENE_T01R0102	
+W	94	None	WK_SCENE_T01R0201	
+W	95	None	WK_SCENE_T01R0202	
+W	96	None	WK_SCENE_T02R0101	
+W	97	None	WK_SCENE_T07R0101	
+W	98	None	WK_SCENE_C01R0101	
+W	99	None	WK_SCENE_C04GYM0102	
+W	100	None	WK_SCENE_C01R0701	
+W	101	None	WK_SCENE_C01R0201	
+W	102	None	WK_SCENE_D03R0101	
+W	103	None	WK_SCENE_C02R0103	
+W	104	None	WK_SCENE_C03R0401	
+W	105	None	WK_SCENE_KASEKI_MONSNO	
+W	106	None	WK_SCENE_C08R0701	
+W	107	None	WK_SCENE_C08R0401	
+W	108	None	WK_SCENE_L01R0101	
+W	109	None	WK_SCENE_R201R0101	
+W	110	None	WK_SCENE_R221R0101	
+W	111	None	WK_SCENE_PAIR_R201_RIVAL	
+W	112	None	WK_SCENE_PAIR_L01_RIVAL	
+W	113	None	WK_SCENE_CONTEST	
+W	114	None	WK_SCENE_D03R0101_GHOST	
+W	115	None	WK_ELEVATOR_FLOOR	
+W	116	None	WK_SCENE_D02R0101	
+W	117	None	WK_SCENE_UG	
+W	118	None	WK_SCENE_C05_MAIN	
+W	119	None	WK_SCENE_D29R0102	
+W	120	None	WK_SCENE_PC0103	
+W	121	None	WK_SCENE_COMM_ID	
+W	122	None	WK_SCENE_D26R0104	
+W	123	None	WK_SCENE_SAFARI_GATE	
+W	124	None	WK_SCENE_D31R0201	
+W	125	None	WK_SCENE_D31R0205	
+W	126	None	WK_SCENE_SAFARI_ZONE	
+W	127	None	WK_SCENE_D31R0202	
+W	128	None	WK_SCENE_D31R0203	
+W	129	None	WK_SCENE_D31R0204	
+W	130	None	WK_SCENE_D31R0206	
+W	131	None	WK_SCENE_D31R0207	
+W	132	None	WK_SCENE_POKE_PARK	
+W	133	None	WK_SCENE_PAIR_D16R0102_SEVEN5	
+W	134	None	WK_SCENE_PAIR_D21R0101_SEVEN2	
+W	135	None	WK_SCENE_PAIR_D24R0105_SEVEN3	
+W	136	None	WK_SCENE_PAIR_D09R0104_SEVEN4	
+W	137	None	WK_SCENE_NEWS_MONSNO	
+W	138	None	WK_SCENE_T01_RIVAL	
+W	139	None	WK_SCENE_C01_RIVAL	
+W	140	None	WK_SCENE_PAIR_D03R0101_SEVEN1	
+W	141	None	WK_SCENE_D13R0101	
+W	142	None	WK_SCENE_C05_RIVAL	
+W	143	None	WK_SCENE_C05R1101	
+W	144	None	WK_SCENE_BICYCLE	
+W	145	None	WK_SCENE_POSTMAN	
+W	146	None	WK_SCENE_T03_ZUKAN	
+W	147	None	WK_SCENE_C10R0101	
+W	148	None	WK_SCENE_C01_GTC	
+W	149	None	WK_SCENE_T05_OLDWOMAN	
+W	150	None	WK_SCENE_KUJI_AZUKE_ITEM	
+W	151	None	WK_SCENE_D10R0101	
+W	152	None	WK_SCENE_DENDOU	
+W	153	None	WK_SCENE_C07_SUPPORT	
+W	154	None	WK_SCENE_C05_JUDGE	
+W	155	None	WK_SCENE_C05R1101_JUDGE	
+W	156	None	WK_SCENE_C02R0401	
+W	157	None	WK_SCENE_GAME_START	
+W	158	None	WK_SCENE_D20R0106	
+W	159	None	WK_SCENE_L02R0101_P01	
+W	160	None	WK_SCENE_L02R0101_P02	
+W	161	None	WK_SCENE_L02R0101_P03	
+W	162	None	WK_SCENE_L02R0101_P04	
+W	163	None	WK_SCENE_L02R0101_P05	
+W	164	None	WK_SCENE_L02R0101_P06	
+W	165	None	WK_SCENE_L02R0101_P07	
+W	166	None	WK_SCENE_L02R0101_P08	
+W	167	None	WK_SCENE_L02R0101_P09	
+W	168	None	WK_SCENE_L02R0101_CLOSE	
+W	169	None	WK_SCENE_R218R0201_ZUKAN	
+W	170	None	WK_SCENE_C02R0501	
+W	171	None	WK_SCENE_C07R0201_GET_ACCE_NO	
+W	172	None	WK_SCENE_R221R0201_ITEM_LOOP	
+W	173	None	WK_SCENE_C05_GOODS_EV	
+W	174	None	WK_SCENE_C01R0202_GET_ACCE_NO	
+W	175	None	WK_D17SYSTEM_GET_POINT	
+W	176	None	WK_D17SYSTEM_PATH_MAP	
+W	177	None	WK_SCENE_D26R0107	
+W	178	None	WK_SCENE_D31	
+W	179	None	WK_SCENE_T01R0201_GAME_CLEAR	
+W	180	None	WK_SCENE_D25R0102	
+W	181	None	WK_SCENE_D25R0108	
+W	182	None	WK_SCENE_L02_BIGMAN	
+W	183	None	WK_SCENE_C11R0101	
+W	184	None	WK_SCENE_C04_STOPPER	
+W	185	None	WK_SCENE_PLATE_MSG	
+W	186	None	WK_SCENE_R212AR0101_POLICEMAN	
+W	187	None	WK_SCENE_T04R0301_RE_ITEM	
+W	188	None	WK_SCENE_D05R0116	
+W	189	None	WK_SCENE_R227_SEVEN2	
+W	190	None	WK_SCENE_C07_SUPPORT_GYM_AFTER	
+W	191	None	WK_SCENE_C04_STOPPER_02	
+W	192	None	WK_SCENE_CYCLINGROAD	
+W	193	None	SCWK_EVWIN	
+W	194	None	SCWK_MSGWINDAT	
+W	195	None	SCWK_MENUWORK	
+W	196	None	SCWK_MSGINDEX	
+W	197	None	SCWK_ANMCOUNT	
+W	198	None	SCWK_COMMON_SCR_FLAG	
+W	199	None	SCWK_WIN_OPEN_FLAG	
+W	200	None	SCWK_VM_MACHINE_COUNT	
+W	201	None	SCWK_SCRIPT_ID	
+W	202	None	SCWK_PLAYER_DIR	
+W	203	None	SCWK_TARGET_OBJ	
+W	204	None	SCWK_DUMMY_OBJ	
+W	205	None	SCWK_RETURN_SCRIPT_WK	
+W	206	None	SCWK_VM_MAIN	
+W	207	None	SCWK_VM_SUB1	
+W	208	None	SCWK_WORDSET	
+W	209	None	SCWK_MSGBUF	
+W	210	None	SCWK_TMPBUF	
+W	211	None	SCWK_WAITICON	
+W	212	None	SCWK_SUBPROC_WORK	
+W	213	None	SCWK_PWORK	
+W	214	None	SCWK_EOA	
+W	215	None	SCWK_PLAYER_TCB	
+W	216	None	SCWK_WIN_FLAG	
+W	217	None	SCWK_TR0_RANGE	
+W	218	None	SCWK_TR0_DIR	
+W	219	None	SCWK_TR0_SCR_ID	
+W	220	None	SCWK_TR0_ID	
+W	221	None	SCWK_TR0_TYPE	
+W	222	None	SCWK_TR0_FLDOBJ	
+W	223	None	SCWK_TR0_TCB	
+W	224	None	SCWK_TR1_RANGE	
+W	225	None	SCWK_TR1_DIR	
+W	226	None	SCWK_TR1_SCR_ID	
+W	227	None	SCWK_TR1_ID	
+W	228	None	SCWK_TR1_TYPE	
+W	229	None	SCWK_TR1_FLDOBJ	
+W	230	None	SCWK_TR1_TCB	
+W	231	None	SCWK_COINWINDAT	
+W	232	None	SCWK_GOLDWINDAT	
+W	233	None	SCWK_REPORTWIN	
+W	234	None	SCWK_PARAM0	
+W	235	None	SCWK_PARAM1	
+W	236	None	SCWK_PARAM2	
+W	237	None	SCWK_PARAM3	
+W	238	None	SCWK_TEMP0	
+W	239	None	SCWK_TEMP1	
+W	240	None	SCWK_TEMP2	
+W	241	None	SCWK_TEMP3	
+W	242	None	SCWK_REG0	
+W	243	None	SCWK_REG1	
+W	244	None	SCWK_REG2	
+W	245	None	SCWK_REG3	
+W	246	None	SCWK_ANSWER	
+W	247	None	SCWK_TARGET_OBJID	
+W	248	None	EV_WIN_B_CANCEL	
+W	249	None	TOWNMAP_GUIDE_SEQUENCE	
+W	250	None	SYS_WORK_FIRST_POKE_NO	
+W	251	None	SYS_WORK_BTL_SEARCHER_BATTERY	
+W	252	None	SYS_WORK_BTL_SEARCHER_CLEAR	
+W	253	None	SYS_WORK_OOKISA_RECORD	
+W	254	None	SYS_WORK_HIDEMAP_01	
+W	255	None	SYS_WORK_HIDEMAP_02	
+W	256	None	SYS_WORK_HIDEMAP_03	
+W	257	None	SYS_WORK_HIDEMAP_04	
+W	258	None	SYS_WORK_PARK_WALK_COUNT	
+W	259	None	SYS_WORK_NEWS_DAYS_COUNT	
+W	260	None	SYS_WORK_POKELOT_RND1	
+W	261	None	SYS_WORK_POKELOT_RND2	
+W	262	None	SYS_WORK_UG_TALK_COUNT	
+W	263	None	SYS_WORK_PAIR_TRAINER_ID	
+W	264	None	SYS_WORK_RENSYOU_COUNT	
+W	265	None	SYS_WORK_POKE_LEVEL_NO	
+W	266	None	SYS_WORK_DEPART_COUNT	
+W	267	None	SYS_WORK_HAIHU_EVENT01	
+W	268	None	SYS_WORK_HAIHU_EVENT02	
+W	269	None	SYS_WORK_HAIHU_EVENT03	
+W	270	None	SYS_WORK_UG_TOOL_GIVE_COUNT	
+W	271	None	SYS_WORK_UG_KASEKI_DIG_COUNT	
+W	272	None	SYS_WORK_UG_TRAP_HIT_COUNT	
+W	273	None	SYS_WORK_UG_TALK_COUNT2	
+W	274	None	SYS_WORK_FRIENDLY_COUNT	
+W	275	None	HAIHUEVENT_ID_D30	
+W	276	None	HAIHUEVENT_ID_D18	
+W	277	None	HAIHUEVENT_ID_D05	
+W	278	None	HIDEMAP_ID_D15	
+W	279	None	HIDEMAP_ID_D30	
+W	280	None	HIDEMAP_ID_L04	
+W	281	None	HIDEMAP_ID_D18	
+W	282	None	WK_SCENE_D31R0101_TOKKUN	
+W	283	None	CON_TEMP01	
+W	284	None	CON_TEMP02	
+W	285	None	CON_TEMP03	
+W	286	None	CON_TEMP04	
+W	287	None	CON_TEMP05	
+W	288	None	CON_TEMP06	
+W	289	None	CON_TEMP07	
+W	290	None	CON_TEMP08	
+W	291	None	HIDEMAP_ID_C10	
+W	292	None	HIDEMAP_ID_D10R0101	
+W	293	None	WK_TV_PROGRAMID_1_2	
+W	294	None	WK_TV_PROGRAMID_1_4	
+W	295	None	WK_TV_PROGRAMID_1_6	
+W	296	None	WK_TV_PROGRAMID_1_7	
+W	297	None	WK_TV_PROGRAMID_1_10	
+W	298	None	WK_TV_PROGRAMID_1_11	
+W	299	None	WK_TV_PROGRAMID_1_13	
+W	300	None	WK_TV_PROGRAMID_1_14	
+W	301	None	WK_TV_PROGRAMID_2_1	
+W	302	None	WK_TV_PROGRAMID_2_2	
+W	303	None	WK_TV_PROGRAMID_2_3	
+W	304	None	WK_TV_PROGRAMID_2_4	
+W	305	None	WK_TV_PROGRAMID_2_6	
+W	306	None	WK_TV_PROGRAMID_2_8	
+W	307	None	WK_TV_PROGRAMID_2_10	
+W	308	None	WK_TV_PROGRAMID_2_13	
+W	309	None	WK_TV_PROGRAMID_2_15	
+W	310	None	WK_TV_PROGRAMID_2_17	
+W	311	None	WK_TV_PROGRAMID_2_18	
+W	312	None	WK_TV_PROGRAMID_2_20	
+W	313	None	WK_TV_PROGRAMID_2_21	
+W	314	None	WK_TV_PROGRAMID_2_24	
+W	315	None	WK_TV_PROGRAMID_2_25	
+W	316	None	WK_TV_PROGRAMID_2_26	
+W	317	None	WK_TV_PROGRAMID_3_1	
+W	318	None	WK_TV_PROGRAMID_3_3	
+W	319	None	WK_TV_PROGRAMID_3_6	
+W	320	None	WK_TV_PROGRAMID_3_10	
+W	321	None	WK_TV_PROGRAMID_3_11	
+W	322	None	WK_TV_PROGRAMID_3_12	
+W	323	None	WK_TV_PROGRAMID_4_1	
+W	324	None	WK_TV_PROGRAMID_4_2	
+W	325	None	WK_TV_PROGRAMID_4_5	
+W	326	None	WK_TV_PROGRAMID_4_7	
+W	327	None	WK_TV_PROGRAMID_4_9	
+W	328	None	WK_TV_PROGRAMID_4_11	
+W	329	None	WK_TV_PROGRAMID_4_18	
+W	330	None	HAIHUEVENT_ID_C04	
+W	331	None	WK_PLAYER_BIRTH_MOUNTH	
+W	332	None	WK_PLAYER_BIRTH_DAY	
+W	333	None	WK_SAVE_GIMMICK_001	
+W	334	None	WK_SAVE_GIMMICK_002	
+W	335	None	WK_SAVE_GIMMICK_003	
+W	336	None	WK_SCENE_C04R0101	
+W	337	None	WK_SCENE_COMMUNITY_ROOM_RECEPTION	
+W	338	None	WK_BATTLE_TOWER_MODE	
+W	339	None	UNION_TEMP0	
+W	340	None	UNION_TEMP1	
+W	341	None	UNION_TEMP2	
+W	342	None	UNION_TEMP3	
+W	343	None	UNION_TEMP4	
+W	344	None	UNION_TEMP5	
+W	345	None	UNION_TEMP6	
+W	346	None	UNION_TEMP7	
+W	347	None	UNION_TEMP8	
+W	348	None	UNION_TEMP9	
+W	349	None	WK_SCENE_C03GYM0101	
+W	350	None	WK_SCENE_C04GYM0101	
+W	351	None	WK_SCENE_C05GYM0101	
+W	352	None	WK_SCENE_C06GYM0101	
+W	353	None	WK_SCENE_C07GYM0101	
+W	354	None	WK_SCENE_C02GYM0101	
+W	355	None	WK_SCENE_C08GYM0101	
+W	356	None	WK_SCENE_C09GYM0101	
+W	357	None	WK_BT_M_S_PRESENT_RANK	
+W	358	None	WK_BT_M_W_PRESENT_RANK	
+W	359	None	WK_PAIR_POKEMON_INDEX	
+W	360	None	_UNION_VIEW_CHAR_NO	
+W	361	None	WK_SCENE_T04R0501_BALL	
+W	362	None	WK_SCENE_GLOBAL_COUNTER	
+W	363	None	WK_SCENE_T03_SP_MADAM	
+W	364	None	WK_SCENE_T03_SP_GENTLEMAN	
+W	365	None	WK_UGSHOP_WEEK	
+W	366	None	WK_SCENE_WILDCARD_001	
+W	367	None	WK_SCENE_WILDCARD_002	
+W	368	None	WK_SCENE_WILDCARD_003	
+W	369	None	WK_SCENE_WILDCARD_004	
+W	370	None	WK_SCENE_WILDCARD_005	
+W	371	None	WK_SCENE_WILDCARD_006	
+W	372	None	WK_SCENE_WILDCARD_007	
+W	373	None	WK_SCENE_WILDCARD_008	
+W	374	None	WK_SCENE_WILDCARD_009	
+W	375	None	WK_SCENE_WILDCARD_010	
+W	376	None	WK_SCENE_WILDCARD_011	
+W	377	None	WK_SCENE_WILDCARD_012	
+W	378	None	WK_SCENE_WILDCARD_013	
+W	379	None	WK_SCENE_WILDCARD_014	
+W	380	None	WK_SCENE_WILDCARD_015	
+W	381	None	WK_SCENE_WILDCARD_016	
+W	382	None	WK_SCENE_WILDCARD_017	
+W	383	None	WK_SCENE_WILDCARD_018	
+W	384	None	WK_SCENE_WILDCARD_019	
+W	385	None	WK_SCENE_WILDCARD_020	
+W	386	None	WK_SCENE_WILDCARD_021	
+W	387	None	WK_SCENE_WILDCARD_022	
+W	388	None	WK_SCENE_WILDCARD_023	
+W	389	None	WK_SCENE_WILDCARD_024	
+W	390	None	WK_SCENE_WILDCARD_025	
+W	391	None	WK_SCENE_WILDCARD_026	
+W	392	None	WK_SCENE_WILDCARD_027	
+W	393	None	WK_SCENE_WILDCARD_028	
+W	394	None	WK_SCENE_WILDCARD_029	
+W	395	None	WK_SCENE_WILDCARD_030	
+W	396	None	WK_SCENE_WILDCARD_031	
+W	397	None	WK_SCENE_WILDCARD_032	
+W	398	None	WK_SCENE_WILDCARD_033	
+W	399	None	WK_SCENE_WILDCARD_034	
+W	400	None	WK_SCENE_WILDCARD_035	
+W	401	None	WK_SCENE_WILDCARD_036	
+W	402	None	WK_SCENE_WILDCARD_037	
+W	403	None	WK_SCENE_WILDCARD_038	
+W	404	None	WK_SCENE_WILDCARD_039	
+W	405	None	WK_SCENE_WILDCARD_040	
+W	406	None	WK_SCENE_WILDCARD_041	
+W	407	None	WK_SCENE_WILDCARD_042	
+W	408	None	WK_SCENE_WILDCARD_043	
+W	409	None	WK_SCENE_WILDCARD_044	
+W	410	None	WK_SCENE_WILDCARD_045	
+W	411	None	WK_SCENE_WILDCARD_046	
+W	412	None	WK_SCENE_WILDCARD_047	
+W	413	None	WK_SCENE_WILDCARD_048	
+W	414	None	WK_SCENE_WILDCARD_049	
+W	415	None	WK_SCENE_WILDCARD_050	
+W	416	None	MONOHIROI_TIME	
+W	417	None	WK_SCENE_CL_DOOR	
+W	418	None	USE_COMMAND_TIME	
+W	419	None	WK_SCENE_HEART_UROKO	
+W	420	None	WK_TV_INT_DATA048_MY	
+W	421	None	WK_TV_INT_DATA048_USE	
+W	422	None	WK_BT_MASTER_ACCUMULATION_WINS	
+W	423	None	WK_BT_MASTER_WINS_COUNT	
+W	424	None	WK_BT_MASTER_WINS_COUNT_NEXT	
+W	425	None	WK_BT_MASTER_WINS_PREZENT_MINTO	
+W	426	None	WK_PALPARK_EVENT_CAMERA	
+W	427	None	WK_SCENE_R221R0101_ZOU	
+W	428	None	WK_PLAY_REPO_NO	
+W	429	None	WK_TV_STR_DATA006_USE_GENDER	
+W	430	None	WK_TV_STR_DATA021_MY_GENDER	
+W	431	None	WK_TV_STR_DATA021_USE_GENDER	
+W	432	None	WK_TV_STR_DATA037_MY_GENDER	
+W	433	None	WK_TV_STR_DATA037_USE_GENDER	
+W	434	None	WK_TV_STR_DATA041_MY_GENDER	
+W	435	None	WK_TV_STR_DATA041_USE_GENDER	
+W	436	None	WK_DAILY_RANDOM	
+W	437	None	WK_KAIRIKI_OBJ_ID	
+W	438	None	WK_KAIRIKI_OBJ_DIR	

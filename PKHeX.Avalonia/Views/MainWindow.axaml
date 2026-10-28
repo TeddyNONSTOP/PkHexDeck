@@ -1,0 +1,456 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+        xmlns:views="using:PKHeX.Avalonia.Views"
+        xmlns:controls="using:PKHeX.Avalonia.Controls"
+        xmlns:conv="using:PKHeX.Avalonia.Converters"
+        xmlns:strings="clr-namespace:PKHeX.Presentation.Localization;assembly=PKHeX.Presentation"
+        xmlns:loc="using:PKHeX.Avalonia.Localization"
+        x:Class="PKHeX.Avalonia.Views.MainWindow"
+        x:Name="MainShell"
+        x:DataType="vm:MainWindowViewModel"
+        Background="{DynamicResource ThemeBackgroundDeepBrush}"
+        Title="{Binding WindowTitle}"
+        Icon="/Assets/Icons/icon.ico"
+        Width="900" Height="600"
+        MinWidth="900" MinHeight="600"
+        DragDrop.AllowDrop="True"
+        DragDrop.Drop="OnWindowDrop">
+
+    <Window.Resources>
+        <conv:AppThemeLabelConverter x:Key="AppThemeLabel" />
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="Button.workspace-top-tab">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0,0,0,2" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Padding" Value="9,7" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="Button.workspace-top-tab.active">
+            <Setter Property="BorderBrush" Value="{DynamicResource CompactAccentBrush}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Background" Value="{DynamicResource ThemeBackgroundElevatedBrush}" />
+        </Style>
+        <Style Selector="TabControl.workspace-tabs.pokemon /template/ ItemsPresenter#PART_ItemsPresenter">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="TabControl.workspace-tabs">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+    </Window.Styles>
+
+    <!-- Configurable shortcuts run from KeyboardShortcutBinder (issue #224), which matches them in a
+         tunnelling KeyDown handler on the window's content so Alt chords do not open the menu bar.
+         Only the fixed Escape binding that closes the tool launcher is declared here. -->
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Escape" Command="{Binding CloseToolLauncherCommand}" />
+    </Window.KeyBindings>
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" MinHeight="35" Background="{DynamicResource ThemeBackgroundCardBrush}">
+        <Menu Grid.Column="0" FontSize="11" VerticalAlignment="Center" Background="Transparent" BorderThickness="0">
+            <MenuItem Header="{loc:Loc Menu_File}">
+                <MenuItem Header="{loc:Loc Menu_File_Open}" Command="{Binding OpenFileCommand}" InputGesture="{Binding Shortcuts.OpenFile.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <MenuItem Header="{loc:Loc Menu_File_OpenReadOnly}" Command="{Binding OpenFileReadOnlyCommand}" />
+                <MenuItem Header="{loc:Loc Menu_File_Save}" Command="{Binding SaveFileCommand}" InputGesture="{Binding Shortcuts.SaveFile.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <MenuItem Header="{loc:Loc Menu_File_SaveAs}" Command="{Binding SaveFileAsCommand}" InputGesture="{Binding Shortcuts.SaveFileAs.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <Separator />
+                <MenuItem Header="{loc:Loc Menu_File_Close}" Command="{Binding CloseFileCommand}" InputGesture="{Binding Shortcuts.CloseFile.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+            </MenuItem>
+            <MenuItem Header="{loc:Loc Menu_Edit}">
+                <MenuItem Header="{loc:Loc Menu_Options_Undo}" Command="{Binding UndoCommand}" InputGesture="{Binding Shortcuts.Undo.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <MenuItem Header="{loc:Loc Menu_Options_Redo}" Command="{Binding RedoCommand}" InputGesture="{Binding Shortcuts.Redo.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+            </MenuItem>
+            <MenuItem Header="{loc:Loc Menu_Tools}" ItemsSource="{Binding AvailableToolMenuGroups}">
+                <MenuItem.ItemContainerTheme>
+                    <ControlTheme x:CompileBindings="False" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Header" Value="{Binding Title}" />
+                        <Setter Property="AutomationProperties.Name" Value="{Binding Title}" />
+                        <Setter Property="ItemsSource" Value="{Binding Items}" />
+                        <Setter Property="ItemContainerTheme">
+                            <ControlTheme x:CompileBindings="False" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                <Setter Property="Header" Value="{Binding Title}" />
+                                <Setter Property="AutomationProperties.Name" Value="{Binding Title}" />
+                                <Setter Property="Command" Value="{Binding Command}" />
+                                <Setter Property="IsEnabled" Value="{Binding IsAvailable}" />
+                                <Setter Property="InputGesture" Value="{Binding Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                            </ControlTheme>
+                        </Setter>
+                    </ControlTheme>
+                </MenuItem.ItemContainerTheme>
+            </MenuItem>
+            <MenuItem Header="{loc:Loc Menu_Window}">
+                <MenuItem Header="{loc:Loc Tab_Trainer}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.TrainerWorkspaceTabIndex}" InputGesture="{Binding Shortcuts.TabTrainer.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <MenuItem Header="{loc:Loc Tab_Inventory}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.InventoryWorkspaceTabIndex}" InputGesture="{Binding Shortcuts.TabInventory.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <MenuItem Header="{loc:Loc Tab_Events}" IsVisible="{Binding IsEventsWorkspace}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.EventsWorkspaceTabIndex}" InputGesture="{Binding Shortcuts.TabEvents.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <MenuItem Header="{loc:Loc Tab_Gifts}" IsVisible="{Binding IsGiftsWorkspace}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.GiftsWorkspaceTabIndex}" InputGesture="{Binding Shortcuts.TabGifts.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <MenuItem Header="{loc:Loc Tab_Batch}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.BatchWorkspaceTabIndex}" InputGesture="{Binding Shortcuts.TabBatch.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <MenuItem Header="{loc:Loc Workspace_Reports}" Command="{Binding SelectWorkspaceCommand}" CommandParameter="{x:Static vm:MainWorkspace.Reports}" InputGesture="{Binding Shortcuts.WorkspaceReports.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <Separator />
+                <MenuItem Header="{loc:Loc Tab_Box}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.BoxWorkspaceTabIndex}" InputGesture="{Binding Shortcuts.TabBox.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <MenuItem Header="{loc:Loc Tab_Party}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.PartyWorkspaceTabIndex}" InputGesture="{Binding Shortcuts.TabParty.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <Separator />
+                <MenuItem Header="{loc:Loc Menu_Window_Bank}" Command="{Binding OpenBankCommand}" IsVisible="{Binding HasBank}" InputGesture="{Binding Shortcuts.OpenBank.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+            </MenuItem>
+            <MenuItem Header="{loc:Loc Menu_Help}">
+                <MenuItem Header="{loc:Loc Menu_Options_Language}"
+                          ItemsSource="{Binding LanguageService.AvailableLanguages}">
+                    <MenuItem.ItemContainerTheme>
+                        <ControlTheme x:CompileBindings="False" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <Setter Property="Header" Value="{Binding Name}" />
+                            <Setter Property="AutomationProperties.Name" Value="{Binding Name}" />
+                            <Setter Property="Command" Value="{Binding $parent[MenuItem].((vm:MainWindowViewModel)DataContext).ChangeLanguageCommand}" />
+                            <Setter Property="CommandParameter" Value="{Binding Code}" />
+                            <Setter Property="ToggleType" Value="Radio" />
+                            <Setter Property="GroupName" Value="ApplicationLanguage" />
+                            <Setter Property="IsChecked" Value="{Binding IsCurrent}" />
+                        </ControlTheme>
+                    </MenuItem.ItemContainerTheme>
+                </MenuItem>
+                <MenuItem Header="{loc:Loc Menu_Options_Settings}" Command="{Binding OpenSettingsCommand}" InputGesture="{Binding Shortcuts.OpenSettings.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <MenuItem Header="{loc:Loc Menu_Help_KeyboardShortcuts}" Command="{Binding OpenKeyboardShortcutsCommand}" InputGesture="{Binding Shortcuts.OpenKeyboardShortcuts.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+                <MenuItem Header="{loc:Loc Menu_Options_About}" Command="{Binding OpenAboutCommand}" InputGesture="{Binding Shortcuts.OpenAbout.Shortcut, Converter={x:Static conv:ShortcutChordToKeyGestureConverter.Instance}}" />
+            </MenuItem>
+        </Menu>
+
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" Margin="0,0,16,0" VerticalAlignment="Center">
+                <Button Classes="topbar-control" Content="{loc:Loc Settings_Title}" Command="{Binding OpenSettingsCommand}" Background="Transparent" Padding="8,3" />
+                <ComboBox Classes="topbar-control" Width="92"
+                              ItemsSource="{Binding Themes}"
+                              SelectedItem="{Binding SelectedTheme}"
+                              AutomationProperties.Name="{loc:Loc Settings_Theme}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:CompileBindings="False">
+                                <TextBlock><TextBlock.Text><MultiBinding Converter="{StaticResource AppThemeLabel}"><Binding /><Binding Source="{x:Static strings:LocalizedStrings.Instance}" Path="CurrentLanguage" /></MultiBinding></TextBlock.Text></TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+            </StackPanel>
+        </Grid>
+
+        <Border DockPanel.Dock="Top" MinHeight="49" Padding="17,6" Background="{DynamicResource ThemeBackgroundBaseBrush}"
+                BorderBrush="{DynamicResource ThemeBorderMutedBrush}" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="190,*,Auto" ColumnSpacing="12">
+                <StackPanel Spacing="1" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding CurrentGameName}" ToolTip.Tip="{Binding CurrentSaveFileName}" FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                    <TextBlock Text="{Binding CurrentTrainerName}" FontSize="11" Foreground="{DynamicResource ThemeTextSecondaryBrush}" TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+                <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" IsVisible="{Binding HasSave}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="3" x:Name="WorkspaceNavigation">
+                        <Button Classes="workspace-top-tab" Classes.active="{Binding IsPokemonWorkspace}" Content="{loc:Loc Workspace_Pokemon}" Command="{Binding SelectWorkspaceCommand}" CommandParameter="{x:Static vm:MainWorkspace.Pokemon}" />
+                        <Button Classes="workspace-top-tab" Classes.active="{Binding IsTrainerNavigationSelected}" Content="{loc:Loc Tab_Trainer}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.TrainerWorkspaceTabIndex}" />
+                        <Button Classes="workspace-top-tab" Classes.active="{Binding IsInventoryNavigationSelected}" Content="{loc:Loc Tab_Inventory}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.InventoryWorkspaceTabIndex}" />
+                        <Button Classes="workspace-top-tab" Classes.active="{Binding IsSaveNavigationSelected}" Content="{loc:Loc Workspace_Save}" Command="{Binding SelectSaveNavigationCommand}" />
+                        <Button Classes="workspace-top-tab" Classes.active="{Binding IsReportsWorkspace}" Content="{loc:Loc Workspace_Reports}" Command="{Binding SelectWorkspaceCommand}" CommandParameter="{x:Static vm:MainWorkspace.Reports}" />
+                    </StackPanel>
+                </ScrollViewer>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Border x:Name="ReadOnlyBadge" IsVisible="{Binding IsReadOnly}" Padding="8,3" CornerRadius="4" VerticalAlignment="Center"
+                            BorderBrush="{DynamicResource ThemeBorderDefaultBrush}" BorderThickness="1"
+                            ToolTip.Tip="{loc:Loc Status_ReadOnly_Desc}">
+                        <TextBlock Text="{loc:Loc Status_ReadOnly}" FontSize="11" Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+                    </Border>
+                    <Border x:Name="HardcoreBadge" IsVisible="{Binding IsHardcore}" Padding="8,3" CornerRadius="4" VerticalAlignment="Center"
+                            BorderBrush="{DynamicResource ThemeBorderDefaultBrush}" BorderThickness="1"
+                            ToolTip.Tip="{loc:Loc Settings_Hardcore_Desc}">
+                        <TextBlock Text="{loc:Loc Status_Hardcore}" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource CompactAccentTextBrush}" />
+                    </Border>
+                    <Button Classes="compact-primary" Content="{loc:Loc Menu_File_Save}" Command="{Binding SaveFileCommand}" Padding="12,5" FontSize="11" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Status Bar - Themed -->
+        <Border DockPanel.Dock="Bottom"
+                Background="{DynamicResource ThemeBackgroundCardBrush}"
+                BorderBrush="{DynamicResource ThemeBorderDefaultBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="{DynamicResource UiDensityStatusBarPadding}">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Grid.Column="0"
+                           Text="{Binding StatusText}"
+                           Foreground="{DynamicResource ThemeTextSecondaryBrush}"
+                           FontSize="12"
+                           VerticalAlignment="Center" />
+
+                <!-- Non-intrusive update notification: only visible when a newer, non-skipped release exists. -->
+                <Border Grid.Column="1" x:CompileBindings="False"
+                        IsVisible="{Binding UpdateNotification, Converter={x:Static ObjectConverters.IsNotNull}}">
+                    <StackPanel Orientation="Horizontal" Spacing="8" DataContext="{Binding UpdateNotification}">
+                        <TextBlock Text="{Binding Message}"
+                                   Foreground="{DynamicResource CompactAccentTextBrush}"
+                                   FontSize="12" VerticalAlignment="Center" />
+                        <Button Content="{loc:Loc Update_WhatsNew}" Command="{Binding ShowChangelogCommand}" Padding="8,2" FontSize="11" />
+                        <Button Content="{loc:Loc Update_Download}" Command="{Binding DownloadCommand}"
+                                IsVisible="{Binding CanDownload}" Padding="8,2" FontSize="11" />
+                        <Button Content="{loc:Loc Update_Skip}" Command="{Binding SkipCommand}" Padding="8,2" FontSize="11" />
+                        <Button Content="✕" Command="{Binding DismissCommand}" Padding="6,2" FontSize="11"
+                                AutomationProperties.Name="Dismiss update notification" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Background="{DynamicResource ThemeBackgroundDeepBrush}">
+            <!-- No Save Loaded State - branded welcome surface -->
+            <Border Classes="welcome-surface" IsVisible="{Binding !HasSave}">
+                <StackPanel Classes="welcome-stack" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Border Classes="welcome-icon" HorizontalAlignment="Center">
+                        <Image Source="avares://PKHeX.Avalonia/Assets/Icons/icon.png"
+                               Width="56" Height="56" />
+                    </Border>
+                    <TextBlock Text="{loc:Loc Hero_Title}"
+                               Classes="welcome-title"
+                               HorizontalAlignment="Center" />
+                    <TextBlock Text="{loc:Loc Hero_Subtitle}"
+                               Classes="welcome-subtitle"
+                               HorizontalAlignment="Center" />
+                    <Button Content="{loc:Loc Hero_OpenButton}"
+                            Command="{Binding OpenFileCommand}"
+                            HorizontalAlignment="Center"
+                            Classes="accent-gradient" />
+                </StackPanel>
+            </Border>
+
+            <!-- Save loaded state: compact task-aware content. The Pokémon editor column is
+                 present only for the Pokémon task; Save and Reports reclaim that width. -->
+            <Grid IsVisible="{Binding HasSave}">
+                <Grid Margin="0">
+                    <!-- Pokémon and Save share the real existing workspace control. Auto columns
+                         collapse the editor and splitter when Save is the active task. -->
+                    <Grid IsVisible="{Binding !IsReportsWorkspace}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="0" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border x:Name="EditorPane" Grid.Column="0" Width="{DynamicResource CompactShellEditorWidth}" MinWidth="300" MaxWidth="360"
+                                Background="{DynamicResource ThemeBackgroundCardBrush}"
+                                BorderThickness="0,0,1,0"
+                                BorderBrush="{DynamicResource ThemeBorderDefaultBrush}"
+                                Focusable="False"
+                                IsVisible="{Binding IsPokemonWorkspace}">
+                            <ContentControl Content="{Binding CurrentPokemonEditor}" Focusable="False"
+                                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                <ContentControl.ContentTemplate>
+                                    <DataTemplate DataType="vm:PokemonEditorViewModel">
+                                        <views:PokemonEditor />
+                                    </DataTemplate>
+                                </ContentControl.ContentTemplate>
+                            </ContentControl>
+                        </Border>
+
+                        <GridSplitter Grid.Column="1" Width="1"
+                                      Classes="pane-splitter shell-divider"
+                                      IsVisible="{Binding IsPokemonWorkspace}"
+                                      AutomationProperties.Name="{loc:Loc MainWindow_ResizeEditor}" />
+
+                        <DockPanel Grid.Column="2" Margin="16,5,16,12">
+                        <Border x:Name="HardcoreSaveBanner" DockPanel.Dock="Top" Margin="0,0,0,8" Padding="10,6" CornerRadius="4"
+                                BorderBrush="{DynamicResource ThemeBorderDefaultBrush}" BorderThickness="1">
+                            <Border.IsVisible>
+                                <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                    <Binding Path="IsHardcore" />
+                                    <Binding Path="IsSaveWorkspace" />
+                                </MultiBinding>
+                            </Border.IsVisible>
+                            <TextBlock Text="{loc:Loc Hardcore_SaveTabsReadOnly}" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+                        </Border>
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" IsVisible="{Binding IsSaveNavigationSelected}" Spacing="8">
+                            <Button Classes="workspace-top-tab" Classes.active="{Binding IsEventsNavigationSelected}" Content="{loc:Loc Tab_Events}" IsVisible="{Binding IsEventsWorkspace}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.EventsWorkspaceTabIndex}" />
+                            <Button Classes="workspace-top-tab" Classes.active="{Binding IsGiftsNavigationSelected}" Content="{loc:Loc Tab_Gifts}" IsVisible="{Binding IsGiftsWorkspace}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.GiftsWorkspaceTabIndex}" />
+                            <Button Classes="workspace-top-tab" Classes.active="{Binding IsBatchNavigationSelected}" Content="{loc:Loc Tab_Batch}" Command="{Binding SelectWorkspaceTabCommand}" CommandParameter="{x:Static vm:MainWindowViewModel.BatchWorkspaceTabIndex}" />
+                        </StackPanel>
+                        <TabControl x:Name="WorkspacePane" Classes="workspace-tabs" Classes.pokemon="{Binding IsPokemonWorkspace}" Classes.save="{Binding IsSaveWorkspace}"
+                                    SelectedIndex="{Binding SelectedWorkspaceIndex, Mode=TwoWay}">
+                            <TabItem Classes="workspace-tab" IsVisible="{Binding IsPokemonWorkspace}">
+                                <TabItem.Header>
+                                    <controls:DoubleTapCommandBorder Command="{Binding OpenBoxWorkspaceCommand}">
+                                        <TextBlock Text="{loc:Loc Tab_Box}" />
+                                    </controls:DoubleTapCommandBorder>
+                                </TabItem.Header>
+                                <Grid RowDefinitions="*,Auto">
+                                    <views:BoxViewer Grid.Row="0" DataContext="{Binding BoxViewer}" />
+                                    <views:PartyStrip Grid.Row="1" DataContext="{Binding PartyViewer}" />
+                                </Grid>
+                            </TabItem>
+                            <TabItem Classes="workspace-tab" IsVisible="{Binding IsPokemonWorkspace}">
+                                <TabItem.Header>
+                                    <controls:DoubleTapCommandBorder Command="{Binding OpenPartyWorkspaceCommand}">
+                                        <TextBlock Text="{loc:Loc Tab_Party}" />
+                                    </controls:DoubleTapCommandBorder>
+                                </TabItem.Header>
+                                <views:PartyViewer DataContext="{Binding PartyViewer}" />
+                            </TabItem>
+                            <TabItem Header="{loc:Loc Tab_Trainer}" Classes="workspace-tab" IsVisible="{Binding IsSaveWorkspace}">
+                                <ContentControl Content="{Binding TrainerEditor}" IsEnabled="{Binding !IsHardcore}">
+                                    <ContentControl.ContentTemplate>
+                                        <DataTemplate DataType="vm:TrainerEditorViewModel">
+                                            <views:TrainerEditor />
+                                        </DataTemplate>
+                                    </ContentControl.ContentTemplate>
+                                </ContentControl>
+                            </TabItem>
+                            <TabItem Header="{loc:Loc Tab_Inventory}" Classes="workspace-tab" IsVisible="{Binding IsSaveWorkspace}">
+                                <ContentControl Content="{Binding InventoryEditor}" IsEnabled="{Binding !IsHardcore}">
+                                    <ContentControl.ContentTemplate>
+                                        <DataTemplate DataType="vm:InventoryEditorViewModel">
+                                            <views:InventoryEditor />
+                                        </DataTemplate>
+                                    </ContentControl.ContentTemplate>
+                                </ContentControl>
+                            </TabItem>
+                            <TabItem Header="{loc:Loc Tab_Events}" Classes="workspace-tab" IsVisible="{Binding IsEventsWorkspace}">
+                                <ContentControl Content="{Binding EventFlagsEditor}" IsEnabled="{Binding !IsHardcore}">
+                                    <ContentControl.DataTemplates>
+                                        <DataTemplate DataType="vm:EventFlagsEditorViewModel">
+                                            <views:EventFlagsEditor />
+                                        </DataTemplate>
+                                        <DataTemplate DataType="vm:CategorizedEventEditorViewModel">
+                                            <views:CategorizedEventEditor />
+                                        </DataTemplate>
+                                        <DataTemplate DataType="vm:ZaEventEditorViewModel">
+                                            <views:ZaEventEditor />
+                                        </DataTemplate>
+                                    </ContentControl.DataTemplates>
+                                </ContentControl>
+                            </TabItem>
+                            <TabItem Header="{loc:Loc Tab_Gifts}" Classes="workspace-tab" IsVisible="{Binding IsGiftsWorkspace}">
+                                <ContentControl Content="{Binding MysteryGiftEditor}" IsEnabled="{Binding !IsHardcore}">
+                                    <ContentControl.ContentTemplate>
+                                        <DataTemplate DataType="vm:MysteryGiftEditorViewModel">
+                                            <views:MysteryGiftEditor />
+                                        </DataTemplate>
+                                    </ContentControl.ContentTemplate>
+                                </ContentControl>
+                            </TabItem>
+                            <TabItem Header="{loc:Loc Tab_Batch}" Classes="workspace-tab" IsVisible="{Binding IsSaveWorkspace}">
+                                <ContentControl Content="{Binding BatchEditor}" IsEnabled="{Binding !IsHardcore}">
+                                    <ContentControl.ContentTemplate>
+                                        <DataTemplate DataType="vm:BatchEditorViewModel">
+                                            <views:BatchEditor />
+                                        </DataTemplate>
+                                    </ContentControl.ContentTemplate>
+                                </ContentControl>
+                            </TabItem>
+                        </TabControl>
+                        </DockPanel>
+                    </Grid>
+
+                    <!-- Reports and the launcher bind the same capability descriptors, so a tool's
+                         title, icon, description, and availability have one owner. -->
+                    <Border Classes="reports-surface" IsVisible="{Binding IsReportsWorkspace}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Classes="reports-layout">
+                                <StackPanel Classes="reports-header" Spacing="2">
+                                    <TextBlock Text="{loc:Loc Workspace_Reports_Title}" Classes="view-title" />
+                                    <TextBlock Text="{loc:Loc Workspace_Reports_Description}" Classes="view-subtitle" TextWrapping="Wrap" />
+                                </StackPanel>
+
+                                <Border Classes="reports-rule" />
+
+                                <ItemsControl Classes="report-tools"
+                                              HorizontalAlignment="Stretch"
+                                              ItemsSource="{Binding ReportToolItems}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="3" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:ToolLauncherItem">
+                                            <Button Classes="report-tool-card"
+                                                    Command="{Binding Command}"
+                                                    AutomationProperties.Name="{Binding Title}">
+                                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                                    <Border Classes="report-tool-icon">
+                                                        <Path Data="{Binding IconData, Converter={StaticResource PathGeometry}}" />
+                                                    </Border>
+                                                    <StackPanel Grid.Column="1" Margin="10,0,8,0" Spacing="2" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding Title}" Classes="report-tool-title" TextTrimming="CharacterEllipsis" />
+                                                        <TextBlock Text="{Binding Description}" Classes="report-tool-description" TextTrimming="CharacterEllipsis" />
+                                                    </StackPanel>
+                                                    <PathIcon Grid.Column="2" Classes="report-tool-arrow"
+                                                              Data="M7.5 3.5L12 8l-4.5 4.5" />
+                                                </Grid>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Tool launcher overlay backed by the same capability registry as Reports. -->
+            <Border Classes="launcher-overlay" IsVisible="{Binding IsToolLauncherOpen}">
+                <Border Classes="launcher-panel">
+                    <Grid RowDefinitions="Auto,Auto,*">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <StackPanel Spacing="3">
+                                <TextBlock Text="{loc:Loc Launcher_Title}" Classes="view-title" />
+                                <TextBlock Text="{loc:Loc Launcher_Hint}" Classes="view-subtitle" />
+                            </StackPanel>
+                            <Button Grid.Column="1" Classes="icon-button" Content="×"
+                                    Command="{Binding CloseToolLauncherCommand}"
+                                    AutomationProperties.Name="{loc:Loc Launcher_Close}" />
+                        </Grid>
+                        <Border Grid.Row="1" Classes="launcher-search-box">
+                            <Grid ColumnDefinitions="Auto,*">
+                                <Path Data="M 6,1 A 5,5 0 1 0 6,11 A 5,5 0 1 0 6,1 M 10,10 L 14,14"
+                                      Stroke="{DynamicResource ThemeTextSecondaryBrush}"
+                                      StrokeThickness="1.5"
+                                      Width="16" Height="16"
+                                      VerticalAlignment="Center" />
+                                <TextBox Grid.Column="1"
+                                         Classes="launcher-search-input"
+                                         Text="{Binding ToolSearchText, Mode=TwoWay}"
+                                         Watermark="{loc:Loc Launcher_Hint}" />
+                            </Grid>
+                        </Border>
+                        <ItemsControl Grid.Row="2" Margin="0,10,0,0" ItemsSource="{Binding FilteredToolLauncherItems}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:ToolLauncherItem">
+                                    <Button Classes="launcher-item"
+                                            Command="{Binding Command}"
+                                            Click="OnLauncherItemClick"
+                                            AutomationProperties.Name="{Binding Title}"
+                                            AutomationProperties.AcceleratorKey="{Binding ShortcutText}">
+                                        <Grid ColumnDefinitions="Auto,*,Auto">
+                                            <Border Classes="launcher-item-icon">
+                                                <Path Data="{Binding IconData, Converter={StaticResource PathGeometry}}" />
+                                            </Border>
+                                            <StackPanel Grid.Column="1" Margin="10,0,0,0" Spacing="2">
+                                                <TextBlock Text="{Binding Title}" Classes="launcher-item-title" />
+                                                <TextBlock Text="{Binding Description}" Classes="launcher-item-description" />
+                                            </StackPanel>
+                                            <TextBlock Grid.Column="2"
+                                                       Classes="launcher-item-shortcut"
+                                                       Text="{Binding ShortcutText}"
+                                                       IsVisible="{Binding HasShortcut}"
+                                                       VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </Border>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>

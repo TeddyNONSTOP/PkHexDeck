@@ -1,0 +1,102 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation" xmlns:loc="using:PKHeX.Avalonia.Localization" x:Class="PKHeX.Avalonia.Views.BdspTrainerEditor" x:DataType="vm:BdspTrainerEditorViewModel">
+  <Border Classes="view-container">
+    <Grid RowDefinitions="Auto,*,Auto">
+      <Grid Classes="save-editor-header" ColumnDefinitions="*,Auto">
+        <StackPanel>
+          <TextBlock Text="{loc:Loc TrainerEditor_TrainerInfo}" Classes="view-title" />
+          <TextBlock Text="{loc:Loc LgpeTrainer_Staging}" TextWrapping="Wrap" />
+        </StackPanel>
+        <Button Grid.Column="1" Content="{loc:Loc TrainerEditor_ApplyChanges}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" />
+      </Grid>
+      <TabControl Name="BdspTrainerSections" Grid.Row="1" Classes="compact-editor-tabs">
+        <TabItem Classes="editor-tab" Header="{loc:Loc TrainerZA_Overview}">
+          <ScrollViewer>
+            <StackPanel Spacing="8" Margin="8">
+              <TextBlock Text="{loc:Loc TrainerEditor_TrainerName}" />
+              <TextBox Text="{Binding TrainerName}" AutomationProperties.Name="{loc:Loc TrainerEditor_TrainerName}" />
+              <TextBlock Text="{loc:Loc Misc7bEditor_RivalName}" />
+              <TextBox Text="{Binding RivalName}" AutomationProperties.Name="{loc:Loc Misc7bEditor_RivalName}" />
+              <TextBlock Text="{loc:Loc LgpeTrainer_Version}" />
+              <ComboBox ItemsSource="{Binding Versions}" SelectedValue="{Binding VersionValue}" SelectedValueBinding="{Binding Value}" DisplayMemberBinding="{Binding Text}" AutomationProperties.Name="{loc:Loc LgpeTrainer_Version}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_Gender}" />
+              <ComboBox ItemsSource="{Binding Genders}" SelectedValue="{Binding Gender}" SelectedValueBinding="{Binding Value}" DisplayMemberBinding="{Binding Text}" AutomationProperties.Name="{loc:Loc TrainerEditor_Gender}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_Language}" />
+              <ComboBox ItemsSource="{Binding Languages}" SelectedValue="{Binding Language}" SelectedValueBinding="{Binding Value}" DisplayMemberBinding="{Binding Text}" AutomationProperties.Name="{loc:Loc TrainerEditor_Language}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_Tid}" />
+              <NumericUpDown Value="{Binding DisplayTid}" Minimum="0" Maximum="999999" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Tid}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_Sid}" />
+              <NumericUpDown Value="{Binding DisplaySid}" Minimum="0" Maximum="4294" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Sid}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_Money}" />
+              <NumericUpDown Value="{Binding Money}" Minimum="0" Maximum="4294967295" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Money}" />
+              <TextBlock Text="{loc:Loc Misc8Editor_Bp}" />
+              <NumericUpDown Value="{Binding Bp}" Minimum="0" Maximum="4294967295" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc Misc8Editor_Bp}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_Hours}" />
+              <NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Hours}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_Minutes}" />
+              <NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="255" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Minutes}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_Seconds}" />
+              <NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="255" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Seconds}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_Badges}" />
+              <ItemsControl ItemsSource="{Binding Badges}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate DataType="vm:BdspBadgeViewModel">
+                    <CheckBox Content="{Binding Name}" IsChecked="{Binding Value}" Margin="0,0,12,8" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="{loc:Loc Trainer7_Started}" />
+              <DatePicker SelectedDate="{Binding StartedDate}" MinYear="1601-01-01T00:00:00+00:00" MaxYear="9999-12-31T00:00:00+00:00" AutomationProperties.Name="{loc:Loc Trainer7_Started}" />
+              <TimePicker SelectedTime="{Binding StartedTime}" AutomationProperties.Name="{loc:Loc Trainer7_Started}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_Seconds}" />
+              <NumericUpDown Value="{Binding StartedSeconds}" Minimum="0" Maximum="59" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Seconds}" />
+              <TextBlock Text="{loc:Loc TrainerZA_LastSavedDate}" />
+              <DatePicker SelectedDate="{Binding LastSavedDate}" MinYear="1601-01-01T00:00:00+00:00" MaxYear="9999-12-31T00:00:00+00:00" AutomationProperties.Name="{loc:Loc TrainerZA_LastSavedDate}" />
+              <TimePicker SelectedTime="{Binding LastSavedTime}" AutomationProperties.Name="{loc:Loc TrainerZA_LastSavedTime}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_Seconds}" />
+              <NumericUpDown Value="{Binding LastSavedSeconds}" Minimum="0" Maximum="59" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Seconds}" />
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+        <TabItem Classes="editor-tab" Header="{loc:Loc TrainerZA_MapMisc}">
+          <ScrollViewer>
+            <StackPanel Spacing="8" Margin="8">
+              <TextBlock Text="{loc:Loc Trainer7_MapId}" />
+              <NumericUpDown Value="{Binding ZoneId}" Minimum="-32768" Maximum="32767" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc Trainer7_MapId}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_CoordX}" />
+              <NumericUpDown Value="{Binding X}" Minimum="-2147483648" Maximum="2147483647" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_CoordX}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_CoordY}" />
+              <TextBox Text="{Binding YText}" AutomationProperties.Name="{loc:Loc TrainerEditor_CoordY}" />
+              <TextBlock Text="{loc:Loc BdspTrainer_Height}" />
+              <NumericUpDown Value="{Binding Height}" Minimum="-2147483648" Maximum="2147483647" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc BdspTrainer_Height}" />
+              <TextBlock Text="{loc:Loc Trainer7_Rotation}" />
+              <TextBox Text="{Binding RotationText}" AutomationProperties.Name="{loc:Loc Trainer7_Rotation}" />
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+        <TabItem Classes="editor-tab" Header="{loc:Loc Trainer7_Statistics}">
+          <ScrollViewer>
+            <StackPanel Spacing="8" Margin="8">
+              <ComboBox ItemsSource="{Binding TrainerRecords}" SelectedItem="{Binding SelectedRecord}" DisplayMemberBinding="{Binding Name}" AutomationProperties.Name="{loc:Loc Trainer7_Statistics}" />
+              <ContentControl Content="{Binding SelectedRecord}">
+                <ContentControl.ContentTemplate>
+                  <DataTemplate DataType="vm:BdspTrainerRecordViewModel">
+                    <NumericUpDown Value="{Binding Value}" Minimum="{Binding DisplayMinimum}" Maximum="{Binding DisplayMaximum}" ShowButtonSpinner="False" AutomationProperties.Name="{Binding Name}" />
+                  </DataTemplate>
+                </ContentControl.ContentTemplate>
+              </ContentControl>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+      </TabControl>
+      <StackPanel Grid.Row="2" Spacing="8">
+        <TextBlock Text="{Binding Error}" IsVisible="{Binding HasError}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+        <Button Content="{loc:Loc TrainerEditor_Reset}" Command="{Binding ResetCommand}" HorizontalAlignment="Right" />
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

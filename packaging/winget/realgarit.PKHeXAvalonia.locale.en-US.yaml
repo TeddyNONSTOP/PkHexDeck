@@ -1,0 +1,20 @@
+# winget manifest template — default locale manifest.
+# See realgarit.PKHeXAvalonia.yaml for submission instructions.
+PackageIdentifier: realgarit.PKHeXAvalonia
+PackageVersion: "{{VERSION}}"
+PackageLocale: en-US
+Publisher: Patrik Lleshaj
+PublisherUrl: https://github.com/realgarit
+PublisherSupportUrl: https://github.com/realgarit/PKHeX-Avalonia/issues
+PackageName: PKHeX-Avalonia
+PackageUrl: https://github.com/realgarit/PKHeX-Avalonia
+License: GPL-3.0-only
+LicenseUrl: https://github.com/realgarit/PKHeX-Avalonia/blob/main/LICENSE
+ShortDescription: Avalonia-based save editor for Pokemon games.
+Moniker: pkhex-avalonia
+Tags:
+  - pokemon
+  - save-editor
+  - avalonia
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0

@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization" x:Class="PKHeX.Avalonia.Views.Gen3TicketEditor"
+             x:DataType="vm:Gen3TicketEditorViewModel" MinWidth="560" MinHeight="360">
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Top" Spacing="6" Margin="0,0,0,8">
+            <TextBlock Text="{loc:Loc Ticket3Flow_Title}" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" />
+            <TextBlock Text="{loc:Loc Ticket3Flow_Warning}" TextWrapping="Wrap" />
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom" Spacing="4" Margin="0,8,0,0">
+            <TextBlock Text="{Binding Error}" IsVisible="{Binding HasError}" TextWrapping="Wrap" />
+            <WrapPanel HorizontalAlignment="Right">
+                <Button Content="{loc:Loc MysteryGiftEditor_Reset}" Command="{Binding ResetCommand}" Margin="0,0,8,4" />
+                <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" Margin="0,0,8,4" />
+                <Button Name="Ticket3Apply" Content="{loc:Loc MysteryGiftEditor_Apply}" Command="{Binding ApplyCommand}" Classes="accent" Margin="0,0,0,4" />
+            </WrapPanel>
+        </StackPanel>
+        <ScrollViewer Name="Ticket3Scroll"><StackPanel Spacing="12">
+            <TextBlock Text="{loc:Loc Ticket3Flow_StagedHelp}" TextWrapping="Wrap" />
+            <ItemsControl ItemsSource="{Binding Tickets}"><ItemsControl.ItemTemplate>
+                <DataTemplate DataType="vm:Gen3TicketRow"><Border Classes="editor-section-padded"><StackPanel Spacing="6">
+                    <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding Destination}" TextWrapping="Wrap" />
+                    <WrapPanel>
+                        <CheckBox Content="{loc:Loc Ticket3Flow_InBag}" IsChecked="{Binding HasTicket}" Margin="0,0,12,0" />
+                        <CheckBox Content="{loc:Loc Ticket3Flow_RouteEnabled}" IsChecked="{Binding RouteEnabled}" Margin="0,0,12,0" />
+                        <CheckBox Content="{loc:Loc Ticket3Flow_Shown}" IsChecked="{Binding Shown}" IsVisible="{Binding HasShownFlag}" Margin="0,0,12,0" />
+                        <CheckBox Content="{loc:Loc Ticket3Flow_Received}" IsChecked="{Binding Received}" IsVisible="{Binding HasReceivedFlag}" />
+                    </WrapPanel>
+                    <Button Content="{loc:Loc Ticket3Flow_StageTicketRoute}" Command="{Binding StageTicketAndRouteCommand}" HorizontalAlignment="Left" />
+                    <TextBlock Text="{loc:Loc Ticket3Flow_EncounterCompleted}" IsVisible="{Binding EncounterCompleted}" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding FlagDetails}" FontSize="12" TextWrapping="Wrap" />
+                </StackPanel></Border></DataTemplate>
+            </ItemsControl.ItemTemplate></ItemsControl>
+            <Expander Name="Ticket3Advanced" Header="{loc:Loc Ticket3Flow_Advanced}"><StackPanel Spacing="8">
+                <TextBlock Text="{loc:Loc Ticket3Flow_AdvancedHelp}" TextWrapping="Wrap" />
+                <WrapPanel>
+                    <NumericUpDown Value="{Binding SelectedFlagIndex}" Minimum="0" Maximum="{Binding MaxFlagIndex}" FormatString="0" Width="160" AutomationProperties.Name="{loc:Loc Ticket3Flow_FlagIndex}" Margin="0,0,12,4" />
+                    <CheckBox Content="{loc:Loc EventFlagsEditor_SetCheckbox}" IsChecked="{Binding SelectedFlagValue}" />
+                </WrapPanel>
+            </StackPanel></Expander>
+        </StackPanel></ScrollViewer>
+    </DockPanel>
+</UserControl>

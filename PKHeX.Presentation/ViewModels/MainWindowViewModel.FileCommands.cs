@@ -1,0 +1,568 @@
+using CommunityToolkit.Mvvm.Input;
+using PKHeX.Core;
+using PKHeX.Presentation.Localization;
+
+namespace PKHeX.Presentation.ViewModels;
+
+public partial class MainWindowViewModel
+{
+    [RelayCommand]
+    private async Task OpenFileAsync()
+    {
+        var path = await _dialogService.OpenFileAsync(
+            T("File_OpenSaveFileTitle"),
+            FileDialogFilters.OpenSaveFile);
+
+        if (string.IsNullOrEmpty(path))
+            return;
+
+        await OpenSaveFilePathAsync(path);
+    }
+
+    /// <summary>
+    /// Opens a save that must never be written over, e.g. an unrecognised ROM-hack save or a file
+    /// an emulator is using. Edits stay in memory; Save offers to write a copy to a new file instead.
+    /// </summary>
+    [RelayCommand]
+    private async Task OpenFileReadOnlyAsync()
+    {
+        var path = await _dialogService.OpenFileAsync(
+            T("File_OpenSaveFileTitle"),
+            FileDialogFilters.OpenSaveFile);
+
+        if (string.IsNullOrEmpty(path))
+            return;
+
+        await OpenSaveFilePathAsync(path, readOnly: true);
+    }
+
+    private async Task OpenSaveFilePathAsync(string path, bool readOnly = false)
+    {
+        if (!await CanLeaveCurrentSaveAsync())
+            return;
+        var success = await _saveFileService.LoadSaveFileAsync(path, readOnly);
+        if (!success)
+            await _dialogService.ShowErrorAsync(T("Common_Error"), LocalizedStrings.Instance.Format("File_CouldNotLoadSave", path));
+    }
+
+    // Fired by BoxViewer/PartyViewer when an OS file dropped onto a slot turns out to be a save
+    // file rather than a Pokémon entity; routed through the same open-save path as File > Open.
+    // Fire-and-forget from an event handler (can't be awaited): observe a faulted continuation so
+    // it never surfaces as an UnobservedTaskException instead of the usual failed-load dialog.
+    private void OnSaveFileDropRequested(string path) => _ = OpenSaveFilePathAsync(path).ContinueWith(
+        t => System.Diagnostics.Trace.TraceWarning($"Failed to open dropped save file '{path}': {t.Exception?.GetBaseException().Message}"),
+        TaskContinuationOptions.OnlyOnFaulted);
+
+    /// <summary>
+    /// Handles one or more OS files dropped anywhere on the main window. A save file is opened
+    /// (same path as File &gt; Open); Pokémon entity files are loaded into the current editor
+    /// without writing to a slot (drops onto a specific box/party slot are handled separately by
+    /// <see cref="BoxViewerViewModel.HandleFileDropAsync"/>/<see cref="PartyViewerViewModel.HandleFileDropAsync"/>).
+    /// </summary>
+    public async Task HandleWindowFileDropAsync(IReadOnlyList<string> paths)
+    {
+        if (paths.Count == 0)
+            return;
+
+        // A dropped save file always wins, regardless of how many other files came with it.
+        foreach (var path in paths)
+        {
+            var obj = TryGetSupportedFile(path);
+            if (obj is SaveFile)
+            {
+                await OpenSaveFilePathAsync(path);
+                return;
+            }
+        }
+
+        if (CurrentSave is null || CurrentPokemonEditor is null)
+            return;
+
+        // Load the first recognizable entity into the editor; extras are ignored (the editor holds one Pokémon).
+        foreach (var path in paths)
+        {
+            var result = new ImportEntityFileUseCase().Execute(CurrentSave, path);
+            if (result.Kind == EntityFileDropKind.Entity)
+            {
+                CurrentPokemonEditor.LoadPKM(result.Entity!);
+                return;
+            }
+        }
+
+        await _dialogService.ShowErrorAsync(T("File_ImportFailedTitle"), T("File_NoSupportedFileFound"));
+    }
+
+    private object? TryGetSupportedFile(string path)
+    {
+        try { return FileUtil.GetSupportedFile(path, CurrentSave); }
+        catch { return null; }
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task SaveFileAsync()
+    {
+        if (IsReadOnly)
+        {
+            if (await _dialogService.ShowConfirmationAsync(T("File_ReadOnlySaveTitle"), T("File_ReadOnlySaveMessage")))
+                await SaveFileAsAsync();
+            return;
+        }
+
+        if (CurrentSave is { } save && !await ConfirmHardcoreWriteAsync(save))
+            return;
+        var success = await _saveFileService.SaveFileAsync();
+        if (!success)
+            await _dialogService.ShowErrorAsync(T("Common_Error"), T("File_FailedToSaveFile"));
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task SaveFileAsAsync()
+    {
+        if (CurrentSave is { } save && !await ConfirmHardcoreWriteAsync(save))
+            return;
+        var path = await _dialogService.SaveFileAsync(T("File_SaveAsTitle"), CurrentSave?.Metadata.FileName);
+        if (string.IsNullOrEmpty(path))
+            return;
+        if (_saveFileService.IsReadOnlySource(path))
+        {
+            await _dialogService.ShowErrorAsync(T("File_ReadOnlySaveTitle"), T("File_ReadOnlySamePath"));
+            return;
+        }
+
+        var success = await _saveFileService.SaveFileAsync(path);
+        if (!success)
+            await _dialogService.ShowErrorAsync(T("Common_Error"), T("File_FailedToSaveFile"));
+        else
+            OnSavePathChanged();
+    }
+
+    // Save As moves the session to the new file, which also ends read-only mode.
+    private void OnSavePathChanged()
+    {
+        OnPropertyChanged(nameof(CurrentSavePath));
+        OnPropertyChanged(nameof(CurrentSaveFileName));
+        OnPropertyChanged(nameof(IsReadOnly));
+        OnPropertyChanged(nameof(WindowTitle));
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task CloseFileAsync()
+    {
+        if (await CanLeaveCurrentSaveAsync())
+            _saveFileService.CloseSave();
+    }
+
+    private bool _isLeavePromptOpen;
+
+    public async Task<bool> CanLeaveCurrentSaveAsync()
+    {
+        if (_isLeavePromptOpen)
+            return false;
+        var save = CurrentSave;
+        if (save is null || !save.State.Edited || !_settings.EditorBehavior.WarnClosingModified)
+            return true;
+
+        _isLeavePromptOpen = true;
+        try
+        {
+            var choice = await _dialogService.ShowUnsavedChangesAsync(
+                T("Unsaved_Title"), T("Unsaved_Message"),
+                T("Common_Save"), T("Unsaved_Discard"), T("Common_Cancel"));
+            if (!ReferenceEquals(CurrentSave, save))
+                return false;
+            if (choice == UnsavedChangesChoice.Cancel)
+                return false;
+            if (choice == UnsavedChangesChoice.Discard)
+                return true;
+
+            var path = _saveFileService.CurrentPath;
+            // A read-only save can only be kept by writing a copy somewhere else.
+            if (string.IsNullOrEmpty(path) || _saveFileService.IsReadOnly)
+            {
+                path = await _dialogService.SaveFileAsync(T("File_SaveAsTitle"), save.Metadata.FileName);
+                if (string.IsNullOrEmpty(path) || !ReferenceEquals(CurrentSave, save))
+                    return false;
+                if (_saveFileService.IsReadOnlySource(path))
+                {
+                    await _dialogService.ShowErrorAsync(T("File_ReadOnlySaveTitle"), T("File_ReadOnlySamePath"));
+                    return false;
+                }
+            }
+
+            if (!await ConfirmHardcoreWriteAsync(save))
+                return false;
+            if (await _saveFileService.SaveFileAsync(path))
+            {
+                OnSavePathChanged();
+                return ReferenceEquals(CurrentSave, save) && !save.State.Edited;
+            }
+
+            await _dialogService.ShowErrorAsync(T("Common_Error"), T("File_FailedToSaveFile"));
+            return false;
+        }
+        finally
+        {
+            _isLeavePromptOpen = false;
+        }
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task ImportShowdownAsync()
+    {
+        if (CurrentSave is null || CurrentPokemonEditor is null) return;
+
+        var text = await _clipboardService.GetTextAsync();
+        var result = new ImportShowdownSetUseCase().Execute(CurrentSave, text);
+        if (!result.Success)
+        {
+            await _dialogService.ShowErrorAsync(T("File_ImportFailedTitle"), result.Error!);
+            return;
+        }
+
+        CurrentPokemonEditor.LoadPKM(result.Pokemon!);
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task ExportShowdownAsync()
+    {
+        if (CurrentPokemonEditor is null) return;
+
+        var text = new ExportShowdownSetUseCase().Execute(CurrentPokemonEditor.PreparePKM());
+        if (text is null) return;
+
+        await _clipboardService.SetTextAsync(text);
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task ShowQrCodeAsync()
+    {
+        if (CurrentSave is null || CurrentPokemonEditor is null) return;
+
+        var pk = CurrentPokemonEditor.PreparePKM();
+        if (pk.Species == 0)
+        {
+            await _dialogService.ShowErrorAsync(T("Menu_Tools_QRCode"), T("File_LoadPokemonFirst"));
+            return;
+        }
+
+        var message = QRMessageUtil.GetMessage(pk);
+        var png = _qrCodeService.GeneratePng(message);
+        var species = GameInfo.Strings.Species[pk.Species];
+        var caption = pk.Format == 7
+            ? LocalizedStrings.Instance.Format("File_QrCaptionGen7", species)
+            : LocalizedStrings.Instance.Format("File_QrCaptionRaw", species);
+
+        await _windowService.ShowDialogAsync(
+            new QrCodeViewModel(png, caption, $"{species}_qr.png", _dialogService),
+            T("Menu_Tools_QRCode"));
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task ImportQrCodeAsync()
+    {
+        if (CurrentSave is null || CurrentPokemonEditor is null) return;
+
+        var path = await _dialogService.OpenFileAsync(T("File_OpenQrCodeImageTitle"), ["*.png", "*.jpg", "*.jpeg", "*.bmp"]);
+        if (string.IsNullOrEmpty(path)) return;
+
+        string? message;
+        try
+        {
+            message = _qrCodeService.DecodePng(File.ReadAllBytes(path));
+        }
+        catch (Exception ex)
+        {
+            await _dialogService.ShowErrorAsync(T("File_QrImportFailedTitle"), LocalizedStrings.Instance.Format("File_CouldNotReadImage", ex.Message));
+            return;
+        }
+
+        if (message is null)
+        {
+            await _dialogService.ShowErrorAsync(T("File_QrImportFailedTitle"), T("File_NoQrCodeFound"));
+            return;
+        }
+
+        var pk = QRMessageUtil.GetPKM(message, CurrentSave.Context);
+        if (pk is null)
+        {
+            await _dialogService.ShowErrorAsync(T("File_QrImportFailedTitle"),
+                T("File_QrIncompatibleData"));
+            return;
+        }
+
+        CurrentPokemonEditor.LoadPKM(pk);
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task ImportShowdownTeamAsync()
+    {
+        if (CurrentSave is null || BoxViewer is null) return;
+
+        var text = await _clipboardService.GetTextAsync();
+        var result = new ImportShowdownTeamUseCase().Execute(CurrentSave, text, BoxViewer.CurrentBox);
+        if (!result.Success)
+        {
+            var detail = result.SetErrors.Count > 0
+                ? $"{result.FatalError}\n\n{string.Join("\n", result.SetErrors)}"
+                : result.FatalError!;
+            await _dialogService.ShowErrorAsync(T("File_ImportTeamFailedTitle"), detail);
+            return;
+        }
+
+        BoxViewer.RefreshCurrentBox();
+
+        var message = LocalizedStrings.Instance.Format("File_ImportedPokemonIntoBox", result.Imported);
+        if (result.SetErrors.Count > 0)
+            message += "\n\n" + LocalizedStrings.Instance.Format("File_SkippedSets", string.Join("\n", result.SetErrors));
+        await _dialogService.ShowInformationAsync(T("File_ImportTeamTitle"), message);
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task ExportShowdownBoxAsync()
+    {
+        if (CurrentSave is null || BoxViewer is null) return;
+
+        var text = new ExportShowdownBoxUseCase().Execute(CurrentSave, BoxViewer.CurrentBox);
+        if (text.Length == 0)
+        {
+            await _dialogService.ShowInformationAsync(T("File_ExportBoxTitle"), T("File_CurrentBoxEmpty"));
+            return;
+        }
+        await _clipboardService.SetTextAsync(text);
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task ExportShowdownAllBoxesAsync()
+    {
+        if (CurrentSave is null) return;
+
+        var text = new ExportShowdownBoxUseCase().ExecuteAll(CurrentSave);
+        if (text.Length == 0)
+        {
+            await _dialogService.ShowInformationAsync(T("File_ExportAllBoxesTitle"), T("File_AllBoxesEmpty"));
+            return;
+        }
+        await _clipboardService.SetTextAsync(text);
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task OpenPKMDatabaseAsync()
+    {
+        if (CurrentSave is null) return;
+
+        var vm = new PKMDatabaseViewModel(CurrentSave, _spriteRenderer, _dialogService);
+        vm.PokemonSelected += LoadEntity;
+
+        await _windowService.ShowDialogAsync(vm, T("Menu_Data_PKMDatabase"));
+    }
+
+    // Cached so re-invoking the menu item focuses the existing tool window instead of
+    // opening a duplicate (ShowTool keys off the ViewModel instance). Reset on save change.
+    private BoxReportViewModel? _boxReport;
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private void OpenBoxReport()
+    {
+        if (CurrentSave is null) return;
+
+        if (_boxReport is null)
+        {
+            _boxReport = new BoxReportViewModel(CurrentSave, _dialogService, _settings, _settingsStore);
+            _boxReport.RowActivated += row =>
+            {
+                ((IBoxNavigator?)BoxViewer)?.NavigateTo(row.Box, row.Slot);
+                LoadEntity(row.Entity);
+            };
+        }
+        else
+        {
+            _boxReport.Refresh();
+        }
+
+        _windowService.ShowTool(_boxReport, T("File_BoxDataReportTitle"));
+    }
+
+    // Cached so re-invoking the menu item focuses the existing tool window instead of
+    // opening a duplicate (ShowTool keys off the ViewModel instance). Reset on save change.
+    private LegalityAuditViewModel? _legalityAudit;
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private void OpenLegalityAudit()
+    {
+        if (CurrentSave is null) return;
+
+        if (_legalityAudit is null)
+        {
+            _legalityAudit = new LegalityAuditViewModel(CurrentSave, _dialogService);
+            _legalityAudit.RowActivated += row =>
+            {
+                if (row.IsParty)
+                    PartyViewer?.RefreshParty();
+                else
+                    ((IBoxNavigator?)BoxViewer)?.NavigateTo(row.Box, row.Slot);
+                LoadEntity(row.Entity);
+            };
+        }
+
+        _windowService.ShowTool(_legalityAudit, T("File_LegalityAuditTitle"));
+    }
+
+    // Cached so re-invoking the menu item focuses the existing tool window instead of
+    // opening a duplicate (ShowTool keys off the ViewModel instance). Reset on save change.
+    private BackupManagerViewModel? _backupManager;
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private void OpenBackupManager()
+    {
+        if (CurrentSave is null) return;
+
+        if (_backupManager is null)
+        {
+            // Restoring reloads the save via ISaveFileGateway, which already re-fires
+            // SaveFileChanged (see the subscription in the constructor) — no separate hook needed here.
+            _backupManager = new BackupManagerViewModel(_saveBackupService, _saveFileService, _dialogService, _settings);
+            _backupManager.CanReplaceSaveAsync = CanLeaveCurrentSaveAsync;
+        }
+        else
+        {
+            _backupManager.Refresh();
+        }
+
+        _windowService.ShowTool(_backupManager, T("File_BackupManagerTitle"));
+    }
+
+    private SaveDiffViewModel? _saveDiff;
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private void OpenSaveDiff()
+    {
+        if (CurrentSave is null) return;
+
+        if (_saveDiff is null)
+            _saveDiff = new SaveDiffViewModel(CurrentSave, _saveFileService.CurrentPath, _saveBackupService, _dialogService);
+        else
+            _saveDiff.RefreshBackups();
+
+        _windowService.ShowTool(_saveDiff, T("File_CompareSavesTitle"));
+    }
+
+    [RelayCommand(CanExecute = nameof(HasSave))]
+    private async Task OpenMysteryGiftDatabaseAsync()
+    {
+        if (CurrentSave is null) return;
+
+        var vm = new MysteryGiftDatabaseViewModel(CurrentSave, _spriteRenderer, _dialogService);
+        vm.GiftSelected += LoadEntity;
+
+        await _windowService.ShowDialogAsync(vm, T("Menu_Data_MysteryGiftDatabase"));
+    }
+
+    private bool CanTransferBoxes => HasSave && !IsBoxTransferRunning;
+
+    [RelayCommand(CanExecute = nameof(CanTransferBoxes))]
+    private async Task DumpBoxesAsync()
+    {
+        if (CurrentSave is not { } save) return;
+
+        var path = await _dialogService.OpenFolderAsync(T("File_SelectFolderDumpBoxes"));
+        if (string.IsNullOrEmpty(path)) return;
+
+        using var transfer = BeginBoxTransfer();
+        try
+        {
+            // Dump only this point-in-time copy. The live save can keep serving the UI while the
+            // filesystem work runs on a worker thread.
+            var snapshot = save.Clone();
+            var result = await Task.Run(() => new DumpBoxesUseCase().Execute(snapshot, path), transfer.Token);
+            transfer.Token.ThrowIfCancellationRequested();
+            if (!result.Success)
+            {
+                await _dialogService.ShowErrorAsync(T("Menu_Data_DumpBoxes"), result.Message);
+                return;
+            }
+
+            await _dialogService.ShowInformationAsync(T("Menu_Data_DumpBoxes"), result.Message);
+        }
+        catch (OperationCanceledException)
+        {
+            // Save switching retires background work silently; the new session must not receive a
+            // completion dialog for an operation that belongs to the old save.
+        }
+        catch (Exception ex)
+        {
+            await _dialogService.ShowErrorAsync(T("Menu_Data_DumpBoxes"), ex.Message);
+        }
+    }
+
+    [RelayCommand(CanExecute = nameof(CanTransferBoxes))]
+    private async Task LoadBoxesAsync()
+    {
+        if (CurrentSave is not { } save) return;
+
+        var path = await _dialogService.OpenFolderAsync(T("File_SelectFolderLoadBoxes"));
+        if (string.IsNullOrEmpty(path)) return;
+
+        using var transfer = BeginBoxTransfer();
+        try
+        {
+            // Parse and import into a clone off-thread. Only the resulting box data is copied into
+            // the live save after the worker completes and only if the same save is still current.
+            var workingCopy = save.Clone();
+            var result = await Task.Run(() => new LoadBoxesUseCase().Execute(workingCopy, path), transfer.Token);
+            transfer.Token.ThrowIfCancellationRequested();
+
+            if (!ReferenceEquals(CurrentSave, save))
+                return;
+
+            if (!result.Success)
+            {
+                await _dialogService.ShowErrorAsync(T("Menu_Data_LoadBoxes"), result.Message);
+                return;
+            }
+
+            ApplyBoxData(save, workingCopy);
+            BoxViewer?.RefreshCurrentBox();
+            PartyViewer?.RefreshParty();
+            await _dialogService.ShowInformationAsync(T("Menu_Data_LoadBoxes"), result.Message);
+        }
+        catch (OperationCanceledException)
+        {
+            // Save switching retires background work silently; never apply a stale import.
+        }
+        catch (Exception ex)
+        {
+            await _dialogService.ShowErrorAsync(T("Menu_Data_LoadBoxes"), ex.Message);
+        }
+    }
+
+    private BoxTransferScope BeginBoxTransfer()
+    {
+        var cts = new CancellationTokenSource();
+        _boxTransferCts = cts;
+        IsBoxTransferRunning = true;
+        return new BoxTransferScope(this, cts);
+    }
+
+    private static void ApplyBoxData(SaveFile target, SaveFile source)
+    {
+        for (var box = 0; box < target.BoxCount; box++)
+            target.SetBoxData(source.GetBoxData(box), box);
+        target.State.Edited = true;
+    }
+
+    private sealed class BoxTransferScope(MainWindowViewModel owner, CancellationTokenSource cts) : IDisposable
+    {
+        public CancellationToken Token => cts.Token;
+
+        public void Dispose()
+        {
+            if (ReferenceEquals(owner._boxTransferCts, cts))
+            {
+                owner._boxTransferCts = null;
+                owner.IsBoxTransferRunning = false;
+            }
+
+            cts.Dispose();
+        }
+    }
+}

@@ -1,0 +1,94 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+ xmlns:core="clr-namespace:PKHeX.Core;assembly=PKHeX.Core" xmlns:loc="using:PKHeX.Avalonia.Localization"
+ x:Class="PKHeX.Avalonia.Views.DonutEditor" x:DataType="vm:DonutEditorViewModel" MinWidth="650" MinHeight="420">
+ <DockPanel Margin="16">
+  <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,8">
+   <TextBlock Text="{loc:Loc DonutEditor_Title}" FontSize="20" FontWeight="SemiBold" />
+   <TextBlock Text="{loc:Loc DonutFlow_StagedHelp}" TextWrapping="Wrap" />
+   <WrapPanel>
+    <Button Content="{loc:Loc DonutEditor_RandomizeAll}" Command="{Binding RandomizeAllCommand}" Margin="0,0,6,4" />
+    <Button Content="{loc:Loc DonutEditor_CloneCurrent}" Command="{Binding CloneCurrentCommand}" Margin="0,0,6,4" />
+    <Button Content="{loc:Loc DonutEditor_ShinyAssortment}" Command="{Binding ShinyAssortmentCommand}" Margin="0,0,6,4" />
+    <Button Content="{loc:Loc DonutEditor_Compress}" Command="{Binding CompressCommand}" Margin="0,0,6,4" />
+    <Button Content="{loc:Loc DonutFlow_Undo}" Command="{Binding UndoCommand}" Margin="0,0,6,4" />
+   </WrapPanel>
+  </StackPanel>
+  <StackPanel DockPanel.Dock="Bottom" Spacing="4" Margin="0,8,0,0">
+   <TextBlock Text="{Binding Error}" IsVisible="{Binding HasError}" TextWrapping="Wrap" />
+   <WrapPanel HorizontalAlignment="Right"><Button Content="{loc:Loc MysteryGiftEditor_Reset}" Command="{Binding RefreshCommand}" Margin="0,0,8,4" />
+    <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" Margin="0,0,8,4" />
+    <Button Name="DonutSave" Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" Margin="0,0,0,4" /></WrapPanel>
+  </StackPanel>
+  <TextBlock Text="{loc:Loc DonutEditor_NotAvailable}" IsVisible="{Binding !IsSupported}" TextWrapping="Wrap" />
+  <Grid ColumnDefinitions="190,8,*" IsVisible="{Binding IsSupported}">
+   <ListBox Name="DonutList" Classes="list-surface" ItemsSource="{Binding Donuts}" SelectedItem="{Binding SelectedDonut}">
+    <ListBox.ItemTemplate><DataTemplate DataType="vm:DonutEntryViewModel"><TextBlock Text="{Binding DisplayName}" TextWrapping="Wrap" /></DataTemplate></ListBox.ItemTemplate>
+   </ListBox>
+   <ScrollViewer Name="DonutDetailsScroll" Grid.Column="2"><StackPanel Spacing="12">
+    <Expander Name="DonutGenerator" Header="{loc:Loc DonutEditor_Generator}"><StackPanel Spacing="8">
+     <TextBlock Text="{loc:Loc DonutFlow_RangeHelp}" TextWrapping="Wrap" />
+     <WrapPanel><TextBlock Text="{loc:Loc DonutEditor_Start}" VerticalAlignment="Center" Margin="0,0,8,4" />
+      <NumericUpDown Value="{Binding GenerateStart}" Minimum="0" Maximum="998" Width="150" Margin="0,0,12,4" AutomationProperties.Name="{loc:Loc DonutEditor_Start}" />
+      <TextBlock Text="{loc:Loc DonutEditor_End}" VerticalAlignment="Center" Margin="0,0,8,4" />
+      <NumericUpDown Value="{Binding GenerateEnd}" Minimum="0" Maximum="999" Width="150" Margin="0,0,0,4" AutomationProperties.Name="{loc:Loc DonutEditor_End}" /></WrapPanel>
+     <ScrollViewer MaxHeight="180"><ItemsControl ItemsSource="{Binding FlavorOptions}"><ItemsControl.ItemTemplate><DataTemplate DataType="vm:DonutFlavorOptionViewModel"><CheckBox IsChecked="{Binding IsSelected}"><TextBlock Text="{Binding DisplayName}" TextWrapping="Wrap" /></CheckBox></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
+     <Button Content="{loc:Loc DonutEditor_Generate}" Command="{Binding GenerateCommand}" HorizontalAlignment="Left" />
+    </StackPanel></Expander>
+    <WrapPanel>
+    <Button Content="{loc:Loc DonutFlow_Import}" Command="{Binding ImportCommand}" Margin="0,0,6,4" />
+    <Button Content="{loc:Loc DonutFlow_Export}" Command="{Binding ExportCommand}" Margin="0,0,6,4" />
+    <Button Content="{loc:Loc DonutFlow_ResetCurrent}" Command="{Binding ResetCurrentCommand}" Margin="0,0,6,4" />
+    </WrapPanel>
+    <TextBlock Text="{loc:Loc DonutFlow_DropHelp}" TextWrapping="Wrap" />
+    <StackPanel Spacing="12" DataContext="{Binding SelectedDonut}">
+     <Border Classes="editor-section-padded"><StackPanel Spacing="8">
+      <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" TextWrapping="Wrap" />
+<Grid ColumnDefinitions="*,8,150"><TextBlock Text="{loc:Loc DonutEditor_Stars}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding Stars}" Minimum="0" Maximum="255" AutomationProperties.Name="{loc:Loc DonutEditor_Stars}" /></Grid>
+<Grid ColumnDefinitions="*,8,150"><TextBlock Text="{loc:Loc DonutEditor_Calories}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding Calories}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc DonutEditor_Calories}" /></Grid>
+<Grid ColumnDefinitions="*,8,150"><TextBlock Text="{loc:Loc DonutEditor_LevelBoost}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding LevelBoost}" Minimum="0" Maximum="255" AutomationProperties.Name="{loc:Loc DonutEditor_LevelBoost}" /></Grid>
+
+      <TextBlock Text="{loc:Loc DonutEditor_Type}" />
+      <ComboBox ItemsSource="{Binding DonutOptions}" SelectedValue="{Binding DonutType}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc DonutEditor_Type}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+      <TextBlock Text="{Binding NumberError}" IsVisible="{Binding HasNumberError}" TextWrapping="Wrap" />
+      <Button Content="{loc:Loc DonutEditor_RecalculateStats}" Command="{Binding RecalculateCommand}" />
+     </StackPanel></Border>
+     <Border Classes="editor-section-padded"><StackPanel Spacing="8"><TextBlock Text="{loc:Loc DonutEditor_Berries}" FontWeight="SemiBold" />
+<TextBlock Text="{loc:Loc DonutEditor_Berry1}" /><ComboBox ItemsSource="{Binding BerryOptions}" SelectedValue="{Binding Berry1}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc DonutEditor_Berry1}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<TextBlock Text="{loc:Loc DonutEditor_Berry2}" /><ComboBox ItemsSource="{Binding BerryOptions}" SelectedValue="{Binding Berry2}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc DonutEditor_Berry2}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<TextBlock Text="{loc:Loc DonutEditor_Berry3}" /><ComboBox ItemsSource="{Binding BerryOptions}" SelectedValue="{Binding Berry3}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc DonutEditor_Berry3}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<TextBlock Text="{loc:Loc DonutEditor_Berry4}" /><ComboBox ItemsSource="{Binding BerryOptions}" SelectedValue="{Binding Berry4}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc DonutEditor_Berry4}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<TextBlock Text="{loc:Loc DonutEditor_Berry5}" /><ComboBox ItemsSource="{Binding BerryOptions}" SelectedValue="{Binding Berry5}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc DonutEditor_Berry5}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<TextBlock Text="{loc:Loc DonutEditor_Berry6}" /><ComboBox ItemsSource="{Binding BerryOptions}" SelectedValue="{Binding Berry6}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc DonutEditor_Berry6}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<TextBlock Text="{loc:Loc DonutEditor_Berry7}" /><ComboBox ItemsSource="{Binding BerryOptions}" SelectedValue="{Binding Berry7}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc DonutEditor_Berry7}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<TextBlock Text="{loc:Loc DonutEditor_Berry8}" /><ComboBox ItemsSource="{Binding BerryOptions}" SelectedValue="{Binding Berry8}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc DonutEditor_Berry8}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+<TextBlock Text="{loc:Loc DonutEditor_BerryNameDisplay}" /><ComboBox ItemsSource="{Binding BerryOptions}" SelectedValue="{Binding BerryName}" SelectedValueBinding="{Binding Value}" HorizontalAlignment="Stretch" AutomationProperties.Name="{loc:Loc DonutEditor_BerryNameDisplay}"><ComboBox.ItemTemplate><DataTemplate DataType="core:ComboItem"><TextBlock Text="{Binding Text}" TextWrapping="Wrap" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+
+     </StackPanel></Border>
+     <Border Classes="editor-section-padded"><StackPanel Spacing="8"><TextBlock Text="{loc:Loc DonutEditor_Flavors}" FontWeight="SemiBold" />
+<TextBox Text="{Binding Flavor0Text}" AutomationProperties.Name="{loc:Loc DonutEditor_Flavors}" /><TextBlock Text="{Binding Flavor0Name}" TextWrapping="Wrap" /><TextBlock Text="{Binding Flavor0Error}" IsVisible="{Binding HasFlavor0Error}" TextWrapping="Wrap" />
+<TextBox Text="{Binding Flavor1Text}" AutomationProperties.Name="{loc:Loc DonutEditor_Flavors}" /><TextBlock Text="{Binding Flavor1Name}" TextWrapping="Wrap" /><TextBlock Text="{Binding Flavor1Error}" IsVisible="{Binding HasFlavor1Error}" TextWrapping="Wrap" />
+<TextBox Text="{Binding Flavor2Text}" AutomationProperties.Name="{loc:Loc DonutEditor_Flavors}" /><TextBlock Text="{Binding Flavor2Name}" TextWrapping="Wrap" /><TextBlock Text="{Binding Flavor2Error}" IsVisible="{Binding HasFlavor2Error}" TextWrapping="Wrap" />
+
+     </StackPanel></Border>
+     <Border Classes="editor-section-padded"><StackPanel Spacing="8"><TextBlock Text="{loc:Loc DonutFlow_Profile}" FontWeight="SemiBold" />
+      <TextBlock Text="{loc:Loc DonutFlow_ProfileHelp}" TextWrapping="Wrap" />
+      <ItemsControl ItemsSource="{Binding Profile}"><ItemsControl.ItemTemplate><DataTemplate DataType="vm:DonutProfileValue"><StackPanel Margin="0,0,0,6"><Grid ColumnDefinitions="*,Auto"><TextBlock Text="{Binding Name}" /><TextBlock Grid.Column="1" Text="{Binding Value}" /></Grid><ProgressBar Value="{Binding Value}" Minimum="0" Maximum="760" Height="10" AutomationProperties.Name="{Binding Name}" /></StackPanel></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+     </StackPanel></Border>
+     <Expander Name="DonutRawIds" Header="{loc:Loc DonutFlow_RawIds}"><StackPanel Spacing="6">
+<Grid ColumnDefinitions="*,8,160"><TextBlock Text="{loc:Loc DonutEditor_Berry1}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding Berry1}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc DonutEditor_Berry1}" /></Grid>
+<Grid ColumnDefinitions="*,8,160"><TextBlock Text="{loc:Loc DonutEditor_Berry2}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding Berry2}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc DonutEditor_Berry2}" /></Grid>
+<Grid ColumnDefinitions="*,8,160"><TextBlock Text="{loc:Loc DonutEditor_Berry3}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding Berry3}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc DonutEditor_Berry3}" /></Grid>
+<Grid ColumnDefinitions="*,8,160"><TextBlock Text="{loc:Loc DonutEditor_Berry4}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding Berry4}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc DonutEditor_Berry4}" /></Grid>
+<Grid ColumnDefinitions="*,8,160"><TextBlock Text="{loc:Loc DonutEditor_Berry5}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding Berry5}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc DonutEditor_Berry5}" /></Grid>
+<Grid ColumnDefinitions="*,8,160"><TextBlock Text="{loc:Loc DonutEditor_Berry6}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding Berry6}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc DonutEditor_Berry6}" /></Grid>
+<Grid ColumnDefinitions="*,8,160"><TextBlock Text="{loc:Loc DonutEditor_Berry7}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding Berry7}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc DonutEditor_Berry7}" /></Grid>
+<Grid ColumnDefinitions="*,8,160"><TextBlock Text="{loc:Loc DonutEditor_Berry8}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding Berry8}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc DonutEditor_Berry8}" /></Grid>
+<Grid ColumnDefinitions="*,8,160"><TextBlock Text="{loc:Loc DonutEditor_BerryNameDisplay}" TextWrapping="Wrap" /><NumericUpDown Grid.Column="2" Value="{Binding BerryName}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc DonutEditor_BerryNameDisplay}" /></Grid>
+<NumericUpDown Value="{Binding DonutType}" Minimum="0" Maximum="65535" AutomationProperties.Name="{loc:Loc DonutEditor_Type}" />
+     </StackPanel></Expander>
+    </StackPanel>
+   </StackPanel></ScrollViewer>
+  </Grid>
+ </DockPanel>
+</UserControl>

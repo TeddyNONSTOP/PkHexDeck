@@ -1,0 +1,339 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:models="clr-namespace:PKHeX.Presentation.Models;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             xmlns:controls="using:PKHeX.Avalonia.Controls"
+             x:Class="PKHeX.Avalonia.Views.BoxViewer"
+             x:DataType="vm:BoxViewerViewModel"
+             Focusable="True">
+
+    <UserControl.Styles>
+        <Style Selector="Button.compact-slot">
+            <Setter Property="Background" Value="{DynamicResource ThemeBackgroundCardBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMutedBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="7" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+        </Style>
+        <Style Selector="Button.compact-slot.selected">
+            <Setter Property="Background" Value="{DynamicResource CompactSelectionBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource CompactSelectionBorderBrush}" />
+        </Style>
+        <Style Selector="Button.compact-slot.marked">
+            <Setter Property="BorderBrush" Value="{DynamicResource CompactAccentBrush}" />
+            <Setter Property="BorderThickness" Value="2" />
+        </Style>
+    </UserControl.Styles>
+
+    <!-- Keyboard Navigation -->
+    <UserControl.KeyBindings>
+        <KeyBinding Gesture="Left" Command="{Binding MoveSelectionCommand}" CommandParameter="Left" />
+        <KeyBinding Gesture="Right" Command="{Binding MoveSelectionCommand}" CommandParameter="Right" />
+        <KeyBinding Gesture="Up" Command="{Binding MoveSelectionCommand}" CommandParameter="Up" />
+        <KeyBinding Gesture="Down" Command="{Binding MoveSelectionCommand}" CommandParameter="Down" />
+        <KeyBinding Gesture="Enter" Command="{Binding ActivateSlotCommand}" />
+        <KeyBinding Gesture="Space" Command="{Binding ActivateSlotCommand}" />
+        <KeyBinding Gesture="Home" Command="{Binding SelectFirstSlotCommand}" />
+        <KeyBinding Gesture="End" Command="{Binding SelectLastSlotCommand}" />
+        <KeyBinding Gesture="PageUp" Command="{Binding PreviousBoxCommand}" />
+        <KeyBinding Gesture="PageDown" Command="{Binding NextBoxCommand}" />
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding OpenSeekToolCommand}" />
+        <KeyBinding Gesture="F3" Command="{Binding Seek.SeekNextCommand}" />
+        <KeyBinding Gesture="Shift+F3" Command="{Binding Seek.SeekPreviousCommand}" />
+        <!-- Keyboard-only slot operations, mirroring the mouse modifier-clicks below -->
+        <KeyBinding Gesture="Ctrl+C" Command="{Binding ViewSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+        <KeyBinding Gesture="Ctrl+V" Command="{Binding SetSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+        <KeyBinding Gesture="Delete" Command="{Binding DeleteSlotCommand}" CommandParameter="{Binding SelectedSlot}" />
+    </UserControl.KeyBindings>
+
+    <Border Padding="0" Background="Transparent">
+        <DockPanel>
+            <!-- Box Navigation Header -->
+            <Border DockPanel.Dock="Top" Padding="0" Margin="0" Height="39">
+                <Grid ColumnDefinitions="*,28,28,28,28,28,Auto,Auto" Height="34">
+                    <Button Grid.Column="1"
+                            Command="{Binding PreviousBoxCommand}"
+                            ToolTip.Tip="{loc:Loc BoxViewer_PreviousBoxTooltip}"
+                            AutomationProperties.Name="Previous Box"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="16">
+                        <Path Width="8" Height="12" Data="M7 1 L1 6 L7 11" Stroke="{DynamicResource ThemeTextMutedBrush}" StrokeThickness="1.5" />
+                    </Button>
+
+                    <controls:DoubleTapCommandBorder Grid.Column="0" Command="{Binding OpenDetachedToolCommand}" ToolTip.Tip="{loc:Loc BoxViewer_PopOut}" Background="Transparent">
+                    <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding BoxName}" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding OccupancyText}" FontSize="10" Foreground="{DynamicResource ThemeTextMutedBrush}" VerticalAlignment="Center" />
+                    </StackPanel>
+                    </controls:DoubleTapCommandBorder>
+
+                    <Button Grid.Column="2"
+                            Command="{Binding NextBoxCommand}"
+                            ToolTip.Tip="{loc:Loc BoxViewer_NextBoxTooltip}"
+                            AutomationProperties.Name="Next Box"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="16">
+                        <Path Width="8" Height="12" Data="M1 1 L7 6 L1 11" Stroke="{DynamicResource ThemeTextMutedBrush}" StrokeThickness="1.5" />
+                    </Button>
+
+                    <Button Grid.Column="3"
+                            Command="{Binding OpenSeekToolCommand}"
+                            ToolTip.Tip="{loc:Loc BoxViewer_SeekTooltip}"
+                            AutomationProperties.Name="Open Seek Tool"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="16">
+                        <Path Data="M 6,1 A 5,5 0 1 0 6,11 A 5,5 0 1 0 6,1 M 10,10 L 14,14"
+                              Stroke="{DynamicResource ThemeTextSecondaryBrush}"
+                              StrokeThickness="1.5"
+                              Width="16" Height="16" />
+                    </Button>
+
+                    <Button Grid.Column="4"
+                            Command="{Binding OpenDetachedToolCommand}"
+                            ToolTip.Tip="{loc:Loc BoxViewer_PopOut}"
+                            AutomationProperties.Name="{loc:Loc BoxViewer_PopOut}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center">
+                        <Path Data="M 3,13 L 13,3 M 6,3 H 13 V 10"
+                              Stroke="{DynamicResource ThemeTextSecondaryBrush}"
+                              StrokeThickness="1.5"
+                              Width="16" Height="16" />
+                    </Button>
+
+                    <Button Grid.Column="5"
+                            Command="{Binding MoveToPartyCommand}"
+                            CommandParameter="{Binding SelectedSlot}"
+                            ToolTip.Tip="{loc:Loc Slot_MoveSelectedToPartyTooltip}"
+                            AutomationProperties.Name="Move selected Pokémon to Party"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="18"
+                            IsVisible="{Binding CanMoveToParty}"
+                            IsEnabled="{Binding SelectedSlot.IsEmpty, Converter={StaticResource ObjectFalseConverter}}">
+                        <Path Data="M 2,8 H 13 M 8,3 L 13,8 L 8,13"
+                              Stroke="{DynamicResource ThemeTextSecondaryBrush}"
+                              StrokeThickness="1.5"
+                              Width="16" Height="16" />
+                    </Button>
+
+                    <!-- Organizer: multi-select mode toggle and the bulk-actions menu for the marks. -->
+                    <ToggleButton Grid.Column="6"
+                                  x:Name="OrganizerToggle"
+                                  Classes="organizer-toggle"
+                                  Width="28"
+                                  IsVisible="{Binding SupportsOrganizer}"
+                                  IsChecked="{Binding IsSelectionModeEnabled, Mode=OneWay}"
+                                  Command="{Binding ToggleSelectionModeCommand}"
+                                  ToolTip.Tip="{loc:Loc Organizer_SelectionModeTooltip}"
+                                  AutomationProperties.Name="{loc:Loc Organizer_SelectionMode}"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  Padding="0"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center">
+                        <Path Data="M 2,2 H 8 V 8 H 2 Z M 3.5,5 L 5,6.5 L 7,3.5 M 10,5 H 15 M 2,11 H 8 V 15 H 2 Z M 10,13 H 15"
+                              Stroke="{DynamicResource ThemeTextSecondaryBrush}"
+                              StrokeThickness="1.3"
+                              Width="16" Height="16" />
+                    </ToggleButton>
+
+                    <Button Grid.Column="7"
+                            x:Name="OrganizerActionsButton"
+                            IsVisible="{Binding IsSelectionModeEnabled}"
+                            ToolTip.Tip="{loc:Loc Organizer_ActionsTooltip}"
+                            AutomationProperties.Name="{loc:Loc Organizer_ActionsButton}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Padding="4,0"
+                            MinWidth="28"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Spacing="3">
+                            <Path Data="M 3,4 H 13 M 3,8 H 13 M 3,12 H 13"
+                                  Stroke="{DynamicResource ThemeTextSecondaryBrush}"
+                                  StrokeThickness="1.5"
+                                  Width="16" Height="16"
+                                  VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding MarkedCount}"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource ThemeTextSecondaryBrush}"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                        <Button.Flyout>
+                            <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                <MenuItem Header="{loc:Loc Organizer_SelectAllInBox}" Command="{Binding SelectAllInBoxCommand}" />
+                                <MenuItem Header="{loc:Loc Organizer_ClearMarks}" Command="{Binding ClearMarksCommand}" />
+                                <Separator />
+                                <MenuItem Header="{loc:Loc Organizer_MoveHere}" Command="{Binding BulkMoveHereCommand}" />
+                                <MenuItem Header="{loc:Loc Organizer_CopyHere}" Command="{Binding BulkCopyHereCommand}" />
+                                <MenuItem Header="{loc:Loc Organizer_MoveToParty}" Command="{Binding BulkMoveToPartyCommand}" IsVisible="{Binding CanMoveToParty}" />
+                                <MenuItem Header="{loc:Loc Organizer_CopyToParty}" Command="{Binding BulkCopyToPartyCommand}" IsVisible="{Binding CanMoveToParty}" />
+                                <MenuItem Header="{loc:Loc Organizer_Duplicate}" Command="{Binding BulkDuplicateCommand}" />
+                                <MenuItem Header="{loc:Loc Organizer_Legalize}" Command="{Binding BulkLegalizeCommand}" IsVisible="{Binding CanBulkLegalize}" />
+                                <Separator />
+                                <MenuItem Header="{loc:Loc Organizer_Export}" Command="{Binding BulkExportCommand}" />
+                                <MenuItem Header="{loc:Loc Organizer_SendToBank}" Command="{Binding BulkSendToBankCommand}" IsVisible="{Binding CanBulkSendToBank}" />
+                                <Separator />
+                                <MenuItem Header="{loc:Loc Organizer_ReleaseMarked}" Command="{Binding BulkReleaseCommand}" />
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Footer (in Organizer selection mode it explains the mark gesture and shows the count) -->
+            <Panel DockPanel.Dock="Bottom" Margin="0,5,0,4">
+                <TextBlock Text="{loc:Loc CompactUI_SlotHint}"
+                           ToolTip.Tip="{loc:Loc BoxViewer_FooterHelp}"
+                           TextTrimming="CharacterEllipsis"
+                           Foreground="{DynamicResource ThemeTextMutedBrush}"
+                           FontSize="11"
+                           HorizontalAlignment="Left"
+                           IsVisible="{Binding !IsSelectionModeEnabled}" />
+                <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding IsSelectionModeEnabled}">
+                    <TextBlock x:Name="OrganizerMarkedCount"
+                               Text="{Binding MarkedCountText}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource CompactAccentTextBrush}" />
+                    <TextBlock Text="{loc:Loc Organizer_SelectionHint}"
+                               TextTrimming="CharacterEllipsis"
+                               Foreground="{DynamicResource ThemeTextMutedBrush}"
+                               FontSize="11" />
+                </StackPanel>
+            </Panel>
+
+            <!-- Box Grid (6 columns x 5 rows = 30 slots) - Fills available space -->
+            <Border Padding="0" Background="Transparent">
+                <ItemsControl ItemsSource="{Binding Slots}" x:Name="SlotGrid">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="6" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:SlotData">
+                            <Button Classes="slot compact-slot"
+                                    Classes.selected="{Binding IsSelected}"
+                                    Classes.marked="{Binding IsMarked}"
+                                    Margin="{DynamicResource CompactSlotGap}"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    PointerMoved="OnSlotPointerMoved"
+                                    DragDrop.AllowDrop="True"
+                                    DragDrop.Drop="OnSlotDrop"
+                                    DragDrop.DragOver="OnSlotDragOver"
+                                    DragDrop.DragLeave="OnSlotDragLeave"
+                                    ToolTip.Tip="{Binding ToolTipSummary}"
+                                    AutomationProperties.Name="{Binding AccessibleName}"
+                                    Click="OnSlotClicked"
+                                    DoubleTapped="OnSlotDoubleTapped"
+                                    Tag="{Binding}">
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="{loc:Loc BoxViewer_ViewMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).ViewSlotCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                        <MenuItem Header="{loc:Loc BoxViewer_SetMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).SetSlotCommand}"
+                                                  IsVisible="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).IsEditingAllowed}"
+                                                  CommandParameter="{Binding}" />
+                                        <MenuItem Header="{loc:Loc Slot_MoveToPartyMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).MoveToPartyCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsVisible="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).CanMoveToParty}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                        <MenuItem Header="{loc:Loc Slot_SendToBankMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).SendToBankCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsVisible="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).CanSendToBank}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                        <MenuItem Header="{loc:Loc Slot_LegalizeMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).LegalizeSlotCommand}"
+                                                  IsVisible="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).IsEditingAllowed}"
+                                                  CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                        <Separator />
+                                        <MenuItem Header="{loc:Loc BoxViewer_DeleteMenuItem}"
+                                                  Command="{Binding $parent[UserControl].((vm:BoxViewerViewModel)DataContext).DeleteSlotCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  IsEnabled="{Binding !IsEmpty}" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+
+                                <!-- Content stretches to fill. Hit-test-transparent so drag/drop
+                                     hit-testing resolves to the Button itself (which carries
+                                     DragDrop.AllowDrop) rather than the sprite Image swallowing it. -->
+                                 <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False">
+                                     <!-- Empty slot indicator -->
+                                     <Border Classes="empty-slot"
+                                             IsVisible="{Binding IsEmpty}" />
+
+                                     <!-- Pokemon Sprite - scales with slot size -->
+                                     <Image Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}"
+                                            Stretch="Uniform"
+                                            RenderOptions.BitmapInterpolationMode="HighQuality"
+                                            IsVisible="{Binding HasVisibleSprite}"
+                                            MaxHeight="47" VerticalAlignment="Center" Margin="4,0,4,14" />
+
+                                     <TextBlock Text="{Binding SlotNumber}"
+                                                FontSize="8" Foreground="{DynamicResource ThemeTextMutedBrush}" Opacity="0.7"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Margin="4,3,0,0" />
+
+                                     <Border Background="Transparent"
+                                             VerticalAlignment="Bottom"
+                                             HorizontalAlignment="Stretch"
+                                             IsVisible="{Binding !IsEmpty}">
+                                         <TextBlock Text="{Binding Nickname}"
+                                                    FontSize="10" Foreground="{DynamicResource ThemeTextPrimaryBrush}"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    HorizontalAlignment="Center" />
+                                     </Border>
+
+                                     <!-- Organizer mark badge -->
+                                     <!-- Sits above the nickname line so long names stay readable. -->
+                                     <Border Classes="organizer-mark" Margin="0,0,3,16" IsVisible="{Binding IsMarked}">
+                                         <Path />
+                                     </Border>
+                                 </Panel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+        </DockPanel>
+    </Border>
+</UserControl>

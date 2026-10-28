@@ -1,0 +1,52 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.EventReset1Editor"
+             x:DataType="vm:EventReset1EditorViewModel">
+
+    <Design.DataContext>
+        <vm:EventReset1EditorViewModel />
+    </Design.DataContext>
+
+    <Border Classes="view-container">
+    <Grid RowDefinitions="Auto,*">
+        <!-- Header and actions -->
+        <Grid Grid.Row="0" Classes="save-editor-header" ColumnDefinitions="*,Auto">
+            <StackPanel Spacing="3">
+            <TextBlock Text="{loc:Loc EventReset1Editor_Title}" Classes="view-title" />
+            <TextBlock Text="{loc:Loc EventReset1Editor_Description}"
+                       Opacity="0.7" TextWrapping="Wrap"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                <Button Content="{loc:Loc EventReset1Editor_ResetAll}" Command="{Binding ResetAllCommand}" />
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Events List -->
+        <ScrollViewer Grid.Row="1" Margin="0,8,0,0">
+            <ItemsControl ItemsSource="{Binding Events}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="vm:OverworldEventViewModel">
+                        <Border Classes="editor-section-padded" Margin="0,0,0,8" Padding="8">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Grid.Column="0"
+                                           Text="{Binding Name}"
+                                           VerticalAlignment="Center"
+                                           FontSize="14"/>
+                                <Button Grid.Column="1"
+                                        Content="{loc:Loc EventReset1Editor_Reset}"
+                                        Command="{Binding ResetCommand}"
+                                        IsEnabled="{Binding CanReset}"
+                                        MinWidth="80"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+    </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+             x:Class="PKHeX.Avalonia.Views.MoveShopEditor"
+             x:DataType="vm:MoveShopEditorViewModel">
+
+    <Border Classes="view-container">
+    <Grid RowDefinitions="Auto, *">
+        <Grid Grid.Row="0" Classes="save-editor-header">
+            <WrapPanel HorizontalAlignment="Right" ItemSpacing="8" LineSpacing="4">
+                <Button Content="{loc:Loc MoveShopEditor_GiveAll}" Command="{Binding SetAllCommand}"/>
+                <Button Content="{loc:Loc MoveShopEditor_PurchaseAll}" Command="{Binding SetAllPurchasedCommand}"/>
+                <Button Content="{loc:Loc MoveShopEditor_RemoveAll}" Command="{Binding SetNoneCommand}"/>
+                <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}"/>
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent"/>
+            </WrapPanel>
+        </Grid>
+
+        <DataGrid Grid.Row="1" Classes="save-grid" ItemsSource="{Binding Moves}" CanUserSortColumns="True" IsReadOnly="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{loc:Loc MoveShopEditor_Index}" Binding="{Binding IndexDisplay}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{loc:Loc MoveShopEditor_Name}" Binding="{Binding Name}" IsReadOnly="True" Width="150"/>
+                <DataGridTextColumn Header="{loc:Loc MoveShopEditor_Type}" Binding="{Binding TypeName}" IsReadOnly="True" Width="100"/>
+                <DataGridTextColumn Header="{loc:Loc MoveShopEditor_Permission}" Binding="{Binding PermissionStatus}" IsReadOnly="True" Width="140"/>
+                <DataGridCheckBoxColumn Header="{loc:Loc MoveShopEditor_Purchased}" Binding="{Binding IsPurchased}" Width="100"/>
+                <DataGridCheckBoxColumn Header="{loc:Loc MoveShopEditor_Mastered}" Binding="{Binding IsMastered}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+    </Border>
+</UserControl>

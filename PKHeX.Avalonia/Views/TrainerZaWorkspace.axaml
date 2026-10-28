@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+ xmlns:loc="using:PKHeX.Avalonia.Localization" x:Class="PKHeX.Avalonia.Views.TrainerZaWorkspace" x:DataType="vm:TrainerEditorViewModel">
+ <DockPanel Margin="16">
+  <StackPanel DockPanel.Dock="Top" Spacing="6" Margin="0,0,0,8">
+   <TextBlock Text="{loc:Loc TrainerZA_Title}" Classes="view-title" />
+   <TextBlock Text="{loc:Loc TrainerZA_Staging}" TextWrapping="Wrap" />
+  </StackPanel>
+  <StackPanel DockPanel.Dock="Bottom" Spacing="6" Margin="0,8,0,0">
+   <TextBlock Text="{Binding ZaError}" IsVisible="{Binding HasZaError}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+   <WrapPanel HorizontalAlignment="Right">
+    <Button Content="{loc:Loc TrainerEditor_Reset}" Command="{Binding ResetCommand}" Margin="0,0,8,0" />
+    <Button Name="TrainerZaApply" Content="{loc:Loc TrainerEditor_ApplyChanges}" Command="{Binding SaveCommand}" Classes="accent" />
+   </WrapPanel>
+  </StackPanel>
+  <TabControl Name="TrainerZaSections" Classes="compact-editor-tabs">
+   <TabItem Header="{loc:Loc TrainerZA_Overview}"><ScrollViewer><StackPanel Spacing="8" Margin="8">
+    <TextBlock Text="{loc:Loc TrainerEditor_TrainerName}" /><TextBox Text="{Binding TrainerName}" MaxLength="12" AutomationProperties.Name="{loc:Loc TrainerEditor_TrainerName}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_Gender}" /><ComboBox ItemsSource="{Binding GenderList}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding Gender}" DisplayMemberBinding="{Binding Text}" AutomationProperties.Name="{loc:Loc TrainerEditor_Gender}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_Tid}" /><NumericUpDown Value="{Binding DisplayTid}" Minimum="0" Maximum="{Binding MaxDisplayTid}" FormatString="{Binding DisplayTidFormat}" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Tid}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_Sid}" /><NumericUpDown Value="{Binding DisplaySid}" Minimum="0" Maximum="{Binding MaxDisplaySid}" FormatString="{Binding DisplaySidFormat}" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Sid}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_Language}" /><ComboBox ItemsSource="{Binding LanguageList}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding Language}" DisplayMemberBinding="{Binding Text}" AutomationProperties.Name="{loc:Loc TrainerEditor_Language}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_Money}" /><NumericUpDown Value="{Binding Money}" Minimum="0" Maximum="{Binding MaxMoney}" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Money}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_PlayTime}" />
+    <WrapPanel>
+     <StackPanel Width="110" Margin="0,0,8,0"><TextBlock Text="{loc:Loc TrainerEditor_Hours}" /><NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="9999" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Hours}" /></StackPanel>
+     <StackPanel Width="110" Margin="0,0,8,0"><TextBlock Text="{loc:Loc TrainerEditor_Minutes}" /><NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="59" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Minutes}" /></StackPanel>
+     <StackPanel Width="110"><TextBlock Text="{loc:Loc TrainerEditor_Seconds}" /><NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="59" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Seconds}" /></StackPanel>
+    </WrapPanel>
+    <TextBlock Name="TrainerZaSavedLabel" Text="{loc:Loc TrainerZA_LastSaved}" />
+    <StackPanel Name="TrainerZaSavedTimestamp" HorizontalAlignment="Left" Width="346" MaxWidth="346" Spacing="8">
+     <DatePicker Name="TrainerZaSavedDate" HorizontalAlignment="Stretch" MinWidth="0" SelectedDate="{Binding ZaLastSavedDate}" AutomationProperties.Name="{loc:Loc TrainerZA_LastSavedDate}" />
+     <TimePicker Name="TrainerZaSavedTime" HorizontalAlignment="Stretch" MinWidth="0" SelectedTime="{Binding ZaLastSavedTime}" AutomationProperties.Name="{loc:Loc TrainerZA_LastSavedTime}" />
+     <StackPanel Spacing="8" IsVisible="{Binding HasZaLastSavedSeconds}"><TextBlock Text="{loc:Loc TrainerEditor_Seconds}" /><NumericUpDown Name="TrainerZaSavedSecond" Value="{Binding ZaLastSavedSecond}" Minimum="0" Maximum="59" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Seconds}" /></StackPanel>
+    </StackPanel>
+   </StackPanel></ScrollViewer></TabItem>
+   <TabItem Header="{loc:Loc TrainerZA_MapMisc}"><ScrollViewer><StackPanel Spacing="8" Margin="8">
+    <TextBlock Text="{loc:Loc TrainerZA_MapHelp}" TextWrapping="Wrap" />
+    <TextBlock Text="{loc:Loc TrainerZA_MapName}" /><TextBox Name="TrainerZaMap" Text="{Binding ZaMap}" MaxLength="32" AutomationProperties.Name="{loc:Loc TrainerZA_MapName}" />
+    <TextBlock Text="X" /><NumericUpDown Value="{Binding X}" FormatString="0.#####" Increment="0.1" ShowButtonSpinner="False" AutomationProperties.Name="X" />
+    <TextBlock Text="Y" /><NumericUpDown Value="{Binding Y}" FormatString="0.#####" Increment="0.1" ShowButtonSpinner="False" AutomationProperties.Name="Y" />
+    <TextBlock Text="Z" /><NumericUpDown Value="{Binding Z}" FormatString="0.#####" Increment="0.1" ShowButtonSpinner="False" AutomationProperties.Name="Z" />
+    <TextBlock Text="{loc:Loc TrainerZA_Rotation}" /><NumericUpDown Name="TrainerZaRotation" Value="{Binding ZaRotation}" FormatString="0.####" Increment="0.1" Minimum="-360" Maximum="360" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerZA_Rotation}" />
+    <StackPanel Spacing="8" IsVisible="{Binding HasRoyalePoints}"><TextBlock Text="{loc:Loc TrainerEditor_RoyalePoints}" /><NumericUpDown Name="TrainerZaRoyalePoints" Value="{Binding RoyalePoints}" Minimum="0" Maximum="4294967295" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_RoyalePoints}" /></StackPanel>
+    <StackPanel Spacing="8" IsVisible="{Binding HasRoyalePointsInfinite}"><TextBlock Text="{loc:Loc TrainerEditor_RoyalePointsInfinite}" /><NumericUpDown Name="TrainerZaRoyalePointsInfinite" Value="{Binding RoyalePointsInfinite}" Minimum="0" Maximum="4294967295" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_RoyalePointsInfinite}" /></StackPanel>
+    <TextBlock Margin="0,8,0,0" Text="{loc:Loc TrainerZA_CollectionsHelp}" TextWrapping="Wrap" />
+    <WrapPanel><Button Content="{loc:Loc TrainerZA_CollectScrews}" Command="{Binding CollectZaCommand}" CommandParameter="Screws" Margin="0,0,8,8" />
+     <Button Content="{loc:Loc TrainerZA_CollectTMs}" Command="{Binding CollectZaCommand}" CommandParameter="TMs" Margin="0,0,8,8" />
+     <Button Content="{loc:Loc TrainerZA_UndoCollection}" Command="{Binding UndoZaCollectionCommand}" IsEnabled="{Binding CanUndoZaCollection}" /></WrapPanel>
+   </StackPanel></ScrollViewer></TabItem>
+   <TabItem Header="{loc:Loc TrainerZA_Images}"><ScrollViewer><StackPanel Spacing="8" Margin="8">
+    <TextBlock Text="{loc:Loc TrainerZA_ImagesHelp}" TextWrapping="Wrap" />
+    <ItemsControl ItemsSource="{Binding ZaImages}"><ItemsControl.ItemTemplate><DataTemplate DataType="vm:ZaTrainerImageViewModel"><StackPanel Spacing="6" Margin="0,0,0,16">
+     <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+     <TextBlock Text="{Binding ImportHelp}" TextWrapping="Wrap" />
+     <WrapPanel>
+      <Button Content="{loc:Loc TrainerZA_ImportImage}" Command="{Binding $parent[UserControl].DataContext.ImportZaImageCommand}" CommandParameter="{Binding}" IsEnabled="{Binding CanImport}" Margin="0,0,8,0" />
+      <Button Content="{loc:Loc TrainerZA_ExportImage}" Command="{Binding $parent[UserControl].DataContext.ExportZaImageCommand}" CommandParameter="{Binding}" IsEnabled="{Binding HasImage}" Margin="0,0,8,0" />
+      <Button Content="{loc:Loc Menu_Options_Undo}" Command="{Binding $parent[UserControl].DataContext.UndoZaCollectionCommand}" IsEnabled="{Binding $parent[UserControl].DataContext.CanUndoZaCollection}" />
+     </WrapPanel>
+     <Image Source="{Binding Png, Converter={StaticResource PngBytesToBitmap}}" MaxWidth="564" MaxHeight="340" Stretch="Uniform" AutomationProperties.Name="{Binding Name}" />
+    </StackPanel></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+   </StackPanel></ScrollViewer></TabItem>
+   <TabItem Header="{loc:Loc TrainerZA_DLC}"><ScrollViewer><StackPanel Spacing="8" Margin="8">
+    <StackPanel IsVisible="{Binding HasHyperspacePoints}"><TextBlock Text="{loc:Loc TrainerZA_HyperspacePoints}" /><NumericUpDown Name="TrainerZaHyperspace" Value="{Binding HyperspacePoints}" Minimum="0" Maximum="4294967295" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerZA_HyperspacePoints}" /></StackPanel>
+    <StackPanel IsVisible="{Binding HasStreetName}"><TextBlock Text="{loc:Loc TrainerZA_StreetName}" /><TextBox Name="TrainerZaStreetName" Text="{Binding StreetName}" MaxLength="18" AutomationProperties.Name="{loc:Loc TrainerZA_StreetName}" /></StackPanel>
+   </StackPanel></ScrollViewer></TabItem>
+  </TabControl>
+ </DockPanel>
+</UserControl>

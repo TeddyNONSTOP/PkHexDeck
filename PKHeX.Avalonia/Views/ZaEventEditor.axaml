@@ -1,0 +1,97 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation" xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.ZaEventEditor" x:DataType="vm:ZaEventEditorViewModel">
+    <UserControl.KeyBindings><KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" /></UserControl.KeyBindings>
+    <Border Classes="view-container">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Spacing="5" Margin="0,0,0,8" Classes="save-editor-header">
+                <TextBlock Text="{loc:Loc ZaEvents_Title}" Classes="view-title" />
+                <TextBlock Text="{loc:Loc Events_Warning}" TextWrapping="Wrap" />
+                <WrapPanel>
+                    <CheckBox Content="{loc:Loc ZaEvents_Advanced}" IsChecked="{Binding Advanced}" Margin="0,0,12,4" />
+                    <CheckBox Content="{loc:Loc ZaEvents_HideEmpty}" IsChecked="{Binding HideEmpty}" Margin="0,0,12,4" />
+                    <Button Content="{loc:Loc ZaEvents_LoadNames}" Command="{Binding LoadNamesCommand}" />
+                </WrapPanel>
+                <TextBlock Text="{loc:Loc ZaEvents_AccessHelp}" TextWrapping="Wrap" Classes="muted" FontSize="11" />
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom" Spacing="4" Margin="0,8,0,0">
+                <TextBlock Text="{Binding ValidationText}" IsVisible="{Binding !CanApply}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+                <TextBlock Text="{Binding StatusText}" IsVisible="{Binding HasStatus}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+                <WrapPanel HorizontalAlignment="Right">
+                    <Button Content="{loc:Loc EventFlagsEditor_Reset}" Command="{Binding ResetCommand}" Margin="0,0,8,0" />
+                    <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" Margin="0,0,8,0" />
+                    <Button Content="{loc:Loc EventFlagsEditor_Apply}" Command="{Binding ApplyCommand}" Classes="compact-primary" />
+                </WrapPanel>
+            </StackPanel>
+            <Grid ColumnDefinitions="160,8,*">
+                <DockPanel>
+                    <TextBox DockPanel.Dock="Top" Text="{Binding CategorySearch}" Watermark="{loc:Loc ZaEvents_CategorySearch}" AutomationProperties.Name="{loc:Loc ZaEvents_CategorySearch}" Margin="0,0,0,6" />
+                    <ListBox Background="Transparent" ItemsSource="{Binding VisibleCategories}" SelectedItem="{Binding SelectedCategory}" AutomationProperties.Name="{loc:Loc ZaEvents_Categories}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="vm:ZaEventCategoryViewModel"><TextBlock Text="{Binding Name}" TextWrapping="Wrap" ToolTip.Tip="{Binding Name}" Margin="0,4" /></DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+                <Grid Grid.Column="2" RowDefinitions="Auto,*,Auto">
+                    <StackPanel Grid.Row="0" Spacing="5" Margin="0,0,0,6">
+                        <TextBlock Text="{Binding SelectedCategory.Name}" FontWeight="SemiBold" />
+                        <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc ZaEvents_Search}" AutomationProperties.Name="{loc:Loc ZaEvents_Search}" />
+                        <TextBlock Text="{Binding ScopeText}" Classes="muted" />
+                    </StackPanel>
+                    <Border Grid.Row="1" Classes="editor-section-padded" Padding="0" ClipToBounds="True">
+                        <DataGrid x:Name="RecordsGrid" Classes="save-grid" ItemsSource="{Binding VisibleRecords}" SelectedItem="{Binding SelectedRecord}"
+                                  AutoGenerateColumns="False" IsReadOnly="True" CanUserResizeColumns="True" CanUserSortColumns="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{loc:Loc Events_Index}" Binding="{Binding Index}" Width="80" />
+                                <DataGridTemplateColumn Header="{loc:Loc ZaEvents_Hash}" Width="2*" MinWidth="150" SortMemberPath="Hash">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="vm:ZaEventRecordViewModel"><TextBlock Text="{Binding Hash}" ToolTip.Tip="{Binding Hash}" AutomationProperties.Name="{Binding Hash}" FontFamily="monospace" /></DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="{loc:Loc Events_Name}" Width="*" MinWidth="100" SortMemberPath="Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="vm:ZaEventRecordViewModel"><TextBlock Text="{Binding Name}" ToolTip.Tip="{Binding Name}" /></DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="{loc:Loc ZaEvents_Value}" Width="180">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="vm:ZaEventRecordViewModel"><TextBlock Text="{Binding ValueSummary}" ToolTip.Tip="{Binding ValueSummary}" /></DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                    <Expander Grid.Row="2" Header="{loc:Loc ZaEvents_SelectedEntry}" HorizontalAlignment="Stretch" Margin="0,6,0,0">
+                        <ContentControl Content="{Binding SelectedRecord}">
+                            <ContentControl.ContentTemplate>
+                                <DataTemplate DataType="vm:ZaEventRecordViewModel">
+                                    <ScrollViewer MaxHeight="150" HorizontalScrollBarVisibility="Disabled">
+                                        <StackPanel Spacing="4">
+                                            <TextBlock Text="{Binding Hash}" TextWrapping="Wrap" FontFamily="monospace" />
+                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
+                                            <TextBlock Text="{loc:Loc ZaEvents_ReadOnly}" IsVisible="{Binding !CanEdit}" TextWrapping="Wrap" />
+                                            <ItemsControl ItemsSource="{Binding Fields}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate DataType="vm:ZaEventFieldViewModel">
+                                                        <StackPanel Spacing="4" Margin="0,0,0,6">
+                                                            <TextBlock Text="{Binding Label}" />
+                                                            <CheckBox Content="{loc:Loc EventFlagsEditor_SetCheckbox}" IsChecked="{Binding IsSet}" IsVisible="{Binding IsBoolean}" IsEnabled="{Binding CanEdit}"
+                                                                      AutomationProperties.Name="{Binding Label}" ToolTip.Tip="{loc:Loc ZaEvents_ValueHelp}" />
+                                                            <TextBox Text="{Binding ValueText}" IsVisible="{Binding !IsBoolean}" IsReadOnly="{Binding !CanEdit}" AutomationProperties.Name="{Binding Label}"
+                                                                     ToolTip.Tip="{loc:Loc ZaEvents_ValueHelp}" />
+                                                            <TextBlock Text="{Binding ErrorText}" IsVisible="{Binding HasErrors}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </DataTemplate>
+                            </ContentControl.ContentTemplate>
+                        </ContentControl>
+                    </Expander>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </Border>
+</UserControl>

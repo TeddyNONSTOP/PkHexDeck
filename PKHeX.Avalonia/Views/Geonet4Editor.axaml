@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.Geonet4Editor"
+             x:DataType="vm:Geonet4EditorViewModel">
+
+    <Border Classes="view-container">
+        <Panel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" IsVisible="{Binding !IsSupported}">
+                <TextBlock Text="{loc:Loc Geonet4Editor_NotAvailable}" FontSize="18" HorizontalAlignment="Center" Opacity="0.7" />
+                <TextBlock Text="{loc:Loc Geonet4Editor_NotSupportedDetail}"
+                           HorizontalAlignment="Center" Opacity="0.5" Margin="0,8,0,0" TextWrapping="Wrap" />
+            </StackPanel>
+
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <DockPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+                    <TextBlock Text="{loc:Loc Geonet4Editor_Title}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" />
+                </DockPanel>
+
+                <StackPanel DockPanel.Dock="Top" Spacing="8" Margin="0,0,0,10">
+                    <TextBlock Text="{loc:Loc Geonet4Editor_GlobeDescription}" TextWrapping="Wrap" Opacity="0.7" />
+                    <TextBox Text="{Binding FilterText}" Watermark="{loc:Loc Geonet4Editor_Search}" AutomationProperties.Name="{loc:Loc Geonet4Editor_Search}" />
+                    <WrapPanel Orientation="Horizontal">
+                        <Button Content="{loc:Loc Geonet4Editor_SetAllLocations}" Command="{Binding SetAllLocationsCommand}" Margin="0,0,8,8" />
+                        <Button Content="{loc:Loc Geonet4Editor_SetLegalLocations}" Command="{Binding SetAllLegalLocationsCommand}" Margin="0,0,8,8" />
+                        <Button Content="{loc:Loc Geonet4Editor_ClearAll}" Command="{Binding ClearAllLocationsCommand}" Margin="0,0,8,8" />
+                    </WrapPanel>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="0,10,0,0">
+                    <CheckBox IsChecked="{Binding GlobalFlag}" Content="{loc:Loc Geonet4Editor_GlobalFlag}" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                        <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" IsCancel="True" />
+                        <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" IsDefault="True" Classes="compact-primary" />
+                    </StackPanel>
+                </StackPanel>
+
+                <Border Classes="editor-section-padded" Padding="0">
+                <DataGrid x:Name="LocationGrid" ItemsSource="{Binding Locations}" AutoGenerateColumns="False"
+                          CanUserSortColumns="True" GridLinesVisibility="Horizontal"
+                          IsReadOnly="False" MinHeight="220" Height="340">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{loc:Loc Geonet4Editor_Country}" Binding="{Binding Country}" Width="2*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="{loc:Loc Geonet4Editor_Region}" Binding="{Binding Region}" Width="2*" IsReadOnly="True" />
+                        <DataGridTemplateColumn Header="{loc:Loc Geonet4Editor_Point}" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="vm:GeonetLocationRow">
+                                    <ComboBox ItemsSource="{Binding PointOptions}" SelectedItem="{Binding SelectedPoint}"
+                                              AutomationProperties.Name="{loc:Loc Geonet4Editor_Point}" MinWidth="105">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate DataType="vm:GeonetPointOption">
+                                                <TextBlock Text="{Binding Name}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                </Border>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

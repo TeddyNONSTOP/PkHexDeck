@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.PokepuffEditor"
+             x:DataType="vm:PokepuffEditorViewModel">
+
+    <Design.DataContext>
+        <vm:PokepuffEditorViewModel />
+    </Design.DataContext>
+
+    <Border Classes="view-container">
+    <DockPanel>
+        <!-- One compact action surface -->
+        <Border DockPanel.Dock="Top" Classes="tool-header">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                <Button Content="{loc:Loc PokepuffEditor_GiveAllBest}" Command="{Binding GiveAllBestCommand}" />
+                <Button Content="{loc:Loc PokepuffEditor_GiveAllVaried}" Command="{Binding GiveAllVariedCommand}" />
+                <Button Content="{loc:Loc PokepuffEditor_RemoveAll}" Command="{Binding RemoveAllCommand}" />
+                <Button Content="{loc:Loc PokepuffEditor_Sort}" Command="{Binding SortCommand}" />
+                <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="accent" />
+            </StackPanel>
+        </Border>
+
+        <!-- Use a ScrollViewer for content -->
+        <ScrollViewer>
+            <StackPanel Spacing="8" Margin="0,8,0,0">
+                <!-- Puffs Grid -->
+                <ItemsControl ItemsSource="{Binding Puffs}">
+                     <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:PokepuffSlotViewModel">
+                            <Border Classes="editor-section-padded" Margin="0,0,0,8" Padding="8" Width="180">
+                                <Grid ColumnDefinitions="Auto,*">
+                                    <TextBlock Grid.Column="0" Text="{Binding DisplayIndex, StringFormat='{}{0}: '}" VerticalAlignment="Center" Margin="0,0,5,0" />
+                                    <ComboBox Grid.Column="1"
+                                              ItemsSource="{Binding $parent[UserControl].((vm:PokepuffEditorViewModel)DataContext).PuffList}"
+                                              SelectedIndex="{Binding PuffIndex}"
+                                              HorizontalAlignment="Stretch"
+                                              AutomationProperties.Name="{Binding DisplayIndex, StringFormat='Puff {0}'}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+    </Border>
+</UserControl>

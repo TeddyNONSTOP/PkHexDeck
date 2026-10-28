@@ -1,0 +1,82 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:core="clr-namespace:PKHeX.Core;assembly=PKHeX.Core"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.FashionEditorView"
+             x:DataType="vm:FashionEditorViewModel">
+    <UserControl.KeyBindings><KeyBinding Gesture="Escape" Command="{Binding CancelCommand}" /></UserControl.KeyBindings>
+    <Border Classes="view-container">
+        <Panel>
+            <TextBlock IsVisible="{Binding !IsSupported}" Text="{loc:Loc FashionEditorView_NotSupported}" TextWrapping="Wrap" />
+            <DockPanel IsVisible="{Binding IsSupported}">
+                <StackPanel Classes="save-editor-header" DockPanel.Dock="Top" Spacing="6" Margin="0,0,0,8">
+                    <TextBlock Text="{loc:Loc FashionEditorView_Title}" Classes="view-title" />
+                    <TextBlock Text="{Binding GameInfo}" Classes="muted" />
+                    <TextBlock Text="{loc:Loc FashionReview_Staging}" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding ScopeText}" TextWrapping="Wrap" />
+                    <WrapPanel>
+                        <Button Content="{loc:Loc FashionEditorView_UnlockAll}" Command="{Binding UnlockAllCommand}" Margin="0,0,8,6" />
+                        <Button Content="{loc:Loc FashionEditorView_UnlockAllLegal}" Command="{Binding UnlockAllLegalCommand}" Margin="0,0,8,6" />
+                        <Button Content="{loc:Loc FashionEditorView_ResetToDefault}" Command="{Binding ResetCommand}" Margin="0,0,8,6" />
+                        <Button Content="{loc:Loc FashionEditorView_ClearAll}" Command="{Binding ClearCommand}" Margin="0,0,0,6" />
+                    </WrapPanel>
+                    <WrapPanel>
+                        <ComboBox ItemsSource="{Binding Regions}" SelectedItem="{Binding SelectedRegion}" Width="200" Margin="0,0,8,6"
+                                  AutomationProperties.Name="{loc:Loc FashionReview_Category}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate DataType="vm:FashionRegionViewModel">
+                                    <StackPanel><TextBlock Text="{Binding Name}" /><TextBlock Text="{Binding Summary}" FontSize="11" /></StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox ItemsSource="{Binding Filters}" SelectedValue="{Binding FilterIndex}" SelectedValueBinding="{Binding Value}"
+                                  DisplayMemberBinding="{Binding Text}" Width="180" Margin="0,0,0,6" AutomationProperties.Name="{loc:Loc FashionReview_Filter}" />
+                    </WrapPanel>
+                    <TextBox Text="{Binding SearchText}" Watermark="{loc:Loc FashionReview_Search}" AutomationProperties.Name="{loc:Loc FashionReview_Search}" />
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Bottom" Spacing="6" Margin="0,8,0,0">
+                    <TextBlock Text="{Binding StatusText}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+                    <WrapPanel HorizontalAlignment="Right">
+                        <Button Content="{loc:Loc FashionReview_UndoPreview}" Command="{Binding UndoPreviewCommand}" Margin="0,0,8,4" />
+                        <Button Content="{loc:Loc EventFlagsEditor_Reset}" Command="{Binding RefreshCommand}" Margin="0,0,8,4" />
+                        <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" IsCancel="True" Margin="0,0,8,4" />
+                        <Button Content="{loc:Loc Common_Save}" Command="{Binding SaveCommand}" Classes="compact-primary" IsDefault="True" />
+                    </WrapPanel>
+                </StackPanel>
+                <Border Classes="editor-section-padded" Padding="0" ClipToBounds="True">
+                <DataGrid x:Name="FashionGrid" ItemsSource="{Binding VisibleItems}" AutoGenerateColumns="False" CanUserResizeColumns="True"
+                          CanUserSortColumns="True" GridLinesVisibility="Horizontal" ClipToBounds="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{loc:Loc FashionReview_ID}" Binding="{Binding Index}" Width="70" IsReadOnly="True" />
+                        <DataGridTextColumn Header="{loc:Loc FashionReview_EntryHeader}" Binding="{Binding Name}" Width="*" IsReadOnly="True" />
+                        <DataGridTemplateColumn Header="{loc:Loc FashionReview_Availability}" Width="170" SortMemberPath="Status">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="vm:FashionUnlockRow">
+                                    <TextBlock Text="{Binding Status}" ToolTip.Tip="{Binding Status}" VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{loc:Loc FashionReview_Owned}" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="vm:FashionUnlockRow">
+                                    <CheckBox IsChecked="{Binding IsOwned}" AutomationProperties.Name="{loc:Loc FashionReview_Owned}"
+                                              AutomationProperties.HelpText="{Binding Name}" ToolTip.Tip="{loc:Loc FashionReview_OwnedHelp}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{loc:Loc FashionReview_New}" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="vm:FashionUnlockRow">
+                                    <CheckBox IsChecked="{Binding IsNew}" AutomationProperties.Name="{loc:Loc FashionReview_New}"
+                                              AutomationProperties.HelpText="{Binding Name}" ToolTip.Tip="{loc:Loc FashionReview_NewHelp}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                </Border>
+            </DockPanel>
+        </Panel>
+    </Border>
+</UserControl>

@@ -1,0 +1,696 @@
+# BDSP zone codes (as used inside event flag and work names, e.g. D05R0110) and their place names.
+# Source: TeamLumi/Luminescent_ExLaunch, commit 0d457adae65e5e56de35463b910aabc02903e7fd, src/mod/data/zones.h
+#   (ZONE_CODES paired with ZONES). BSD-3-Clause, see Luminescent_ExLaunch-LICENSE.txt.
+# Format: zone code <TAB> place name
+C01	Jubilife City
+C01FS0101	Jubilife - Poké Mart
+C01PC0101	Jubilife - Center 1F
+C01PC0102	Jubilife - Center 2F
+C01PC0103	Jubilife - Center B1F
+C01R0101	Jubilife - Pokétch Company 1F
+C01R0102	Jubilife - Pokétch Company 2F
+C01R0103	Jubilife - Pokétch Company 3F
+C01R0201	Jubilife TV - 1F
+C01R0202	Jubilife TV - 2F
+C01R0203	Jubilife TV - 3F
+C01R0204	Jubilife TV - 4F
+C01R0205	Jubilife TV - Gym Leader Capsules
+C01R0206	Jubilife TV - Global Ranking Room
+C01R0207	Jubilife TV - Group Ranking Room
+C01R0208	Jubilife TV - Elv.
+C01R0301	Jubilife - Bdg. 1 1F (South)
+C01R0302	Jubilife - Bdg. 1 2F (South)
+C01R0501	Jubilife - Bdg. 2 1F (Condominiums)
+C01R0502	Jubilife - Bdg. 2 2F (Condominiums)
+C01R0601	Jubilife - GWS
+C01R0701	Jubilife - Trainer's School
+C01R0801	Jubilife - Bdg. 3 1F (SW by GWS)
+C01R0802	Jubilife - Bdg. 3 2F (SW by GWS)
+C02	Canalave City
+C02FS0101	Canalave - Poké Mart
+C02GYM0101	Canalave - Gym
+C02PC0101	Canalave - Center 1F
+C02PC0102	Canalave - Center 2F
+C02PC0103	Canalave - Center B1F
+C02R0101	Canalave - Library 1F
+C02R0102	Canalave - Library 2F
+C02R0103	Canalave - Library 3F
+C02R0201	Canalave - House 1 (SE)
+C02R0301	Canalave - House 2 (South of Center)
+C02R0401	Canalave - Darkrai House
+C02R0501	Canalave - House 4 (SW)
+C02R0601	Canalave - House 5 (South of Gym)
+C03	Oreburgh City
+C03FS0101	Oreburgh - Poké Mart
+C03GYM0101	Oreburgh - Gym
+C03PC0101	Oreburgh - Center 1F
+C03PC0102	Oreburgh - Center 2F
+C03PC0103	Oreburgh - Center B1F
+C03R0101	Oreburgh - Bdg. 1 1F (most NW)
+C03R0102	Oreburgh - Bdg. 1 2F (most NW)
+C03R0201	Oreburgh - Bdg. 2 1F (West of Mart)
+C03R0202	Oreburgh - Bdg. 2 2F (West of Mart)
+C03R0301	Oreburgh - House 1 (West of Center)
+C03R0401	Oreburgh - Mining Museum
+C03R0501	Oreburgh - House 2 (West of Gym)
+C03R0601	Oreburgh - Bdg. 3 1F (SE of Center)
+C03R0602	Oreburgh - Bdg. 3 2F (SE of Center)
+C03R0701	Oreburgh - House 3 (Near Mine)
+C04	Eterna City
+C04FS0101	Eterna - Poké Mart
+C04GYM0101	Eterna - Gym Lobby
+C04GYM0102	Eterna - Gym Main Room
+C04PC0101	Eterna - Center 1F
+C04PC0102	Eterna - Center 2F
+C04PC0103	Eterna - Center B1F
+C04R0101	Eterna - Cycle Shop
+C04R0201	Eterna - Galac. Bdg. 1F
+C04R0202	Eterna - Galac. Bdg. 2F
+C04R0203	Eterna - Galac. Bdg. 3F
+C04R0204	Eterna - Galac. Bdg. 4F
+C04R0301	Eterna - Eterna Condominums 1F
+C04R0302	Eterna - Eterna Condominums 2F
+C04R0303	Eterna - Eterna Condominums 3F
+C04R0401	Eterna - Cycling Road Gate
+C04R0501	Eterna - House 1 (Herb Shop)
+C04R0601	Eterna - House 2 (West of Gym)
+C04R0701	Eterna - House 3 (South of Statue)
+C04R0801	Eterna - Underground Man's House
+C05	Hearthome City
+C05FS0101	Hearthome - Poké Mart
+C05GYM0101	Hearthome - Gym Lobby
+C05GYM0102	Hearthome - Gym Trainer Room 1
+C05GYM0103	Hearthome - Gym Trainer Room 2
+C05GYM0104	Hearthome - Gym Question 2
+C05GYM0105	Hearthome - Gym Trainer Room 3
+C05GYM0106	Hearthome - Gym Question 3
+C05GYM0107	Hearthome - Gym Trainer Room 4
+C05GYM0108	Hearthome - Gym Question 4
+C05GYM0109	Hearthome - Gym Trainer Room 5
+C05GYM0110	Hearthome - Gym Trainer Room 6
+C05GYM0111	Hearthome - Gym Trainer Room 7
+C05GYM0112	Hearthome - Gym Trainer Room 8
+C05GYM0113	Hearthome - Gym Leader Room
+C05PC0101	Hearthome - Center 1F
+C05PC0102	Hearthome - Center 2F
+C05PC0103	Hearthome - Center B1F
+C05R0101	Hearthome - Bdg. 1 1F (East of Fanclub)
+C05R0102	Hearthome - Bdg. 1 2F (East of Fanclub)
+C05R0103	Hearthome - Bdg. 1 Elv. (East of Fanclub)
+C05R0201	Hearthome - Pokémon Fan Club
+C05R0301	Hearthome - Amity Square West Gate
+C05R0401	Hearthome - Amity Square East Gate
+C05R0501	Hearthome - Route 208 Gate
+C05R0601	Hearthome - Route 209 Gate
+C05R0701	Hearthome - Route 212 Gate
+C05R0801	Hearthome - Bdg. 2 1F (West of Gym)
+C05R0802	Hearthome - Bdg. 2 2F (West of Gym)
+C05R0803	Hearthome - Bdg. 2 Elv. (West of Gym)
+C05R0901	Hearthome - Bebe's House (East of Center)
+C05R1001	Hearthome - Poffin House (West of Mart)
+C05R1101	Hearthome - Contest Hall (Main Lobby)
+C05R1102	Hearthome - Contest Hall? (inaccessible?)
+C05R1103	Hearthome - Contest Hall (Stage room)
+C05R1201	Hearthome - Church
+C06	Pastoria City
+C06FS0101	Pastoria - Poké Mart
+C06GYM0101	Pastoria - Gym
+C06PC0101	Pastoria - Center 1F
+C06PC0102	Pastoria - Center 2F
+C06PC0103	Pastoria - Center B1F
+C06R0101	Pastoria - Great Marsh Gate 1F
+C06R0102	Pastoria - Great Marsh Gate 2F
+C06R0201	Pastoria - House 1 (West of Mart)
+C06R0301	Pastoria - House 2 (North of Mart)
+C06R0401	Pastoria - House 3 (NW of Mart)
+C06R0501	Pastoria - House 4 (East of Gym)
+C06R0601	Pastoria - House 5 (East of Marsh Gate)
+C07	Veilstone City
+C07GYM0101	Veilstone - Gym
+C07PC0101	Veilstone - Center 1F
+C07PC0102	Veilstone - Center 2F
+C07PC0103	Veilstone - Center B1F
+C07R0101	Veilstone - Style Shop
+C07R0201	Veilstone - Department Store 1F
+C07R0202	Veilstone - Department Store 2F
+C07R0203	Veilstone - Department Store 3F
+C07R0204	Veilstone - Department Store 4F
+C07R0205	Veilstone - Department Store 5F
+C07R0206	Veilstone - Department Store Elv.
+C07R0301	Veilstone - Warehouse
+C07R0401	Veilstone - Style Shop Storage
+C07R0501	Veilstone - House 1 (South of Gym, right)
+C07R0601	Veilstone - House 2 (East of Dept. Store)
+C07R0701	Veilstone - House 3 (North of Center)
+C07R0801	Veilstone - House 4 (South of Gym, left)
+C07R0901	Veilstone - Route 215 Gate
+C08	Sunyshore City
+C08FS0101	Sunyshore - Poké Mart
+C08GYM0101	Sunyshore - Gym Room 1
+C08GYM0102	Sunyshore - Gym Room 2
+C08GYM0103	Sunyshore - Gym Room 3
+C08PC0101	Sunyshore - Center 1F
+C08PC0102	Sunyshore - Center 2F
+C08PC0103	Sunyshore - Center B1F
+C08R0101	Sunyshore - Sunyshore Market
+C08R0201	Sunyshore - House 1 (NE section, right)
+C08R0301	Sunyshore - House 2 (West of Mart)
+C08R0401	Sunyshore - House 3 (NE section, left)
+C08R0501	Sunyshore - Unused House 4
+C08R0601	Sunyshore - Unused House 5
+C08R0701	Sunyshore - House 6 (SE)
+C08R0801	Sunyshore - Lighthouse Top
+C08R0802	Sunyshore - Lighthouse Elv.
+C09	Snowpoint City
+C09FS0101	Snowpoint - Poké Mart
+C09GYM0101	Snowpoint - Gym
+C09PC0101	Snowpoint - Center 1F
+C09PC0102	Snowpoint - Center 2F
+C09PC0103	Snowpoint - Center B1F
+C09R0101	Snowpoint - House 1 (NW)
+C09R0201	Snowpoint - House 2 (NE)
+C10	Pokémon League
+C10PC0101	Pokémon League - VR Center 1F
+C10PC0102	Pokémon League - VR Center 2F
+C10PC0103	Pokémon League - VR Center B1F
+C10R0101	Pokémon League - League Lobby
+C10R0102	Pokémon League - Lift to Elite Four 1
+C10R0103	Pokémon League - Elite Four 1
+C10R0104	Pokémon League - Lift to Elite Four 2
+C10R0105	Pokémon League - Elite Four 2
+C10R0106	Pokémon League - Lift to Elite Four 3
+C10R0107	Pokémon League - Elite Four 3
+C10R0108	Pokémon League - Lift to Elite Four 4
+C10R0109	Pokémon League - Elite Four 4
+C10R0110	Pokémon League - Lift to Champion
+C10R0111	Pokémon League - Champion Room
+C10R0112	Pokémon League - Hall to Hall of Fame
+C10R0113	Pokémon League - Hall of Fame
+C10R0114	Pokémon League - League 2F
+C10R0115	Pokémon League - League B1F
+C11	Fight Area
+C11FS0101	Fight Area - Poké Mart
+C11PC0101	Fight Area - Center 1F
+C11PC0102	Fight Area - Center 2F
+C11PC0103	Fight Area - Center B1F
+C11R0101	Fight Area - Battle Park Gate
+C11R0201	Fight Area - Route 225 Gate
+C11R0301	Fight Area - House 1 (West of Mart)
+C11R0401	Fight Area - House 2 (South of Center)
+D01R0101	Oreburgh Mine - B1F
+D01R0102	Oreburgh Mine - B2F
+D02	Valley Windworks (Outside)
+D02R0101	Valley Windworks (Inside)
+D03	Eterna Forest (Outside)
+D03R0101	Eterna Forest
+D04	Fuego Ironworks (Outside)
+D04R0101	Fuego Ironworks (Inside)
+D05R0101	Mt. Coronet - South 1F 1 (207-208)
+D05R0102	Mt. Coronet - 2F
+D05R0103	Mt. Coronet - 3F
+D05R0104	Mt. Coronet - Summit North
+D05R0105	Mt. Coronet - Summit South
+D05R0106	Mt. Coronet - 4F (Waterfall)
+D05R0107	Mt. Coronet - 4F (Towards Spear Pillar)
+D05R0108	Mt. Coronet - 5F
+D05R0109	Mt. Coronet - 6F
+D05R0110	Mt. Coronet - South 1F 2 (Rock Climb Room)
+D05R0111	Mt. Coronet - North 1F 2 (216)
+D05R0112	Mt. Coronet - North 1F 1 (211)
+D05R0113	Mt. Coronet - B1F
+D05R0114	Spear Pillar - Diamond
+D05R0115	Spear Pillar - Pearl
+D05R0116	Hall of Origin - Diamond
+D06R0201	Great Marsh - Area 1
+D06R0202	Great Marsh - Area 2
+D06R0203	Great Marsh - Area 3
+D06R0204	Great Marsh - Area 4
+D06R0205	Great Marsh - Area 5
+D06R0206	Great Marsh - Area 6
+D07R0101	Solaceon Ruins - 2F
+D07R0102	Solaceon Ruins - 1F
+D07R0103	Solaceon Ruins - F Room Dead End (NE)
+D07R0104	Solaceon Ruins - 1F Dead End (NW)
+D07R0105	Solaceon Ruins - F Room
+D07R0106	Solaceon Ruins - 1F Dead End (SE)
+D07R0107	Solaceon Ruins - R Room
+D07R0108	Solaceon Ruins - F Room Dead End (SE)
+D07R0109	Solaceon Ruins - N Room Dead End (SE)
+D07R0110	Solaceon Ruins - E Room Dead End (SW)
+D07R0111	Solaceon Ruins - R Room Dead End (NW)
+D07R0112	Solaceon Ruins - R Room Dead End (SW)
+D07R0113	Solaceon Ruins - I Room
+D07R0114	Solaceon Ruins - N Room
+D07R0115	Solaceon Ruins - E Room
+D07R0116	Solaceon Ruins - D Room
+D07R0117	Solaceon Ruins - I Room Dead End (SE)
+D07R0118	Solaceon Ruins - N Room Dead End (NW)
+D07R0119	Solaceon Ruins - E Room Dead End (SE)
+D09R0101	Victory Road - 1F
+D09R0102	Victory Road - 2F
+D09R0103	Victory Road - B1F
+D09R0104	Victory Road - 1F Back (Marley)
+D09R0105	Victory Road - 1F Back (Entrance)
+D09R0106	Victory Road - 1F Back (214 Exit)
+D10R0101	Pal Park - Unused
+D11R0101	Amity Square
+D12R0101	Ravaged Path
+D13R0101	Floaroma Meadow
+D13R0102	Floaroma Meadow - House
+D14R0101	Oreburgh Tunnel - 1F
+D14R0102	Oreburgh Tunnel - B1F
+D15	Fullmoon Island
+D15R0101	Fullmoon Island - Cresselia Room
+D16	Stark Mountain (Outside)
+D16R0101	Stark Mountain - Entrance
+D16R0102	Stark Mountain - Interior
+D16R0103	Stark Mountain - Heatran's Room
+D17R0101	Sendoff Spring
+D17R0102	Turnback Cave - Entrance
+D17R0103	Turnback Cave - d17r0103
+D17R0104	Turnback Cave - d17r0104
+D17R0105	Turnback Cave - d17r0105
+D17R0106	Turnback Cave - d17r0106
+D17R0107	Turnback Cave - d17r0107
+D17R0108	Turnback Cave - d17r0108
+D17R0109	Turnback Cave - d17r0109
+D17R0110	Turnback Cave - d17r0110
+D17R0111	Turnback Cave - d17r0111
+D17R0112	Turnback Cave - d17r0112
+D17R0113	Turnback Cave - d17r0113
+D17R0114	Turnback Cave - d17r0114
+D17R0115	Turnback Cave - d17r0115
+D17R0116	Turnback Cave - d17r0116
+D17R0117	Turnback Cave - d17r0117
+D17R0118	Turnback Cave - d17r0118
+D17R0119	Turnback Cave - d17r0119
+D17R0120	Turnback Cave - d17r0120
+D17R0121	Turnback Cave - d17r0121
+D17R0122	Turnback Cave - d17r0122
+D18	Flower Paradise
+D20R0101	Snowpoint Temple - 1F
+D20R0102	Snowpoint Temple - B1F
+D20R0103	Snowpoint Temple - B2F
+D20R0104	Snowpoint Temple - B3F
+D20R0105	Snowpoint Temple - B4F
+D20R0106	Snowpoint Temple - B5F
+D21R0101	Wayward Cave - Main Area
+D21R0102	Wayward Cave - Secret Area
+D22R0101	Ruin Maniac Cave - Small
+D22R0102	Ruin Maniac Cave - Large
+D22R0103	Maniac Tunnel
+D23R0101	Trophy Garden
+D24	Iron Island (Outside)
+D24R0101	Iron Island - 1F
+D24R0102	Iron Island - B1F Left
+D24R0103	Iron Island - B1F Right
+D24R0104	Iron Island - B2F Right
+D24R0105	Iron Island - B2F Left (Riley's Room)
+D24R0106	Iron Island - B3F
+D24R0201	Iron Island - House
+D25R0101	Old Chateau - Lobby
+D25R0102	Old Chateau - Dining Room
+D25R0103	Old Chateau - 2F Small Rooms
+D25R0104	Old Chateau - 2F Hallway
+D25R0105	Old Chateau - Hallway Room 1
+D25R0106	Old Chateau - Hallway Room 2
+D25R0107	Old Chateau - Hallway Room 3
+D25R0108	Old Chateau - Hallway Room 4
+D25R0109	Old Chateau - Hallway Room 5
+D26R0101	Team Galactic HQ - 1F
+D26R0102	Team Galactic HQ - 2F
+D26R0103	Team Galactic HQ - 3F
+D26R0104	Team Galactic HQ - 4F
+D26R0105	Team Galactic HQ - B1F
+D26R0106	Team Galactic HQ - B2F
+D26R0107	Team Galactic HQ - Lake Trio Room
+D26R0108	Team Galactic HQ - Hallway to Lake Trio
+D27R0101	Lake Verity (Before)
+D27R0102	Lake Verity (After)
+D27R0103	Verity Cavern
+D28R0101	Lake Valor (Before)
+D28R0102	Lake Valor (After)
+D28R0103	Valor Cavern
+D29R0101	Lake Acuity (Before)
+D29R0102	Lake Acuity (After)
+D29R0103	Acuity Cavern
+D30	Newmoon Island
+D30R0101	Newmoon Island - Darkrai Room
+D31	Battle Park
+D31R0101	Battle Park - Point Corner
+D31R0201	Battle Tower - Lobby
+D31R0202	Battle Tower - d31r0202
+D31R0203	Battle Tower - d31r0203
+D31R0204	Battle Tower - d31r0204
+D31R0205	Battle Tower - d31r0205
+D31R0206	Battle Tower - d31r0206
+D31R0207	Battle Tower - d31r0207
+DIRECT2	Local Battle Room (Singles) (?)
+DIRECT4	Local Battle Room (Doubles) (?)
+EVERYWHERE	Everywhere (Unused)
+L01	Verity Lakefront
+L02	Valor Lakefront
+L02R0101	Valor Lakefront - Restaurant
+L02R0201	Valor Lakefront - House 1 (NE)
+L02R0301	Valor Lakefront - House 2 (NW)
+L03	Acuity Lakefront
+L04	Spring Path
+NOTHING	Nothing (Unused)
+R201	Route 201
+R202	Route 202
+R203	Route 203
+R204A	Route 204 (South)
+R204B	Route 204 (North)
+R205A	Route 205 (South)
+R205AR0101	Route 205 - House
+R205B	Route 205 (North)
+R206	Route 206
+R206R0101	Route 206 - Cycling Road Gate
+R207	Route 207
+R208	Route 208
+R208R0101	Route 208 - House
+R209	Route 209
+R209R0101	Lost Tower - 1F
+R209R0102	Lost Tower - 2F
+R209R0103	Lost Tower - 3F
+R209R0104	Lost Tower - 4F
+R209R0105	Lost Tower - 5F
+R210A	Route 210 (South)
+R210AR0101	Route 210 - Café Cabin
+R210B	Route 210 (North)
+R210BR0101	Route 210 - House (North)
+R211A	Route 211 (West)
+R211B	Route 211 (East)
+R212A	Route 212 (North)
+R212AR0101	Pokémon Mansion - Lobby
+R212AR0102	Pokémon Mansion - Rooms (Left)
+R212AR0103	Pokémon Mansion - Backlot Room
+R212B	Route 212 (South)
+R212BR0101	Route 212 - House (South)
+R213	Route 213
+R213R0101	Route 213 - Pastoria Gate
+R213R0201	Route 213 - House
+R213R0301	Valor Lakefront - Hotel
+R213R0401	Valor Lakefront - House 3 (Most SE)
+R213R0501	Valor Lakefront - House 4 (SW)
+R213R0601	Valor Lakefront - House 5 (SE, Rock Climb)
+R214	Route 214
+R214R0101	Route 214 - Veilstone Gate
+R215	Route 215
+R216	Route 216
+R216R0101	Route 216 - House
+R217	Route 217
+R217R0101	Route 217 - House 1 (SW)
+R217R0201	Route 217 - House 2 (NE)
+R218	Route 218
+R218R0101	Route 218 - Jubilife Gate
+R218R0201	Route 218 - Canalave Gate
+R219	Route 219
+R221	Route 221
+R221R0101	Ramanas Park - Lobby
+R221R0201	Route 221 - House
+R222	Route 222
+R222R0101	Route 222 - House 1 (Left)
+R222R0201	Route 222 - House 2 (Right)
+R222R0301	Route 222 - Sunyshore Gate
+R224	Route 224
+R225	Route 225
+R225R0101	Route 225 - House
+R227	Route 227
+R227R0101	Route 227 - House
+R228	Route 228
+R228R0101	Route 228 - Route 226 Gate
+R228R0201	Route 228 - House 1 (North)
+R228R0301	Route 228 - House 2 (South)
+R229	Route 229
+RECORD	Record (Unused)
+T01	Twinleaf Town
+T01R0101	Twinleaf - Rival's House 1F
+T01R0102	Twinleaf - Rival's House 2F
+T01R0201	Twinleaf - Player's House 1F
+T01R0202	Twinleaf - Player's House 2F
+T01R0301	Twinleaf - House 3 (North of Player's House)
+T01R0401	Twinleaf - House 4 (West of Player's House)
+T02	Sandgem Town
+T02FS0101	Sandgem - Poké Mart
+T02PC0101	Sandgem - Center 1F
+T02PC0102	Sandgem - Center 2F
+T02PC0103	Sandgem - Center B1F
+T02R0101	Sandgem - Pokémon Research Lab
+T02R0201	Sandgem - Dawn/Lucas' House 1F
+T02R0202	Sandgem - Dawn/Lucas' House 2F
+T02R0301	Sandgem - House (SW)
+T03	Floaroma Town
+T03FS0101	Floaroma - Poké Mart
+T03PC0101	Floaroma - Center 1F
+T03PC0102	Floaroma - Center 2F
+T03PC0103	Floaroma - Center B1F
+T03R0101	Floaroma - Flower Shop
+T03R0201	Floaroma - House 1 (East of Center)
+T03R0301	Floaroma - House 2 (NW of Center)
+T04	Solaceon Town
+T04FS0101	Solaceon - Poké Mart
+T04PC0101	Solaceon - Center 1F
+T04PC0102	Solaceon - Center 2F
+T04PC0103	Solaceon - Center B1F
+T04R0101	Solaceon - Pokémon Nursery
+T04R0201	Solaceon - House 1 (NW)
+T04R0301	Solaceon - Pokémon News Press
+T04R0401	Solaceon - House 2 (North of Center)
+T04R0501	Solaceon - House 3 (West of Ruins)
+T05	Celestic Town
+T05PC0101	Celestic - Center 1F
+T05PC0102	Celestic - Center 2F
+T05PC0103	Celestic - Center B1F
+T05R0101	Celestic - Large House
+T05R0201	Celestic - House 1 (Shop)
+T05R0301	Celestic - House 2 (NE)
+T05R0401	Celestic - House 3 (SW)
+T05R0501	Celestic - Cave
+T06	Survival Area
+T06FS0101	Survival Area - Poké Mart
+T06PC0101	Survival Area - Center 1F
+T06PC0102	Survival Area - Center 2F
+T06PC0103	Survival Area - Center B1F
+T06R0101	Survival Area - House 1 (West of Center)
+T06R0201	Survival Area - House 2 (South of Center)
+T06R0301	Survival Area - House 3 (North)
+T07	Resort Area
+T07FS0101	Resort Area - Poké Mart
+T07PC0101	Resort Area - Center 1F
+T07PC0102	Resort Area - Center 2F
+T07PC0103	Resort Area - Center B1F
+T07R0101	Resort Area - Ribbon Syndicate 1F
+T07R0102	Resort Area - Ribbon Syndicate 2F
+T07R0103	Resort Area - Ribbon Syndicate Elv.
+T07R0201	Resort Area - House 1 (South of Center)
+T07R0301	Resort Area - House 2 (South of Syndicate)
+UG	UG (Unused)
+UNION	Union Room
+W220	Route 220
+W223	Route 223
+W226	Route 226
+W226R0101	Route 226 - House
+W230	Route 230
+W231	Seabreak Path
+UNION01	Union Room Receptionist - union01
+UNION02	Union Room Receptionist - union02
+UNION03	Union Room Receptionist - union03
+C04R0205	Eterna - Galac. Bdg. Rotom Room
+D10R0201	Ramanas Park - Legendary Giants (Unused)
+D10R0202	Ramanas Park - Legendary Giants
+D10R0301	Ramanas Park - Legendary Birds
+D10R0302	Ramanas Park - Legendary Beasts
+D10R0303	Ramanas Park - Soul Duo
+D10R0401	Ramanas Park - Groudon
+D10R0402	Ramanas Park - Kyogre
+D10R0403	Ramanas Park - Rayquaza
+D10R0501	Ramanas Park - Ho-Oh
+D10R0502	Ramanas Park - Lugia
+D10R0601	Ramanas Park - Mewtwo
+D10R0701	Ramanas Park - Pure Space
+D10R0801	Ramanas Park - Strange Space
+UGA01	Grand Underground - Center Left Side (Crashes)
+UGA02	Grand Underground - Center Left Side
+UGA03	Grand Underground - Center Left Side
+UGA04	Grand Underground - Center Left Side
+UGA05	Grand Underground - Center Right Side
+UGA06	Grand Underground - Center Right Side
+UGA07	Grand Underground - Center Right Side
+UGA08	Grand Underground - Center Right Side
+UGA09	Grand Underground - Center Right Side
+UGA10	Grand Underground - Far Right Side
+UGB01	Grand Underground - South West Side
+UGB02	Grand Underground - South West Side
+UGB03	Grand Underground - South West Side
+UGB04	Grand Underground - South West Side
+UGB05	Grand Underground - South West Side
+UGB06	Grand Underground - South West Side
+UGB07	Grand Underground - South West Side
+UGC01	Grand Underground - Central Area
+UGD01	Grand Underground - North West Side
+UGD02	Grand Underground - North West Side
+UGD03	Grand Underground - North West Side
+UGD04	Grand Underground - North West Side
+UGD05	Grand Underground - North West Side
+UGE01	Grand Underground - South East Side
+UGE02	Grand Underground - South East Side
+UGE03	Grand Underground - South East Side
+UGE04	Grand Underground - South East Side
+UGE05	Grand Underground - South East Side
+UGF01	Grand Underground - North East Side
+UGF02	Grand Underground - North East Side
+UGF03	Grand Underground - North East Side
+UGF04	Grand Underground - North East Side
+UGF05	Grand Underground - North East Side
+UGF06	Grand Underground - North East Side
+UGF07	Grand Underground - North East Side
+UGSPACE01	Grand Underground - Spacious Cave
+UGSPACE02	Grand Underground - Grassland Cave
+UGSPACE03	Grand Underground - Riverbank Cave
+UGSPACE04	Grand Underground - Spacious Cave
+UGSPACE05	Grand Underground - Spacious Cave
+UGSPACE06	Grand Underground - Swampy Cave
+UGSPACE07	Grand Underground - Grassland Cave
+UGSPACE08	Grand Underground - Fountainspring Cave
+UGSPACE09	Grand Underground - Spacious Cave
+UGSPACE10	Grand Underground - Fountainspring Cave
+UGSPACE11	Grand Underground - Fountainspring Cave
+UGSPACE12	Grand Underground - Spacious Cave
+UGSPACE13	Grand Underground - Spacious Cave
+UGSPACE14	Grand Underground - Rocky Cave
+UGSPACE15	Grand Underground - Volcanic Cave
+UGSPACE16	Grand Underground - Spacious Cave
+UGSPACE17	Grand Underground - Rocky Cave
+UGSPACE18	Grand Underground - Volcanic Cave
+UGSPACE19	Grand Underground - Dazzling Cave
+UGSPACE20	Grand Underground - Sandsear Cave
+UGSPACE21	Grand Underground - Spacious Cave
+UGSPACE22	Grand Underground - Spacious Cave
+UGSPACE23	Grand Underground - Rocky Cave
+UGSPACE24	Grand Underground - Spacious Cave
+UGSPACE25	Grand Underground - Grassland Cave
+UGSPACE26	Grand Underground - Riverbank Cave
+UGSPACE27	Grand Underground - Spacious Cave
+UGSPACE28	Grand Underground - Grassy Cave
+UGSPACE29	Grand Underground - Fountainspring Cave
+UGSPACE30	Grand Underground - Swampy Cave
+UGSPACE31	Grand Underground - Spacious Cave
+UGSPACE32	Grand Underground - Spacious Cave
+UGSPACE33	Grand Underground - Spacious Cave
+UGSPACE34	Grand Underground - Swampy Cave
+UGSPACE35	Grand Underground - Riverbank Cave
+UGSPACE36	Grand Underground - Icy Cave
+UGSPACE37	Grand Underground - Dazzling Cave
+UGSPACE38	Grand Underground - Dazzling Cave
+UGSPACE39	Grand Underground - Icy Cave
+UGSPACE40	Grand Underground - Icy Cave
+UGSPACE41	Grand Underground - Icy Cave
+UGSPACE42	Grand Underground - Spacious Cave
+UGSPACE43	Grand Underground - Spacious Cave
+UGSPACE44	Grand Underground - Whiteout Cave
+UGSPACE45	Grand Underground - Whiteout Cave
+UGSPACE46	Grand Underground - Whiteout Cave
+UGSPACE47	Grand Underground - Whiteout Cave
+UGSPACE48	Grand Underground - Swampy Cave
+UGSPACE49	Grand Underground - Fountainspring Cave
+UGSPACE50	Grand Underground - Spacious Cave
+UGSPACE51	Grand Underground - Swampy Cave
+UGSPACE52	Grand Underground - Spacious Cavec
+UGSPACE53	Grand Underground - Fountainspring Cave
+UGSPACE54	Grand Underground - Rocky Cave
+UGSPACE55	Grand Underground - Swampy Cave
+UGSPACE56	Grand Underground - Spacious Cave
+UGSPACE57	Grand Underground - Sandsear Cave
+UGSPACE58	Grand Underground - Volcanic Cave
+UGSPACE59	Grand Underground - Crystal Cave
+UGSPACE60	Grand Underground - Volcanic Cave
+UGSPACE61	Grand Underground - Rocky Cave
+UGSPACE62	Grand Underground - Fountainspring Cave
+UGSPACE63	Grand Underground - Grassland Cave
+UGSPACE64	Grand Underground - Spacious Cave
+UGSPACE65	Grand Underground - Swampy Cave
+UGSPACE66	Grand Underground - Rocky Cave
+UGSPACE67	Grand Underground - Sandsear Cave
+UGSPACE68	Grand Underground - Volcanic Cave
+UGSPACEL01	Grand Underground - Stillwater Cavern
+UGSPACEL02	Grand Underground - Big Bluff Cavern
+UGSPACEL03	Grand Underground - Sunlit Cavern
+UGSPACEL04	Grand Underground - Stargleam Cavern
+UGSPACEL05	Grand Underground - Glacial Cavern
+UGSPACEL06	Grand Underground - Bogsunk Cavern
+UGSPACEL07	Grand Underground - Typhlo Cavern
+D05R0117	Hall of Origin - Pearl
+D10R0901	Ramanas Park - Giratina
+UGSECRETBASE01	Secret Base (Unused)
+UGSECRETBASE02	Secret Base (Unused)
+UGSECRETBASE03	Secret Base (Unused)
+UGSECRETBASE04	Secret Spotlight Base (Unused)
+D10R0902	Ramanas Park - Giratina (Upside Down)
+SEA01	Boat Cutscene
+C01R0209	Jubilife TV - E4 Capsules
+UGAASECRETBASE01	Own Secret Base (Central West-Small)
+UGAASECRETBASE02	Own Secret Base (Central West-Medium)
+UGAASECRETBASE03	Own Secret Base (Central West-Large)
+UGABSECRETBASE01	Own Secret Base (East-Small)
+UGABSECRETBASE02	Own Secret Base (East-Medium)
+UGABSECRETBASE03	Own Secret Base (East-Large)
+UGBASECRETBASE01	Own Secret Base (South West-Small)
+UGBASECRETBASE02	Own Secret Base (South West-Medium)
+UGBASECRETBASE03	Own Secret Base (South West-Large)
+UGCASECRETBASE01	Own Secret Base (Central-Small)
+UGCASECRETBASE02	Own Secret Base (Central-Medium)
+UGCASECRETBASE03	Own Secret Base (Central-Large)
+UGDASECRETBASE01	Own Secret Base (North West-Small)
+UGDASECRETBASE02	Own Secret Base (North West-Medium)
+UGDASECRETBASE03	Own Secret Base (North West-Large)
+UGEASECRETBASE01	Own Secret Base (South East-Small)
+UGEASECRETBASE02	Own Secret Base (South East-Medium)
+UGEASECRETBASE03	Own Secret Base (South East-Large)
+UGFASECRETBASE01	Own Secret Base (North East-Small)
+UGFASECRETBASE02	Own Secret Base (North East-Medium)
+UGFASECRETBASE03	Own Secret Base (North East-Large)
+D10R0202B	Ramanas Park - Legendary Giants (Empty)
+D10R0301B	Ramanas Park - Legendary Birds (Empty)
+D10R0302B	Ramanas Park - Legendary Beasts (Empty)
+D10R0303B	Ramanas Park - Soul Duo (Empty)
+D10R0401B	Ramanas Park - Groudon (Empty)
+D10R0402B	Ramanas Park - Kyogre (Empty)
+D10R0403B	Ramanas Park - Rayquaza (Empty)
+D10R0501B	Ramanas Park - Ho-Oh (Empty)
+D10R0502B	Ramanas Park - Lugia (Empty)
+D10R0601B	Ramanas Park - Mewtwo (Empty)
+SINJOH	Sinjoh Ruins
+SINJOHR0101	Sinjoh Ruins - Cabin
+SINJOHR0201	Sinjoh Ruins - Mystri Stage
+DISTORTIONR0101	Distortion World 1
+D31R0301	Battle Hall - Entrance
+D31R0302	Battle Hall - Hallway
+D31R0303	Battle Hall - Battle Arena
+D31R0401	Battle Factory - Entrance
+D31R0402	Battle Factory - Hallway
+D31R0403	Battle Factory - Battle Arena
+D31R0501	Battle Castle - Entrance
+D31R0502	Battle Castle - Hallway
+D31R0503	Battle Castle - Battle Arena
+D31R0601	Battle Arcade - Entrance
+D31R0602	Battle Arcade - Hallway
+D31R0603	Battle Arcade - Battle Arena
+D05R0118	Mt. Coronet - Regice Room
+D24R0107	Iron Island - Registeel Room
+R228R0401	Route 228 - Regirock Room
+D26R0109	Galactic HQ - Speech Room
+DISTORTIONR0102	Distortion World 2
+C07R0207	Veilstone - Department Store B1F
+C08R0901	Sunyshore - Regieleki Room
+R210BR0201	Route 210 - Regidrago Room (North)
+GROTTOR0101	Eterna Forest - Grotto
+GROTTOR0201	Route 212 - Grotto (South)
+GROTTOR0301	Route 214 - Grotto
+GROTTOR0401	Route 217 - Grotto
+T08	Oldlore Town
+T08R0101	Oldlore - Large House
+T08R0201	Oldlore - House 1 (West)
+T08R0301	Oldlore - House 2 (Center)
+T08R0401	Oldlore - House 3 (South)
+JOHTOD01R0101	Ilex Forest

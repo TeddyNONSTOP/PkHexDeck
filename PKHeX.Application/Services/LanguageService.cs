@@ -1,0 +1,133 @@
+using System.ComponentModel;
+using System.Globalization;
+using PKHeX.Core;
+
+namespace PKHeX.Application.Services;
+
+/// <summary>
+/// Application service that owns the ordered mutation of Core's global localization state
+/// (<see cref="GameInfo.CurrentLanguage"/> / <see cref="GameInfo.Strings"/>). It is data-bound by the
+/// language selector, so it implements <see cref="INotifyPropertyChanged"/> directly (BCL only — no
+/// MVVM-framework dependency).
+/// </summary>
+public sealed class LanguageService : INotifyPropertyChanged
+{
+    private static readonly string[] SupportedLanguages = ["en", "ja", "fr", "it", "de", "es", "ko", "zh-Hans", "zh-Hant", "pt-BR"];
+    private static readonly string[] LanguageNames = ["English", "日本語", "Français", "Italiano", "Deutsch", "Español", "한국어", "简体中文", "繁體中文", "Português (Brasil)"];
+
+    /// <summary>
+    /// UI languages that PKHeX.Core has no game data for (species, moves, items, locations). The shell
+    /// is translated, and Core's strings fall back to English. See <see cref="GetDataLanguage"/>.
+    /// </summary>
+    private static readonly string[] UiOnlyLanguages = ["pt-BR"];
+
+    /// <summary>
+    /// The PKHeX.Core data language for a UI language: itself when Core ships game data for it,
+    /// English for a UI-only language such as <c>pt-BR</c>.
+    /// </summary>
+    public static string GetDataLanguage(string languageCode) =>
+        UiOnlyLanguages.Contains(languageCode) ? "en" : languageCode;
+
+    private string _currentLanguage = "en";
+
+    public string CurrentLanguage
+    {
+        get => _currentLanguage;
+        private set
+        {
+            if (_currentLanguage == value) return;
+            _currentLanguage = value;
+            OnPropertyChanged(nameof(CurrentLanguage));
+        }
+    }
+
+    public IReadOnlyList<LanguageOption> AvailableLanguages { get; }
+
+    public LanguageOption? CurrentLanguageOption
+    {
+        get => AvailableLanguages.FirstOrDefault(l => l.Code == CurrentLanguage);
+        set
+        {
+            if (value is not null && value.Code != CurrentLanguage)
+                SetLanguage(value.Code);
+        }
+    }
+
+    public event Action? LanguageChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged(string name) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+    public LanguageService()
+    {
+        AvailableLanguages = SupportedLanguages
+            .Select((code, i) => new LanguageOption(code, LanguageNames[i], code == _currentLanguage))
+            .ToList();
+    }
+
+    public void SetLanguage(string languageCode)
+    {
+        if (!SupportedLanguages.Contains(languageCode))
+            languageCode = "en";
+
+        CurrentLanguage = languageCode;
+        foreach (var option in AvailableLanguages)
+            option.SetCurrent(option.Code == languageCode);
+        OnPropertyChanged(nameof(CurrentLanguageOption));
+        var dataLanguage = GetDataLanguage(languageCode);
+        GameInfo.CurrentLanguage = dataLanguage;
+        GameInfo.Strings = GameInfo.GetStrings(dataLanguage);
+        ApplyCulture(languageCode);
+        LanguageChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// Aligns the thread/process culture with the selected language so date and number formatting in
+    /// the UI follows the same locale (issue #132 acceptance criterion). The supported codes are
+    /// all valid .NET culture names (including <c>zh-Hans</c>/<c>zh-Hant</c>/<c>pt-BR</c>); unknown codes are
+    /// ignored rather than throwing.
+    /// </summary>
+    private static void ApplyCulture(string languageCode)
+    {
+        try
+        {
+            var culture = CultureInfo.GetCultureInfo(languageCode);
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
+        }
+        catch (CultureNotFoundException)
+        {
+            // Leave the existing culture in place if the platform lacks this locale.
+        }
+    }
+}
+
+public sealed class LanguageOption : INotifyPropertyChanged
+{
+    private bool _isCurrent;
+
+    public LanguageOption(string code, string name, bool isCurrent = false)
+    {
+        Code = code;
+        Name = name;
+        _isCurrent = isCurrent;
+    }
+
+    public string Code { get; }
+    public string Name { get; }
+    public bool IsCurrent => _isCurrent;
+
+    internal void SetCurrent(bool value)
+    {
+        if (_isCurrent == value) return;
+        _isCurrent = value;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsCurrent)));
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public override string ToString() => Name;
+}

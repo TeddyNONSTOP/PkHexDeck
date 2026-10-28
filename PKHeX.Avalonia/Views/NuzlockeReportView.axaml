@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.NuzlockeReportView"
+             x:DataType="vm:NuzlockeReportViewModel"
+             MinWidth="480" MinHeight="320">
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Classes="tool-surface">
+        <StackPanel Grid.Row="0" Margin="10,10,10,6" Spacing="4">
+            <TextBlock x:Name="Summary" Text="{Binding SummaryText}" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding NotCountedText}" IsVisible="{Binding NotCountedText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                       FontSize="11" Foreground="{DynamicResource ThemeTextMutedBrush}" TextWrapping="Wrap" />
+        </StackPanel>
+        <WrapPanel Grid.Row="1" Margin="10,0,10,0" Orientation="Horizontal">
+            <ComboBox x:Name="FilterBox" SelectedIndex="{Binding FilterIndex}" MinWidth="160" Margin="0,0,8,6"
+                      AutomationProperties.Name="{loc:Loc Nuzlocke_Filter}">
+                <ComboBoxItem Content="{loc:Loc Nuzlocke_Filter_All}" />
+                <ComboBoxItem Content="{loc:Loc Nuzlocke_Filter_Extras}" />
+                <ComboBoxItem Content="{loc:Loc Nuzlocke_Filter_Dupes}" />
+            </ComboBox>
+            <Button Content="{loc:Loc LivingDexTracker_Refresh}" Command="{Binding RefreshCommand}" Margin="0,0,8,6" />
+            <Button Content="{loc:Loc LivingDexTracker_ShowSelected}" Command="{Binding ShowSelectedCommand}" Margin="0,0,8,6" />
+        </WrapPanel>
+        <TextBox Grid.Row="2" Margin="10,0,10,8" Text="{Binding SearchText}" Watermark="{loc:Loc Nuzlocke_Search}"
+                 AutomationProperties.Name="{loc:Loc Nuzlocke_Search}" />
+        <DataGrid Grid.Row="3" x:Name="NuzlockeGrid" Classes="save-grid database-grid"
+                  ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}"
+                  AutoGenerateColumns="False" CanUserSortColumns="True" IsReadOnly="True"
+                  CanUserResizeColumns="True" GridLinesVisibility="Horizontal"
+                  VerticalScrollBarVisibility="Auto" DoubleTapped="OnRowDoubleTapped"
+                  AutomationProperties.Name="{loc:Loc Menu_Data_NuzlockeReport}">
+            <DataGrid.KeyBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding ShowSelectedCommand}" />
+            </DataGrid.KeyBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{loc:Loc Nuzlocke_ColOrder}" Binding="{Binding Order}" Width="SizeToHeader" MinWidth="44" />
+                <DataGridTextColumn Header="{loc:Loc Nuzlocke_ColLocation}" Binding="{Binding Location}" Width="150" />
+                <DataGridTemplateColumn Width="48" CanUserSort="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="vm:NuzlockeReportRow">
+                            <Image Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}" Width="40" Height="30"
+                                   Stretch="Uniform" HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{loc:Loc Nuzlocke_ColEncounter}" Binding="{Binding Encounter}" Width="150" />
+                <DataGridTextColumn Header="{loc:Loc Nuzlocke_ColStatus}" Binding="{Binding Status}" Width="175" />
+                <DataGridTextColumn Header="{loc:Loc Nuzlocke_ColExtras}" Binding="{Binding Extras}" Width="*" MinWidth="140" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Grid.Row="4" Margin="10,8" Text="{loc:Loc Nuzlocke_Instructions}" TextWrapping="Wrap" FontSize="12"
+                   Foreground="{DynamicResource ThemeTextSecondaryBrush}" />
+    </Grid>
+</UserControl>

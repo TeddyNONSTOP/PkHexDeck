@@ -1,0 +1,113 @@
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
+using Avalonia.Headless.XUnit;
+using Avalonia.Input;
+using Avalonia.VisualTree;
+using PKHeX.Avalonia.Controls;
+using PKHeX.Avalonia.Tests.Harness;
+using PKHeX.Core;
+using PKHeX.Presentation.ViewModels;
+
+namespace PKHeX.Avalonia.Tests;
+
+/// <summary>
+/// Headless acceptance coverage for the Task 2B workspace affordances. Native desktop tool-window
+/// lifetime remains a platform test boundary, but routed header gestures and command wiring are
+/// exercised through the fully composed MainWindow.
+/// </summary>
+public sealed class Task2BWorkspaceUiTests
+{
+    [Fact]
+    public void MainWindow_Offers_TabDoubleClick_AndLocalizedAccessibleWorkspaceCommands()
+    {
+        var mainWindow = ReadRepositoryFile("PKHeX.Avalonia/Views/MainWindow.axaml");
+        var boxViewer = ReadRepositoryFile("PKHeX.Avalonia/Views/BoxViewer.axaml");
+        var partyViewer = ReadRepositoryFile("PKHeX.Avalonia/Views/PartyViewer.axaml");
+
+        Assert.Contains("DoubleTapCommandBorder Command=\"{Binding OpenBoxWorkspaceCommand}\"", mainWindow);
+        Assert.Contains("DoubleTapCommandBorder Command=\"{Binding OpenPartyWorkspaceCommand}\"", mainWindow);
+        Assert.DoesNotContain("OnBoxTabDoubleTapped", mainWindow);
+        Assert.DoesNotContain("OnPartyTabDoubleTapped", mainWindow);
+        Assert.Contains("Command=\"{Binding OpenBoxWorkspaceCommand}\"", mainWindow);
+        Assert.Contains("Command=\"{Binding OpenPartyWorkspaceCommand}\"", mainWindow);
+        // Workspace commands now have one source of truth in the capability-driven Tools menu;
+        // the bound title is also the accessible name, so the commands are not duplicated in
+        // Window navigation.
+        Assert.Contains("AutomationProperties.Name=\"{Binding Title}\"", mainWindow);
+        var workspaces = ReadRepositoryFile("PKHeX.Presentation/ViewModels/MainWindowViewModel.Workspaces.cs");
+        Assert.Contains("Menu_Tools_OpenBoxWorkspace", workspaces);
+        Assert.Contains("Menu_Tools_OpenPartyWorkspace", workspaces);
+
+        // The tab-level double-tap handlers must not replace the existing slot-level gesture.
+        Assert.Contains("DoubleTapped=\"OnSlotDoubleTapped\"", boxViewer);
+        Assert.Contains("DoubleTapped=\"OnSlotDoubleTapped\"", partyViewer);
+
+        var localizationDirectory = Path.Combine(FindRepositoryRoot(), "PKHeX.Presentation", "Localization", "Strings");
+        var expectedCatalogs = new[]
+        {
+            "de.json", "en.json", "es.json", "fr.json", "it.json", "ja.json", "ko.json", "pt-BR.json", "zh-Hans.json", "zh-Hant.json",
+        };
+        var actualCatalogs = Directory.GetFiles(localizationDirectory, "*.json")
+            .Select(Path.GetFileName)
+            .OrderBy(name => name, StringComparer.Ordinal)
+            .ToArray();
+
+        Assert.Equal(expectedCatalogs.OrderBy(name => name, StringComparer.Ordinal), actualCatalogs);
+
+        foreach (var catalog in actualCatalogs)
+        {
+            using var document = JsonDocument.Parse(File.ReadAllText(Path.Combine(localizationDirectory, catalog!)));
+            var root = document.RootElement;
+            AssertLocalized(root, "Menu_Tools_OpenBoxWorkspace", catalog!);
+            AssertLocalized(root, "Menu_Tools_OpenPartyWorkspace", catalog!);
+        }
+    }
+
+    [AvaloniaFact]
+    public void RoutedHeaderDoubleTaps_OpenIndependentBoxAndLivePartyWorkspaces()
+    {
+        using var app = new HeadlessAppFixture();
+        app.LoadSaveInstance(new SAV6XY());
+
+        var headers = app.Window.GetVisualDescendants().OfType<DoubleTapCommandBorder>().ToArray();
+        var boxHeader = Assert.Single(headers, header =>
+            ReferenceEquals(header.Command, app.BoxViewer!.OpenDetachedToolCommand));
+        var partyHeader = Assert.Single(headers, header =>
+            ReferenceEquals(header.Command, app.ViewModel.PartyViewer!.OpenDetachedToolCommand));
+
+        boxHeader.RaiseEvent(new TappedEventArgs(InputElement.DoubleTappedEvent, null!));
+        partyHeader.RaiseEvent(new TappedEventArgs(InputElement.DoubleTappedEvent, null!));
+
+        Assert.Equal(2, app.Windows.ActiveToolCount);
+        var detached = Assert.IsType<BoxViewerViewModel>(app.Windows.ShownTools[0].ViewModel);
+        Assert.NotSame(app.BoxViewer, detached);
+        Assert.Equal(app.BoxViewer!.SessionId, detached.SessionId);
+        detached.NextBoxCommand.Execute(null);
+        Assert.Equal(0, app.BoxViewer.CurrentBox);
+        Assert.Equal(1, detached.CurrentBox);
+        Assert.Contains(app.Windows.ShownTools, tool => ReferenceEquals(tool.ViewModel, app.ViewModel.PartyViewer));
+    }
+
+    private static void AssertLocalized(JsonElement root, string key, string catalog)
+    {
+        Assert.True(root.TryGetProperty(key, out var value), $"{catalog} is missing {key}");
+        Assert.False(string.IsNullOrWhiteSpace(value.GetString()), $"{catalog} has an empty {key}");
+    }
+
+    private static string ReadRepositoryFile(string relativePath) =>
+        File.ReadAllText(Path.Combine(FindRepositoryRoot(), relativePath));
+
+    private static string FindRepositoryRoot([CallerFilePath] string sourceFilePath = "")
+    {
+        var testProjectDirectory = Directory.GetParent(sourceFilePath)?.FullName;
+        var testsDirectory = testProjectDirectory is null ? null : Directory.GetParent(testProjectDirectory)?.FullName;
+        var repoRoot = testsDirectory is null ? null : Directory.GetParent(testsDirectory)?.FullName;
+        if (repoRoot is not null
+            && File.Exists(Path.Combine(repoRoot, "PKHeX.Avalonia", "Views", "MainWindow.axaml")))
+            return repoRoot;
+
+        throw new DirectoryNotFoundException("Could not find repository root.");
+    }
+}

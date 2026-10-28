@@ -1,0 +1,492 @@
+using System.Linq;
+using System.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using PKHeX.Application.Abstractions;
+using PKHeX.Application.Abstractions.GiftRecords;
+using PKHeX.Application.Abstractions.LiveHex;
+using PKHeX.Application.Shortcuts;
+using PKHeX.Core;
+using PKHeX.Presentation.Localization;
+
+namespace PKHeX.Presentation.ViewModels;
+
+public partial class MainWindowViewModel : ViewModelBase
+{
+    private readonly ISaveFileGateway _saveFileService;
+    private readonly IDialogService _dialogService;
+    private readonly IWindowService _windowService;
+    private readonly ISpriteRenderer _spriteRenderer;
+    private readonly ISlotService _slotService;
+    private readonly IClipboardService _clipboardService;
+    private readonly IQrCodeService _qrCodeService;
+    private readonly IImageCodec? _imageCodec;
+    private readonly ISaveBackupService _saveBackupService;
+    private readonly AppSettings _settings;
+    private readonly ISettingsStore _settingsStore;
+    private readonly IThemeService _themeService;
+    private readonly IUiDensityService _uiDensityService;
+    private readonly UndoRedoService _undoRedo;
+    private readonly BoxSelectionService _boxSelection;
+    private BulkSlotActionsController? _bulkActions;
+    private readonly LanguageService _languageService;
+    private readonly IAutoLegalityService _autoLegalityService;
+    private readonly ILiveHexService _liveHexService;
+    private readonly ILivingDexService _livingDexService;
+    private readonly IGiftRecordProvider _giftRecordProvider;
+    private readonly IUiDispatcher? _uiDispatcher;
+    private readonly IAudioPlaybackService? _audioPlaybackService;
+    private readonly ILinuxDesktopIntegrationService? _linuxDesktopIntegration;
+    private readonly UpdateCheckCoordinator _updateCoordinator;
+
+    // Captured on the UI thread at construction so update-check continuations (which may complete on
+    // a thread-pool thread) marshal their status-bar mutation back onto the UI thread.
+    private readonly SynchronizationContext? _uiContext = SynchronizationContext.Current;
+
+    [ObservableProperty] private UpdateNotificationViewModel? _updateNotification;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasSave))]
+    [NotifyPropertyChangedFor(nameof(WindowTitle))]
+    [NotifyPropertyChangedFor(nameof(StatusText))]
+    [NotifyPropertyChangedFor(nameof(CurrentSaveFileName))]
+    [NotifyPropertyChangedFor(nameof(CurrentSavePath))]
+    [NotifyPropertyChangedFor(nameof(IsReadOnly))]
+    [NotifyPropertyChangedFor(nameof(CurrentGameName))]
+    [NotifyPropertyChangedFor(nameof(CurrentTrainerName))]
+    [NotifyCanExecuteChangedFor(nameof(SaveFileCommand))]
+    [NotifyCanExecuteChangedFor(nameof(SaveFileAsCommand))]
+    [NotifyCanExecuteChangedFor(nameof(CloseFileCommand))]
+    [NotifyCanExecuteChangedFor(nameof(ImportShowdownCommand))]
+    [NotifyCanExecuteChangedFor(nameof(ExportShowdownCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenPKMDatabaseCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenBoxReportCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenRsBoxWallpaperCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenAutoLegalityModCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenLiveHeXCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenLivingDexGeneratorCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenLivingDexTrackerCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenNuzlockeReportCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenLivingDexArrangeCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenBackupManagerCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenSaveDiffCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenBoxWorkspaceCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenPartyWorkspaceCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenEncounterDatabaseCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenPssExportCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenBattleVideo4Command))]
+    [NotifyCanExecuteChangedFor(nameof(OpenRaidEventImportCommand))]
+    [NotifyCanExecuteChangedFor(nameof(UnlockFriendSafariCommand))]
+    [NotifyCanExecuteChangedFor(nameof(DumpBoxesCommand))]
+    [NotifyCanExecuteChangedFor(nameof(LoadBoxesCommand))]
+    [NotifyCanExecuteChangedFor(nameof(UndoCommand))]
+    [NotifyCanExecuteChangedFor(nameof(RedoCommand))]
+    private SaveFile? _currentSave;
+
+    [ObservableProperty] private BoxViewerViewModel? _boxViewer;
+    [ObservableProperty] private PartyViewerViewModel? _partyViewer;
+    [ObservableProperty] private TrainerEditorViewModel? _trainerEditor;
+    [ObservableProperty] private InventoryEditorViewModel? _inventoryEditor;
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsEventsWorkspace))]
+    private EventEditorViewModel? _eventFlagsEditor;
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsGiftsWorkspace))]
+    private MysteryGiftEditorViewModel? _mysteryGiftEditor;
+    [ObservableProperty] private BatchEditorViewModel? _batchEditor;
+    [ObservableProperty] private PokemonEditorViewModel? _currentPokemonEditor;
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(DumpBoxesCommand))]
+    [NotifyCanExecuteChangedFor(nameof(LoadBoxesCommand))]
+    private bool _isBoxTransferRunning;
+
+    private CancellationTokenSource? _boxTransferCts;
+
+    public bool HasSave => CurrentSave is not null;
+    public bool CanUndo => _undoRedo.CanUndo;
+    public bool CanRedo => _undoRedo.CanRedo;
+    public bool IsHaXMode => _settings.IsHaXMode;
+
+    /// <summary>The current save was opened read-only and cannot be written over its own file.</summary>
+    public bool IsReadOnly => CurrentSave is not null && _saveFileService.IsReadOnly;
+
+    /// <summary>Full path of the active save, when it came from or has been written to disk.</summary>
+    public string? CurrentSavePath => CurrentSave is null ? null : _saveFileService.CurrentPath;
+
+    /// <summary>Compact active-save identity for the status bar.</summary>
+    public string? CurrentSaveFileName => CurrentSavePath is { Length: > 0 } path
+        ? Path.GetFileName(path)
+        : null;
+
+    public string WindowTitle
+    {
+        get
+        {
+            var product = LocalizedStrings.Instance[IsHaXMode ? "App_ProductName_HaX" : "App_ProductName"];
+            if (CurrentSave is null)
+                return product;
+            var title = $"{product} - {CurrentSave.Version}";
+            return IsReadOnly ? LocalizedStrings.Instance.Format("App_Title_ReadOnly", title) : title;
+        }
+    }
+
+    /// <summary>Localized status-bar text: the loaded game version, or a "no save loaded" hint.</summary>
+    public string StatusText
+    {
+        get
+        {
+            if (IsHaXMode)
+                return CurrentSave is not null
+                    ? LocalizedStrings.Instance.Format("Status_HaXMode_Game", CurrentSave.Version)
+                    : LocalizedStrings.Instance["Status_HaXMode_NoSave"];
+            return CurrentSave is not null
+                ? LocalizedStrings.Instance.Format("Status_GameFormat", CurrentSave.Version)
+                : LocalizedStrings.Instance["Status_NoSaveLoaded"];
+        }
+    }
+
+    public LanguageService LanguageService => _languageService;
+
+    public string CurrentGameName => CurrentSave is { } save ? GameInfo.GetVersionName(save.Version) : string.Empty;
+    public string CurrentTrainerName => CurrentSave?.OT ?? string.Empty;
+
+    public MainWindowViewModel(
+        ISaveFileGateway saveFileService,
+        IDialogService dialogService,
+        IWindowService windowService,
+        ISpriteRenderer spriteRenderer,
+        ISlotService slotService,
+        IClipboardService clipboardService,
+        IQrCodeService qrCodeService,
+        UpdateCheckCoordinator updateCoordinator,
+        ISaveBackupService saveBackupService,
+        AppSettings settings,
+        ISettingsStore settingsStore,
+        IThemeService themeService,
+        IUiDensityService uiDensityService,
+        UndoRedoService undoRedo,
+        BoxSelectionService boxSelection,
+        LanguageService languageService,
+        IAutoLegalityService autoLegalityService,
+        ILiveHexService liveHexService,
+        ILivingDexService livingDexService,
+        IGiftRecordProvider giftRecordProvider,
+        IUiDispatcher? uiDispatcher = null,
+        IAudioPlaybackService? audioPlaybackService = null,
+        IImageCodec? imageCodec = null,
+        ILinuxDesktopIntegrationService? linuxDesktopIntegration = null,
+        KeyboardShortcutService? keyboardShortcuts = null,
+        IBankService? bankService = null,
+        IBoxWallpaperCatalog? wallpaperCatalog = null,
+        HardcoreMode? hardcore = null)
+    {
+        _saveFileService = saveFileService;
+        _dialogService = dialogService;
+        _windowService = windowService;
+        _spriteRenderer = spriteRenderer;
+        _slotService = slotService;
+        _clipboardService = clipboardService;
+        _qrCodeService = qrCodeService;
+        _imageCodec = imageCodec;
+        _updateCoordinator = updateCoordinator;
+        _saveBackupService = saveBackupService;
+        _settings = settings;
+        _settingsStore = settingsStore;
+        _themeService = themeService;
+        _uiDensityService = uiDensityService;
+        SelectedTheme = _themeService.CurrentTheme;
+        _undoRedo = undoRedo;
+        _boxSelection = boxSelection;
+        _languageService = languageService;
+        _autoLegalityService = autoLegalityService;
+        _liveHexService = liveHexService;
+        _livingDexService = livingDexService;
+        _giftRecordProvider = giftRecordProvider;
+        _uiDispatcher = uiDispatcher;
+        _audioPlaybackService = audioPlaybackService;
+        _linuxDesktopIntegration = linuxDesktopIntegration;
+        // Tests that build the view model directly get the framework-free Windows/Linux conventions.
+        _shortcutService = keyboardShortcuts
+            ?? new KeyboardShortcutService(settings, settingsStore, StandardShortcutPlatform.Instance);
+        _bankService = bankService;
+        _wallpaperCatalog = wallpaperCatalog;
+        _hardcore = hardcore ?? new HardcoreMode(settings);
+        if (bankService is not null)
+            _bankHolds = new BankHoldTracker(bankService);
+
+        // Mirror the coordinator's status-bar notification (raised by either the startup check or a
+        // manual "Check for Updates" from the Settings/About dialogs) into the bound property.
+        // Marshal onto the UI thread: a startup check completes on a thread-pool continuation.
+        _updateCoordinator.NotificationChanged += n => RunOnUiThread(() => UpdateNotification = n);
+        UpdateNotification = _updateCoordinator.Notification;
+
+        _saveFileService.SaveFileChanged += OnSaveFileChanged;
+        _saveFileService.SaveWritten += OnSaveWrittenForBank;
+        _saveFileService.SaveWriteStarted += OnSaveWriteStartedForBank;
+        _saveFileService.SaveWriteFailed += OnSaveWriteFailedForBank;
+        _slotService.ViewRequested += OnViewRequested;
+        _slotService.SetRequested += OnSetRequested;
+        _slotService.DeleteRequested += OnDeleteRequested;
+        _slotService.MoveRequested += OnMoveRequested;
+        _slotService.ReplaceRequested += OnReplaceRequested;
+
+        // Marshalled (issue #262): NotifyCanExecuteChanged reaches the Undo/Redo MenuItems, which read
+        // an AvaloniaProperty and therefore assert UI-thread access. UndoRedoService is a shared
+        // singleton with no thread affinity of its own, so any caller that closes a change off the UI
+        // thread would otherwise take the whole shell down with "Call from invalid thread".
+        _undoRedo.StateChanged += (_, _) => PostToUi(() =>
+        {
+            UndoCommand.NotifyCanExecuteChanged();
+            RedoCommand.NotifyCanExecuteChanged();
+        });
+        _undoRedo.UndoPerformed += OnUndoRedoPerformed;
+        _undoRedo.RedoPerformed += OnUndoRedoPerformed;
+
+        _languageService.LanguageChanged += OnLanguageChanged;
+
+        // Bring the UI-chrome string table to the language the LanguageService was initialized with
+        // (from persisted settings at startup) before the window renders.
+        LocalizedStrings.Instance.SetLanguage(_languageService.CurrentLanguage);
+        InitializeToolLauncherItems();
+        InitializeShortcuts();
+        InitializeHardcore();
+
+        // Stored overrides change through the shortcut editor; rebind on the UI thread.
+        _shortcutService.Changed += OnShortcutsChanged;
+    }
+
+    private void OnLanguageChanged()
+    {
+        // Swap the shell's UI-chrome strings, then persist the choice so it survives a restart.
+        LocalizedStrings.Instance.SetLanguage(_languageService.CurrentLanguage);
+        RefreshToolLauncherLocalization();
+        Shortcuts.RefreshLocalization();
+        if (!string.Equals(_settings.DisplayLanguage, _languageService.CurrentLanguage, StringComparison.Ordinal))
+        {
+            _settings.DisplayLanguage = _languageService.CurrentLanguage;
+            _settingsStore.Save(_settings);
+        }
+
+        if (CurrentSave is not null)
+            GameInfo.FilteredSources = new FilteredGameDataSource(CurrentSave, GameInfo.Sources, IsHaXMode);
+
+        OnPropertyChanged(string.Empty);
+        CurrentPokemonEditor?.RefreshLanguage();
+        BoxViewer?.RefreshCurrentBox();
+        PartyViewer?.RefreshParty();
+        TrainerEditor?.RefreshLanguage();
+        InventoryEditor?.RefreshLanguage();
+        MysteryGiftEditor?.RefreshLocalization();
+
+        // Relay to on-demand dialog ViewModels (e.g. PKM database) that subscribe via the messenger.
+        WeakReferenceMessenger.Default.Send(new LanguageChangedMessage(_languageService.CurrentLanguage));
+    }
+
+    // Native file-picker continuations may complete off the UI thread. The adoption path raises
+    // bound command notifications and constructs UI-facing ViewModels, so marshal it as a unit.
+    private void OnSaveFileChanged(SaveFile? sav) => PostToUi(() => ApplySaveFileChanged(sav));
+
+    private void ApplySaveFileChanged(SaveFile? sav)
+    {
+        ActiveWorkspace = MainWorkspace.Pokemon;
+        SelectedWorkspaceIndex = 0;
+        IsToolLauncherOpen = false;
+
+        // Dismiss any modeless tool windows (e.g. the box seek tool) bound to the previous save.
+        _windowService.CloseAllTools();
+        // Unhook the previous viewers from the shared (long-lived) selection singleton first, and
+        // drop stale marks/selection-mode: they point at a save that is about to close.
+        BoxViewer?.DetachSelectionEvents();
+        PartyViewer?.DetachSelectionEvents();
+        _boxSelection.ExitSelectionMode();
+        if (_bulkActions is not null)
+        {
+            _bulkActions.Completed -= OnBulkSlotActionCompleted;
+            _bulkActions.Retire();
+        }
+        _bulkActions = null;
+        _encounterDatabase = null;
+        _slotService.ResetSession();
+        DisposeBatchEditor();
+        _boxReport = null;
+        _legalityAudit = null;
+        _autoLegalityMod = null;
+        DisposeLiveHeX();
+        _boxTransferCts?.Cancel();
+        _boxTransferCts = null;
+        IsBoxTransferRunning = false;
+        if (_livingDexGenerator is not null)
+        {
+            _livingDexGenerator.Retire();
+            _livingDexGenerator.BoxesUpdated -= OnLivingDexBoxesUpdated;
+        }
+        _livingDexGenerator = null;
+        _livingDexTracker = null;
+        _nuzlockeReport = null;
+        _livingDexArrange?.Retire();
+        _livingDexArrange = null;
+        _backupManager = null;
+        _saveDiff = null;
+
+        CurrentSave = sav;
+        DetachBankFromViewers();
+        if (sav is not null)
+        {
+            try
+            {
+                _spriteRenderer.Initialize(sav);
+                _undoRedo.Initialize(sav);
+                GameInfo.FilteredSources = new FilteredGameDataSource(sav, GameInfo.Sources, IsHaXMode);
+
+                var pokemonEditor = new PokemonEditorViewModel(sav.BlankPKM, sav, _spriteRenderer, _dialogService, _windowService, IsHaXMode, _autoLegalityService);
+                pokemonEditor.SaveFileDropRequested += OnSaveFileDropRequested;
+                CurrentPokemonEditor = pokemonEditor;
+
+                var bulkActions = new BulkSlotActionsController(
+                    sav, _undoRedo, _boxSelection, _dialogService, _saveBackupService, _settings, () => _saveFileService.CurrentPath,
+                    _bankHolds, () => GetSaveLabel(sav), _autoLegalityService, _hardcore);
+                bulkActions.Completed += OnBulkSlotActionCompleted;
+                _bulkActions = bulkActions;
+
+                var boxViewer = new BoxViewerViewModel(sav, _spriteRenderer, _slotService, _windowService, _dialogService, IsHaXMode, selection: _boxSelection, bulkActions: bulkActions, autoLegalityService: _autoLegalityService, hardcore: _hardcore);
+                boxViewer.SlotActivated += OnBoxSlotActivated;
+                boxViewer.ViewSlotRequested += OnBoxViewSlot;
+                boxViewer.SetSlotRequested += OnBoxSetSlot;
+                boxViewer.DeleteSlotRequested += OnBoxDeleteSlot;
+                boxViewer.SaveFileDropRequested += OnSaveFileDropRequested;
+                BoxViewer = boxViewer;
+
+                var partyViewer = new PartyViewerViewModel(sav, _spriteRenderer, _slotService, _dialogService, IsHaXMode, () => BoxViewer?.CurrentBox ?? 0, _windowService, _boxSelection, bulkActions, _autoLegalityService, _hardcore);
+                partyViewer.SlotActivated += OnPartySlotActivated;
+                partyViewer.ViewSlotRequested += OnPartyViewSlot;
+                partyViewer.SetSlotRequested += OnPartySetSlot;
+                partyViewer.SaveFileDropRequested += OnSaveFileDropRequested;
+                PartyViewer = partyViewer;
+                AttachBankToViewers(boxViewer, partyViewer);
+
+                TrainerEditor?.Dispose();
+                TrainerEditor = new TrainerEditorViewModel(sav, _dialogService, _imageCodec);
+                InventoryEditor = new InventoryEditorViewModel(sav, _spriteRenderer, IsHaXMode);
+                (EventFlagsEditor as IDisposable)?.Dispose();
+                EventFlagsEditor = sav is SAV9ZA za
+                    ? new ZaEventEditorViewModel(za, _dialogService)
+                    : sav is SAV4 or SAV7 or SAV7b or SAV8BS
+                        ? new CategorizedEventEditorViewModel(sav, _dialogService)
+                        : new EventFlagsEditorViewModel(sav);
+                MysteryGiftEditor = new MysteryGiftEditorViewModel(sav, _dialogService, _giftRecordProvider, _spriteRenderer);
+                BatchEditor = new BatchEditorViewModel(sav, _dialogService, _undoRedo, _uiDispatcher);
+                BatchEditor.BatchEditCompleted += OnBatchEditCompleted;
+            }
+            catch (Exception ex)
+            {
+                _saveFileService.CloseSave();
+                _ = _dialogService.ShowErrorAsync(
+                    LocalizedStrings.Instance["Msg_FailedToOpenSave"],
+                    LocalizedStrings.Instance.Format("Msg_FailedToOpenSave_Body", ex.GetType().Name, ex.Message));
+            }
+        }
+        else
+        {
+            CurrentPokemonEditor = null;
+
+            if (BoxViewer is not null)
+            {
+                BoxViewer.SlotActivated -= OnBoxSlotActivated;
+                BoxViewer.ViewSlotRequested -= OnBoxViewSlot;
+                BoxViewer.SetSlotRequested -= OnBoxSetSlot;
+                BoxViewer.DeleteSlotRequested -= OnBoxDeleteSlot;
+                BoxViewer.SaveFileDropRequested -= OnSaveFileDropRequested;
+            }
+            BoxViewer = null;
+
+            if (PartyViewer is not null)
+            {
+                PartyViewer.SlotActivated -= OnPartySlotActivated;
+                PartyViewer.ViewSlotRequested -= OnPartyViewSlot;
+                PartyViewer.SetSlotRequested -= OnPartySetSlot;
+                PartyViewer.SaveFileDropRequested -= OnSaveFileDropRequested;
+            }
+            PartyViewer = null;
+
+            TrainerEditor?.Dispose();
+            TrainerEditor = null;
+            InventoryEditor = null;
+            (EventFlagsEditor as IDisposable)?.Dispose();
+            EventFlagsEditor = null;
+            MysteryGiftEditor = null;
+
+            DisposeBatchEditor();
+        }
+
+        // Withdrawals held for any other save session can never be saved now (switch, reload,
+        // backup restore, close or discard): release them so those Pokémon stay in the Bank.
+        OnSaveSessionChangedForBank(CurrentSave);
+
+        // Keep the shared launcher/report registry in lockstep with the command CanExecute state.
+        RefreshCapabilityAvailability();
+    }
+
+    private void DisposeBatchEditor()
+    {
+        if (BatchEditor is null)
+            return;
+
+        BatchEditor.BatchEditCompleted -= OnBatchEditCompleted;
+        BatchEditor.Dispose();
+        BatchEditor = null;
+    }
+
+    /// <summary>
+    /// Fire-and-forget from the host at startup (never awaited there, so the main window is never
+    /// blocked). Delegates to the shared <see cref="UpdateCheckCoordinator"/>, which honors the
+    /// startup opt-out and stays silent on failure.
+    /// </summary>
+    public Task CheckForUpdatesAsync() => _updateCoordinator.RunStartupCheckAsync();
+
+    private void RunOnUiThread(Action action)
+    {
+        if (_uiContext is null || SynchronizationContext.Current == _uiContext)
+            action();
+        else
+            _uiContext.Post(_ => action(), null);
+    }
+
+    /// <summary>
+    /// Runs <paramref name="action"/> on the UI thread, inline when already there. Mirrors
+    /// <c>BatchEditorViewModel.PostToUi</c> and goes through the <see cref="IUiDispatcher"/> port, so
+    /// Presentation stays framework-free. Deliberately separate from <see cref="RunOnUiThread"/> above,
+    /// which predates the port and still serves the update-check notification; consolidating the two is
+    /// left to its own change.
+    /// </summary>
+    private void PostToUi(Action action)
+    {
+        if (_uiDispatcher is null || _uiDispatcher.CheckAccess())
+            action();
+        else
+            _uiDispatcher.Post(action);
+    }
+
+    /// <summary>
+    /// Single guarded entry point for loading a Pokémon into the current editor from any of the
+    /// on-demand selection sources (PKM database, mystery gift database, Auto Legality Mod, box
+    /// report, legality audit). A null/malformed entity or a conversion that throws mid-load
+    /// surfaces as an error dialog instead of crashing the application.
+    /// </summary>
+    private void LoadEntity(PKM? pk)
+    {
+        if (pk is null || CurrentPokemonEditor is null)
+            return;
+
+        try
+        {
+            CurrentPokemonEditor.LoadPKM(pk);
+        }
+        catch (Exception ex)
+        {
+            _ = _dialogService.ShowErrorAsync(
+                LocalizedStrings.Instance["Common_Error"],
+                LocalizedStrings.Instance.Format("File_LoadEntityFailed", ex.Message));
+        }
+    }
+}

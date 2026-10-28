@@ -1,0 +1,155 @@
+using System;
+using System.Collections.Generic;
+using Avalonia.Controls;
+using PKHeX.Avalonia.Views;
+using PKHeX.Presentation.ViewModels;
+
+namespace PKHeX.Avalonia;
+
+/// <summary>
+/// Maps a dialog ViewModel type to its View. This is the single place that couples ViewModels to
+/// Views; it lives in the host (Frameworks &amp; Drivers) so the Presentation layer never references Views.
+/// Compile-checked: a renamed View breaks the build here.
+/// </summary>
+public static class ViewLocator
+{
+    private static readonly Dictionary<Type, Func<Control>> Map = new()
+    {
+        [typeof(AboutViewModel)] = () => new AboutView(),
+        [typeof(ApricornEditorViewModel)] = () => new ApricornEditor(),
+        [typeof(AutoLegalityModViewModel)] = () => new AutoLegalityModView(),
+        [typeof(BackupManagerViewModel)] = () => new BackupManager(),
+        [typeof(BankViewModel)] = () => new BankView(),
+        [typeof(BatchEditorViewModel)] = () => new BatchEditor(),
+        [typeof(BattlePassEditorViewModel)] = () => new BattlePassEditor(),
+        [typeof(BerryFieldEditorViewModel)] = () => new BerryFieldEditorView(),
+        [typeof(BlockEditorViewModel)] = () => new BlockEditor(),
+        [typeof(BattleVideo4EditorViewModel)] = () => new BattleVideo4EditorView(),
+        [typeof(BoxLayoutEditorViewModel)] = () => new BoxLayoutEditor(),
+        [typeof(BoxManipViewModel)] = () => new BoxManipView(),
+        [typeof(BoxReportViewModel)] = () => new BoxReportView(),
+        [typeof(RsBoxWallpaperViewModel)] = () => new RsBoxWallpaperView(),
+        [typeof(BoxViewerViewModel)] = () => new BoxViewer(),
+        [typeof(Capture7GGEditorViewModel)] = () => new Capture7GGEditor(),
+        [typeof(CategorizedEventEditorViewModel)] = () => new CategorizedEventEditor(),
+        [typeof(ChatterEditorViewModel)] = () => new ChatterEditor(),
+        [typeof(CosmeticInventory4EditorViewModel)] = () => new CosmeticInventory4Editor(),
+        [typeof(DLC5EditorViewModel)] = () => new DLC5Editor(),
+        [typeof(DaycareEditorViewModel)] = () => new DaycareEditorView(),
+        [typeof(DonutEditorViewModel)] = () => new DonutEditor(),
+        [typeof(EncounterDatabaseViewModel)] = () => new EncounterDatabaseView(),
+        [typeof(EntralinkEditorViewModel)] = () => new EntralinkEditor(),
+        [typeof(EventFlags2EditorViewModel)] = () => new EventFlags2Editor(),
+        [typeof(EventReset1EditorViewModel)] = () => new EventReset1Editor(),
+        [typeof(Fashion9EditorViewModel)] = () => new Fashion9Editor(),
+        [typeof(FashionEditorViewModel)] = () => new FashionEditorView(),
+        [typeof(FestivalPlazaEditorViewModel)] = () => new FestivalPlazaEditor(),
+        [typeof(FolderListViewModel)] = () => new FolderList(),
+        [typeof(Gen3TicketEditorViewModel)] = () => new Gen3TicketEditor(),
+        [typeof(GearBREditorViewModel)] = () => new GearBREditor(),
+        [typeof(Geonet4EditorViewModel)] = () => new Geonet4Editor(),
+        [typeof(GlobalLink5EditorViewModel)] = () => new GlobalLink5Editor(),
+        [typeof(GiftRibbonEditorViewModel)] = () => new GiftRibbonEditorView(),
+        [typeof(GroupViewerViewModel)] = () => new GroupViewer(),
+        [typeof(HallOfFame1EditorViewModel)] = () => new HallOfFame1Editor(),
+        [typeof(HallOfFame3EditorViewModel)] = () => new HallOfFame3EditorView(),
+        [typeof(HallOfFame7EditorViewModel)] = () => new HallOfFame7Editor(),
+        [typeof(HallOfFameEditorViewModel)] = () => new HallOfFameEditor(),
+        [typeof(HoneyTreeEditorViewModel)] = () => new HoneyTreeEditor(),
+        [typeof(JoinAvenueEditorViewModel)] = () => new JoinAvenueEditor(),
+        [typeof(KeyboardShortcutsViewModel)] = () => new KeyboardShortcutsView(),
+        [typeof(LegalityAuditViewModel)] = () => new LegalityAuditView(),
+        [typeof(LegalityViewModel)] = () => new LegalityView(),
+        [typeof(LiveHeXViewModel)] = () => new LiveHeXView(),
+        [typeof(Link6EditorViewModel)] = () => new Link6Editor(),
+        [typeof(LivingDexGeneratorViewModel)] = () => new LivingDexGeneratorView(),
+        [typeof(LivingDexTrackerViewModel)] = () => new LivingDexTrackerView(),
+        [typeof(NuzlockeReportViewModel)] = () => new NuzlockeReportView(),
+        [typeof(LivingDexArrangeViewModel)] = () => new LivingDexArrangeView(),
+        [typeof(MailBoxEditorViewModel)] = () => new MailBoxEditor(),
+        [typeof(MedalEditorViewModel)] = () => new MedalEditorView(),
+        [typeof(MemoryEditorViewModel)] = () => new MemoryEditor(),
+        [typeof(MoveShopEditorViewModel)] = () => new MoveShopEditor(),
+        [typeof(Misc2EditorViewModel)] = () => new Misc2Editor(),
+        [typeof(Misc3EditorViewModel)] = () => new Misc3Editor(),
+        [typeof(Misc4EditorViewModel)] = () => new Misc4Editor(),
+        [typeof(Misc5EditorViewModel)] = () => new Misc5Editor(),
+        [typeof(Misc7EditorViewModel)] = () => new Misc7Editor(),
+        [typeof(Misc7bEditorViewModel)] = () => new Misc7bEditor(),
+        [typeof(Misc8EditorViewModel)] = () => new Misc8Editor(),
+        [typeof(Misc8aEditorViewModel)] = () => new Misc8aEditor(),
+        [typeof(Misc8bEditorViewModel)] = () => new Misc8bEditor(),
+        [typeof(Misc8bLumiEditorViewModel)] = () => new Misc8bLumiEditor(),
+        [typeof(Misc9EditorViewModel)] = () => new Misc9Editor(),
+        [typeof(MysteryGiftDatabaseViewModel)] = () => new MysteryGiftDatabaseView(),
+        [typeof(OPowerEditorViewModel)] = () => new OPowerEditor(),
+        [typeof(PKMDatabaseViewModel)] = () => new PKMDatabaseView(),
+        [typeof(EntitySeekViewModel)] = () => new EntitySeekView(),
+        [typeof(PartyViewerViewModel)] = () => new PartyViewer(),
+        [typeof(Poffin8bEditorViewModel)] = () => new Poffin8bEditor(),
+        [typeof(PssExportViewModel)] = () => new PssExportView(),
+        [typeof(PoffinCaseEditorViewModel)] = () => new PoffinCaseEditorView(),
+        [typeof(PokeBlock3CaseEditorViewModel)] = () => new PokeBlock3CaseEditorView(),
+        [typeof(PokeBlockEditorViewModel)] = () => new PokeBlockEditor(),
+        [typeof(PokeGear4EditorViewModel)] = () => new PokeGear4Editor(),
+        [typeof(PokeathlonEditorViewModel)] = () => new PokeathlonEditor(),
+        [typeof(PokebeanEditorViewModel)] = () => new PokebeanEditor(),
+        [typeof(Pokedex4EditorViewModel)] = () => new Pokedex4Editor(),
+        [typeof(Pokedex5EditorViewModel)] = () => new Pokedex5Editor(),
+        [typeof(Pokedex6EditorViewModel)] = () => new Pokedex6Editor(),
+        [typeof(Pokedex7EditorViewModel)] = () => new Pokedex7Editor(),
+        [typeof(Pokedex7bEditorViewModel)] = () => new Pokedex7bEditor(),
+        [typeof(Pokedex8EditorViewModel)] = () => new Pokedex8Editor(),
+        [typeof(Pokedex9aEditorViewModel)] = () => new Pokedex9aEditor(),
+        [typeof(Pokedex8bEditorViewModel)] = () => new Pokedex8bEditor(),
+        [typeof(Pokedex8bLumiEditorViewModel)] = () => new Pokedex8bLumiEditor(),
+        [typeof(PokedexGen9EditorViewModel)] = () => new PokedexGen9Editor(),
+        [typeof(PokedexLAEditorViewModel)] = () => new PokedexLAEditor(),
+        [typeof(PokedexSimpleEditorViewModel)] = () => new PokedexSimpleEditor(),
+        [typeof(PokepuffEditorViewModel)] = () => new PokepuffEditor(),
+        [typeof(PoketchEditorViewModel)] = () => new PoketchEditorView(),
+        [typeof(QrCodeViewModel)] = () => new QrCodeView(),
+        [typeof(RTC3EditorViewModel)] = () => new RTC3Editor(),
+        [typeof(RTCEditorViewModel)] = () => new RTCEditor(),
+        [typeof(Raid9EditorViewModel)] = () => new Raid9Editor(),
+        [typeof(RaidEventImportViewModel)] = () => new RaidEventImportView(),
+        [typeof(RaidEditorViewModel)] = () => new RaidEditor(),
+        [typeof(RecordsEditorViewModel)] = () => new RecordsEditorView(),
+        [typeof(RibbonEditorViewModel)] = () => new RibbonEditor(),
+        [typeof(Roamer3EditorViewModel)] = () => new Roamer3Editor(),
+        [typeof(Roamer6EditorViewModel)] = () => new Roamer6Editor(),
+        [typeof(RoamerEditorViewModel)] = () => new RoamerEditor(),
+        [typeof(SaveDiffViewModel)] = () => new SaveDiffView(),
+        [typeof(SaveHandlerTroubleshooterViewModel)] = () => new SaveHandlerTroubleshooter(),
+        [typeof(SealStickers8bEditorViewModel)] = () => new SealStickers8bEditor(),
+        [typeof(SecretBase3EditorViewModel)] = () => new SecretBase3Editor(),
+        [typeof(SecretBase6EditorViewModel)] = () => new SecretBase6Editor(),
+        [typeof(SecretBaseEditorViewModel)] = () => new SecretBaseEditor(),
+        [typeof(SettingsViewModel)] = () => new SettingsView(),
+        [typeof(SimpleTrainerEditorViewModel)] = () => new SimpleTrainerEditor(),
+        [typeof(SuperTrainingEditorViewModel)] = () => new SuperTrainingEditor(),
+        [typeof(TechRecordEditorViewModel)] = () => new TechRecordEditor(),
+        [typeof(PlusRecordEditorViewModel)] = () => new PlusRecordEditor(),
+        [typeof(TrainerCard8EditorViewModel)] = () => new TrainerCard8EditorView(),
+        [typeof(Underground8bEditorViewModel)] = () => new Underground8bEditor(),
+        [typeof(UndergroundEditorViewModel)] = () => new UndergroundEditor(),
+        [typeof(UnityTower5EditorViewModel)] = () => new UnityTower5Editor(),
+        [typeof(UpdateChangelogViewModel)] = () => new UpdateChangelogView(),
+        [typeof(UpdateDownloadViewModel)] = () => new UpdateDownloadView(),
+        [typeof(ZaEventEditorViewModel)] = () => new ZaEventEditor(),
+        [typeof(ZygardeCellEditorViewModel)] = () => new ZygardeCellEditor(),
+        [typeof(WallpaperPickerViewModel)] = () => new WallpaperPickerView(),
+        [typeof(TransferPreviewViewModel)] = () => new TransferPreviewView(),
+    };
+
+    public static Control Build(object viewModel)
+    {
+        if (Map.TryGetValue(viewModel.GetType(), out var factory))
+        {
+            var view = factory();
+            view.DataContext = viewModel;
+            return view;
+        }
+        return new TextBlock { Text = "View not found: " + viewModel.GetType().Name };
+    }
+}

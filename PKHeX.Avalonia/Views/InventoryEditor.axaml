@@ -1,0 +1,174 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             xmlns:controls="clr-namespace:PKHeX.Avalonia.Controls"
+             x:Class="PKHeX.Avalonia.Views.InventoryEditor"
+             x:DataType="vm:InventoryEditorViewModel">
+
+    <Border Classes="view-container">
+        <DockPanel>
+            <!-- Header -->
+            <DockPanel DockPanel.Dock="Top" Classes="save-editor-header" Margin="{DynamicResource UiDensityViewSectionMargin}">
+                <TextBlock Text="{loc:Loc InventoryEditor_Title}" Classes="view-title" VerticalAlignment="Center" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                    <Button Content="{loc:Loc InventoryEditor_Reset}" Command="{Binding ResetCommand}" Padding="12,6" />
+                    <Button Content="{loc:Loc InventoryEditor_Apply}" Command="{Binding SaveCommand}" Classes="accent" Padding="12,6" />
+                </StackPanel>
+            </DockPanel>
+
+            <!-- Pouch Tabs -->
+            <TabControl Classes="pouch-tabs"
+                        ItemsSource="{Binding Pouches}"
+                        SelectedItem="{Binding SelectedPouch}">
+                <TabControl.ItemTemplate>
+                    <DataTemplate DataType="vm:InventoryPouchViewModel">
+                        <TextBlock Text="{Binding PouchName}" />
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate DataType="vm:InventoryPouchViewModel">
+                        <DockPanel>
+                            <!-- Toolbar -->
+                            <StackPanel DockPanel.Dock="Top" Classes="command-bar" Orientation="Horizontal" Spacing="8" Margin="0,6,0,8">
+                                <Button Content="{loc:Loc InventoryEditor_SortByName}"
+                                        Command="{Binding $parent[TabControl].((vm:InventoryEditorViewModel)DataContext).SortByNameCommand}"
+                                        Padding="8,4" />
+                                <Button Content="{loc:Loc InventoryEditor_SortByCount}"
+                                        Command="{Binding $parent[TabControl].((vm:InventoryEditorViewModel)DataContext).SortByCountCommand}"
+                                        Padding="8,4" />
+                                <Separator />
+                                <Button Content="{loc:Loc InventoryEditor_GiveAll}"
+                                        Command="{Binding $parent[TabControl].((vm:InventoryEditorViewModel)DataContext).GiveAllCommand}"
+                                        Padding="8,4" />
+                                <Button Content="{loc:Loc InventoryEditor_ClearAll}"
+                                        Command="{Binding $parent[TabControl].((vm:InventoryEditorViewModel)DataContext).ClearAllCommand}"
+                                        Padding="8,4" />
+                            </StackPanel>
+
+                            <TextBlock DockPanel.Dock="Top" Text="{loc:Loc InventoryStatus_Policy}" TextWrapping="Wrap"
+                                       Classes="muted" Margin="0,0,0,6" />
+                            <!-- Items List -->
+                            <Border Classes="editor-section inventory-grid-surface" ClipToBounds="True">
+                                <DataGrid x:Name="InventoryGrid" Classes="save-grid" ItemsSource="{Binding Items}"
+                                          AutoGenerateColumns="False"
+                                          CanUserResizeColumns="True"
+                                          CanUserSortColumns="False">
+                                    <DataGrid.Columns>
+                                        <!-- Icon Column -->
+                                        <DataGridTemplateColumn Header="" Width="36">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="vm:InventoryItemViewModel">
+                                                    <Image Width="24" Height="24"
+                                                           ToolTip.Tip="{loc:Loc InventoryEditor_ArtworkHelp}"
+                                                           AutomationProperties.Name="{loc:Loc InventoryEditor_ArtworkHelp}"
+                                                           Source="{Binding Sprite, Converter={StaticResource PngBytesToBitmap}}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <!-- Item Column -->
+                                        <DataGridTemplateColumn Header="{loc:Loc InventoryEditor_Item}" Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="vm:InventoryItemViewModel">
+                                                    <Grid>
+                                                        <controls:FilterableComboBox Classes="compact-select"
+                                                                                     ItemsSource="{Binding ItemList}"
+                                                                                     SelectedValue="{Binding ItemId}"
+                                                                                     HorizontalAlignment="Stretch"
+                                                                                     Padding="9,5,24,5"
+                                                                                     AutomationProperties.Name="{loc:Loc InventoryEditor_Item}" />
+                                                        <Path HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Width="10" Height="6"
+                                                              Data="M1 1 L5 5 L9 1" Stroke="{DynamicResource ThemeTextMutedBrush}" StrokeThickness="1"
+                                                              IsHitTestVisible="False" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        
+                                        <!-- Count Column -->
+                                        <DataGridTemplateColumn Header="{loc:Loc InventoryEditor_Count}" Width="100">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="vm:InventoryItemViewModel">
+                                                    <NumericUpDown Value="{Binding Count}"
+                                                                   Minimum="0"
+                                                                   Maximum="{Binding MaxCount}"
+                                                                   FormatString="0"
+                                                                   Classes="compact"
+                                                                   HorizontalAlignment="Stretch"
+                                                                   AutomationProperties.Name="{loc:Loc InventoryEditor_Count}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="110" MinWidth="100"
+                                                                IsVisible="{Binding #InventoryGrid.((vm:InventoryPouchViewModel)DataContext).SupportsFavorite}">
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="{loc:Loc InventoryStatus_Favorite}" ToolTip.Tip="{loc:Loc InventoryStatus_FavoriteHelp}" />
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="vm:InventoryItemViewModel">
+                                                    <CheckBox IsChecked="{Binding IsFavorite}" IsEnabled="{Binding SupportsFavorite}"
+                                                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                              ToolTip.Tip="{loc:Loc InventoryStatus_FavoriteHelp}"
+                                                              AutomationProperties.Name="{loc:Loc InventoryStatus_Favorite}"
+                                                              AutomationProperties.HelpText="{Binding ItemName}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="110" MinWidth="100"
+                                                                IsVisible="{Binding #InventoryGrid.((vm:InventoryPouchViewModel)DataContext).SupportsNew}">
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="{loc:Loc InventoryStatus_New}" ToolTip.Tip="{loc:Loc InventoryStatus_NewHelp}" />
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="vm:InventoryItemViewModel">
+                                                    <CheckBox IsChecked="{Binding IsNew}" IsEnabled="{Binding SupportsNew}"
+                                                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                              ToolTip.Tip="{loc:Loc InventoryStatus_NewHelp}"
+                                                              AutomationProperties.Name="{loc:Loc InventoryStatus_New}"
+                                                              AutomationProperties.HelpText="{Binding ItemName}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="110" MinWidth="100"
+                                                                IsVisible="{Binding #InventoryGrid.((vm:InventoryPouchViewModel)DataContext).SupportsShopNew}">
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="{loc:Loc InventoryStatus_ShopNew}" ToolTip.Tip="{loc:Loc InventoryStatus_ShopNewHelp}" />
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="vm:InventoryItemViewModel">
+                                                    <CheckBox IsChecked="{Binding IsNewShop}" IsEnabled="{Binding SupportsShopNew}"
+                                                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                              ToolTip.Tip="{loc:Loc InventoryStatus_ShopNewHelp}"
+                                                              AutomationProperties.Name="{loc:Loc InventoryStatus_ShopNew}"
+                                                              AutomationProperties.HelpText="{Binding ItemName}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Width="110" MinWidth="100"
+                                                                IsVisible="{Binding #InventoryGrid.((vm:InventoryPouchViewModel)DataContext).SupportsHeld}">
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="{loc:Loc InventoryStatus_Held}" ToolTip.Tip="{loc:Loc InventoryStatus_HeldHelp}" />
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="vm:InventoryItemViewModel">
+                                                    <CheckBox IsChecked="{Binding IsHeld}" IsEnabled="{Binding SupportsHeld}"
+                                                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                              ToolTip.Tip="{loc:Loc InventoryStatus_HeldHelp}"
+                                                              AutomationProperties.Name="{loc:Loc InventoryStatus_Held}"
+                                                              AutomationProperties.HelpText="{Binding ItemName}" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Border>
+                        </DockPanel>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+        </DockPanel>
+    </Border>
+</UserControl>

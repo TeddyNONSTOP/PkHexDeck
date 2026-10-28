@@ -1,0 +1,83 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+ xmlns:loc="using:PKHeX.Avalonia.Localization" x:Class="PKHeX.Avalonia.Views.Misc7bEditor" x:DataType="vm:Misc7bEditorViewModel" MinWidth="620" MinHeight="420">
+ <DockPanel Margin="16">
+  <StackPanel DockPanel.Dock="Top" Classes="save-editor-header" Spacing="6" Margin="0,0,0,8">
+   <TextBlock Text="{loc:Loc LgpeTrainer_Title}" Classes="view-title" />
+   <TextBlock Text="{loc:Loc LgpeTrainer_Staging}" TextTrimming="CharacterEllipsis" ToolTip.Tip="{loc:Loc LgpeTrainer_Staging}" AutomationProperties.HelpText="{loc:Loc LgpeTrainer_Staging}" />
+  </StackPanel>
+  <StackPanel DockPanel.Dock="Bottom" Spacing="6" Margin="0,8,0,0">
+   <TextBlock Text="{Binding Error}" IsVisible="{Binding HasError}" TextWrapping="Wrap" />
+   <WrapPanel HorizontalAlignment="Right">
+    <Button Content="{loc:Loc LgpeTrainer_Undo}" Command="{Binding UndoCommand}" IsEnabled="{Binding CanUndo}" Margin="0,0,8,0" />
+    <Button Content="{loc:Loc TrainerEditor_Reset}" Command="{Binding ResetCommand}" Margin="0,0,8,0" />
+    <Button Content="{loc:Loc Common_Cancel}" Command="{Binding CancelCommand}" Margin="0,0,8,0" />
+    <Button Name="LgpeTrainerApply" Content="{loc:Loc LgpeTrainer_Apply}" Command="{Binding SaveCommand}" IsEnabled="{Binding CanSave}" Classes="accent" />
+   </WrapPanel>
+  </StackPanel>
+  <TabControl Name="LgpeTrainerSections">
+   <TabItem Header="{loc:Loc TrainerZA_Overview}"><ScrollViewer><StackPanel Spacing="8" Margin="8">
+    <TextBlock Text="{loc:Loc TrainerEditor_TrainerName}" /><TextBox Text="{Binding TrainerName}" MaxLength="12" AutomationProperties.Name="{loc:Loc TrainerEditor_TrainerName}" />
+    <TextBlock Text="{loc:Loc Misc7bEditor_RivalName}" /><TextBox Text="{Binding RivalName}" MaxLength="12" AutomationProperties.Name="{loc:Loc Misc7bEditor_RivalName}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_Gender}" /><ComboBox ItemsSource="{Binding Genders}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding Gender}" DisplayMemberBinding="{Binding Text}" AutomationProperties.Name="{loc:Loc TrainerEditor_Gender}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_Tid}" /><NumericUpDown Value="{Binding DisplayTid}" Minimum="0" Maximum="999999" FormatString="000000" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Tid}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_Sid}" /><NumericUpDown Value="{Binding DisplaySid}" Minimum="0" Maximum="{Binding MaxDisplaySid}" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Sid}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_Language}" /><ComboBox ItemsSource="{Binding Languages}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding Language}" DisplayMemberBinding="{Binding Text}" AutomationProperties.Name="{loc:Loc TrainerEditor_Language}" />
+    <TextBlock Text="{loc:Loc LgpeTrainer_Version}" /><ComboBox ItemsSource="{Binding Versions}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding GameVersion}" DisplayMemberBinding="{Binding Text}" AutomationProperties.Name="{loc:Loc LgpeTrainer_Version}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_Money}" /><NumericUpDown Value="{Binding Money}" Minimum="0" Maximum="4294967295" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Money}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_PlayTime}" />
+    <WrapPanel>
+     <StackPanel Width="110" Margin="0,0,8,0"><TextBlock Text="{loc:Loc TrainerEditor_Hours}" /><NumericUpDown Value="{Binding PlayedHours}" Minimum="0" Maximum="65535" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Hours}" /></StackPanel>
+     <StackPanel Width="110" Margin="0,0,8,0"><TextBlock Text="{loc:Loc TrainerEditor_Minutes}" /><NumericUpDown Value="{Binding PlayedMinutes}" Minimum="0" Maximum="255" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Minutes}" /></StackPanel>
+     <StackPanel Width="110"><TextBlock Text="{loc:Loc TrainerEditor_Seconds}" /><NumericUpDown Value="{Binding PlayedSeconds}" Minimum="0" Maximum="255" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Seconds}" /></StackPanel>
+    </WrapPanel>
+    <TextBlock Text="{loc:Loc LgpeTrainer_AdventureBegin}" />
+    <DatePicker SelectedDate="{Binding AdventureDate}" AutomationProperties.Name="{loc:Loc LgpeTrainer_AdventureBegin}" />
+    <TimePicker SelectedTime="{Binding AdventureTime}" AutomationProperties.Name="{loc:Loc LgpeTrainer_AdventureBegin}" />
+    <TextBlock Text="{loc:Loc TrainerEditor_Seconds}" /><NumericUpDown Value="{Binding AdventureSecond}" Minimum="0" Maximum="59" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerEditor_Seconds}" />
+    <TextBlock Text="{loc:Loc TrainerZA_LastSaved}" />
+    <DatePicker SelectedDate="{Binding LastSavedDate}" AutomationProperties.Name="{loc:Loc TrainerZA_LastSavedDate}" />
+    <TimePicker SelectedTime="{Binding LastSavedTime}" AutomationProperties.Name="{loc:Loc TrainerZA_LastSavedTime}" />
+    <WrapPanel><Button Content="{loc:Loc Misc7bEditor_UnlockAllTrainerTitles}" Command="{Binding UnlockAllTrainerTitlesCommand}" Margin="0,0,8,8" />
+     <Button Content="{loc:Loc Misc7bEditor_UnlockAllFashion}" Command="{Binding UnlockAllFashionCommand}" Margin="0,0,8,8" /></WrapPanel>
+   </StackPanel></ScrollViewer></TabItem>
+   <TabItem Header="{loc:Loc LgpeTrainer_Map}"><ScrollViewer><Border Classes="editor-section"><StackPanel Spacing="8" Margin="8">
+    <TextBlock Text="{loc:Loc LgpeTrainer_MapId}" /><NumericUpDown Name="LgpeMapId" Value="{Binding MapId}" Minimum="0" Maximum="18446744073709551615" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc LgpeTrainer_MapId}" />
+    <TextBlock Text="X" /><NumericUpDown Value="{Binding X}" FormatString="0.#####" ShowButtonSpinner="False" AutomationProperties.Name="X" />
+    <TextBlock Text="Y" /><NumericUpDown Value="{Binding Y}" FormatString="0.#####" ShowButtonSpinner="False" AutomationProperties.Name="Y" />
+    <TextBlock Text="Z" /><NumericUpDown Value="{Binding Z}" FormatString="0.#####" ShowButtonSpinner="False" AutomationProperties.Name="Z" />
+    <TextBlock Text="{loc:Loc LgpeTrainer_ScaleX}" /><NumericUpDown Value="{Binding ScaleX}" FormatString="0.#####" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc LgpeTrainer_ScaleX}" />
+    <TextBlock Text="{loc:Loc LgpeTrainer_ScaleY}" /><NumericUpDown Value="{Binding ScaleY}" FormatString="0.#####" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc LgpeTrainer_ScaleY}" />
+    <TextBlock Text="{loc:Loc LgpeTrainer_ScaleZ}" /><NumericUpDown Value="{Binding ScaleZ}" FormatString="0.#####" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc LgpeTrainer_ScaleZ}" />
+    <TextBlock Text="{loc:Loc TrainerZA_Rotation}" /><NumericUpDown Value="{Binding Rotation}" FormatString="0.####" Minimum="-360" Maximum="360" ShowButtonSpinner="False" AutomationProperties.Name="{loc:Loc TrainerZA_Rotation}" />
+   </StackPanel></Border></ScrollViewer></TabItem>
+   <TabItem Header="{loc:Loc Misc7bEditor_GoPark}"><DockPanel Margin="8">
+    <StackPanel DockPanel.Dock="Top" Spacing="6" Margin="0,0,0,8">
+     <ComboBox Name="LgpeParkArea" ItemsSource="{Binding Areas}" SelectedValueBinding="{Binding Value}" SelectedValue="{Binding SelectedArea}" DisplayMemberBinding="{Binding Text}" AutomationProperties.Name="{loc:Loc LgpeTrainer_AreaLabel}" />
+     <WrapPanel>
+      <Button Content="{loc:Loc BlockEditor_ImportButton}" ToolTip.Tip="{loc:Loc LgpeTrainer_ImportSlot}" Command="{Binding ImportSlotCommand}" Margin="0,0,6,4" />
+      <Button Content="{loc:Loc BlockEditor_ExportButton}" ToolTip.Tip="{loc:Loc LgpeTrainer_ExportSlot}" Command="{Binding ExportSlotCommand}" IsEnabled="{Binding HasOccupiedSelection}" Margin="0,0,6,4" />
+      <Button Content="{loc:Loc Common_Delete}" ToolTip.Tip="{loc:Loc LgpeTrainer_DeleteSlot}" Command="{Binding DeleteSlotCommand}" IsEnabled="{Binding HasOccupiedSelection}" Margin="0,0,6,4" />
+      <Button Content="{loc:Loc LgpeTrainer_MoreActions}" Margin="0,0,6,4"><Button.Flyout><Flyout><ScrollViewer MaxHeight="300"><StackPanel Spacing="8" MaxWidth="400">
+       <CheckBox Content="{loc:Loc LgpeTrainer_WholePark}" IsChecked="{Binding WholePark}" />
+       <TextBlock Text="{loc:Loc LgpeTrainer_FolderScope}" TextWrapping="Wrap" />
+       <Button Content="{loc:Loc LgpeTrainer_ImportFolder}" Command="{Binding ImportFolderCommand}" />
+       <Button Content="{loc:Loc LgpeTrainer_ExportFolder}" Command="{Binding ExportFolderCommand}" />
+       <Button Content="{loc:Loc LgpeTrainer_CopySummary}" Command="{Binding CopySummaryCommand}" />
+       <Button Content="{loc:Loc Misc7bEditor_DeleteAllGoParkPokemon}" Command="{Binding DeleteAllGoParkCommand}" />
+      </StackPanel></ScrollViewer></Flyout></Button.Flyout></Button>
+     </WrapPanel>
+    </StackPanel>
+    <TextBlock DockPanel.Dock="Bottom" Text="{Binding SlotDetails}" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding SlotDetails}" AutomationProperties.HelpText="{Binding SlotDetails}" Margin="0,8,0,0" />
+    <DataGrid Name="LgpeParkSlots" Classes="save-grid" ItemsSource="{Binding ParkSlots}" SelectedItem="{Binding SelectedSlot}" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="None" HeadersVisibility="Column" CanUserSortColumns="True" AutomationProperties.Name="{loc:Loc LgpeTrainer_Slots}">
+     <DataGrid.Columns>
+      <DataGridTextColumn Header="{loc:Loc LgpeTrainer_Slot}" Binding="{Binding Number}" Width="130" />
+      <DataGridTextColumn Header="{loc:Loc LgpeTrainer_Pokemon}" Binding="{Binding Name}" Width="*" MinWidth="140" />
+      <DataGridTextColumn Header="{loc:Loc LgpeTrainer_Level}" Binding="{Binding Level, StringFormat='{}{0:0.##}'}" Width="100" />
+      <DataGridTextColumn Header="{loc:Loc LgpeTrainer_CP}" Binding="{Binding Cp}" Width="100" />
+     </DataGrid.Columns>
+    </DataGrid>
+   </DockPanel></TabItem>
+  </TabControl>
+ </DockPanel>
+</UserControl>

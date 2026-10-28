@@ -1,0 +1,87 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation" xmlns:loc="using:PKHeX.Avalonia.Localization" x:Class="PKHeX.Avalonia.Views.Misc8aEditor" x:DataType="vm:Misc8aEditorViewModel">
+  <Border Classes="view-container">
+    <Grid RowDefinitions="Auto,*,Auto">
+      <Grid Classes="save-editor-header" ColumnDefinitions="*,Auto">
+        <StackPanel>
+          <TextBlock Text="{loc:Loc TrainerEditor_TrainerInfo}" Classes="view-title" />
+          <TextBlock Text="{loc:Loc LgpeTrainer_Staging}" TextWrapping="Wrap" />
+        </StackPanel>
+        <Button Grid.Column="1" Content="{loc:Loc TrainerEditor_ApplyChanges}" Command="{Binding SaveCommand}" Classes="accent" MinWidth="100" />
+      </Grid>
+      <TabControl Name="TrainerPlaSections" Grid.Row="1" Classes="compact-editor-tabs">
+        <TabItem Classes="editor-tab" Header="{loc:Loc TrainerZA_Overview}">
+          <ScrollViewer>
+            <StackPanel Spacing="8" Margin="8">
+              <Border Classes="editor-section-padded">
+                <StackPanel Spacing="8">
+                  <TextBlock Text="{loc:Loc TrainerEditor_TrainerName}" />
+                  <TextBox Text="{Binding TrainerName}" AutomationProperties.Name="{loc:Loc TrainerEditor_TrainerName}" />
+                  <TextBlock Text="{loc:Loc TrainerEditor_Gender}" />
+                  <ComboBox ItemsSource="{Binding Genders}" SelectedValue="{Binding Gender}" SelectedValueBinding="{Binding Value}" DisplayMemberBinding="{Binding Text}" AutomationProperties.Name="{loc:Loc TrainerEditor_Gender}" />
+                  <TextBlock Text="{loc:Loc TrainerEditor_Language}" />
+                  <ComboBox ItemsSource="{Binding Languages}" SelectedValue="{Binding Language}" SelectedValueBinding="{Binding Value}" DisplayMemberBinding="{Binding Text}" AutomationProperties.Name="{loc:Loc TrainerEditor_Language}" />
+                  <TextBlock Text="{loc:Loc TrainerEditor_Tid}" />
+                  <NumericUpDown Value="{Binding DisplayTid}" AutomationProperties.Name="{loc:Loc TrainerEditor_Tid}" Minimum="0" Maximum="999999" ShowButtonSpinner="False" />
+                  <TextBlock Text="{loc:Loc TrainerEditor_Sid}" />
+                  <NumericUpDown Value="{Binding DisplaySid}" AutomationProperties.Name="{loc:Loc TrainerEditor_Sid}" Minimum="0" Maximum="4294" ShowButtonSpinner="False" />
+                  <TextBlock Text="{loc:Loc TrainerEditor_Hours}" />
+                  <NumericUpDown Value="{Binding PlayedHours}" AutomationProperties.Name="{loc:Loc TrainerEditor_Hours}" Minimum="0" Maximum="65535" ShowButtonSpinner="False" />
+                  <TextBlock Text="{loc:Loc TrainerEditor_Minutes}" />
+                  <NumericUpDown Value="{Binding PlayedMinutes}" AutomationProperties.Name="{loc:Loc TrainerEditor_Minutes}" Minimum="0" Maximum="255" ShowButtonSpinner="False" />
+                  <TextBlock Text="{loc:Loc TrainerEditor_Seconds}" />
+                  <NumericUpDown Value="{Binding PlayedSeconds}" AutomationProperties.Name="{loc:Loc TrainerEditor_Seconds}" Minimum="0" Maximum="255" ShowButtonSpinner="False" />
+                </StackPanel>
+              </Border>
+              <Border Classes="editor-section-padded">
+                <StackPanel Spacing="8">
+                  <TextBlock Text="{loc:Loc Misc8aEditor_Money}" />
+                  <NumericUpDown Value="{Binding Money}" AutomationProperties.Name="{loc:Loc Misc8aEditor_Money}" Minimum="0" Maximum="4294967295" ShowButtonSpinner="False" />
+                  <TextBlock Text="{loc:Loc Misc8aEditor_MeritCurrent}" />
+                  <NumericUpDown Value="{Binding MeritCurrent}" AutomationProperties.Name="{loc:Loc Misc8aEditor_MeritCurrent}" Minimum="0" Maximum="4294967295" ShowButtonSpinner="False" />
+                  <TextBlock Text="{loc:Loc Misc8aEditor_MeritEarned}" />
+                  <NumericUpDown Value="{Binding MeritEarned}" AutomationProperties.Name="{loc:Loc Misc8aEditor_MeritEarned}" Minimum="0" Maximum="4294967295" ShowButtonSpinner="False" />
+                  <TextBlock Text="{loc:Loc Misc8aEditor_ExpeditionRank}" />
+                  <NumericUpDown Value="{Binding Rank}" AutomationProperties.Name="{loc:Loc Misc8aEditor_ExpeditionRank}" Minimum="0" Maximum="4294967295" ShowButtonSpinner="False" />
+                  <TextBlock Text="{loc:Loc Misc8aEditor_SatchelUpgrades}" />
+                  <NumericUpDown Value="{Binding SatchelUpgrades}" AutomationProperties.Name="{loc:Loc Misc8aEditor_SatchelUpgrades}" Minimum="0" Maximum="{Binding SatchelMaximum}" ShowButtonSpinner="False" />
+                </StackPanel>
+              </Border>
+              <Border Classes="editor-section-padded">
+                <StackPanel Spacing="8">
+                  <TextBlock Text="{loc:Loc Trainer7_Started}" />
+                  <DatePicker SelectedDate="{Binding StartedDate}" MinYear="1970-01-01T00:00:00+00:00" MaxYear="9999-12-31T00:00:00+00:00" AutomationProperties.Name="{loc:Loc Trainer7_Started}" />
+                  <TimePicker SelectedTime="{Binding StartedTime}" AutomationProperties.Name="{loc:Loc Trainer7_Started}" />
+                  <TextBlock Text="{loc:Loc TrainerEditor_Seconds}" />
+                  <NumericUpDown Value="{Binding StartedSeconds}" AutomationProperties.Name="{loc:Loc TrainerEditor_Seconds}" Minimum="0" Maximum="59" ShowButtonSpinner="False" />
+                  <TextBlock Text="{loc:Loc TrainerZA_LastSaved}" />
+                  <DatePicker SelectedDate="{Binding LastSavedDate}" MinYear="1900-01-01T00:00:00+00:00" MaxYear="5995-12-31T00:00:00+00:00" AutomationProperties.Name="{loc:Loc TrainerZA_LastSavedDate}" />
+                  <TimePicker SelectedTime="{Binding LastSavedTime}" AutomationProperties.Name="{loc:Loc TrainerZA_LastSavedTime}" />
+                </StackPanel>
+              </Border>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+        <TabItem Classes="editor-tab" Header="{loc:Loc TrainerZA_MapMisc}">
+          <ScrollViewer>
+            <StackPanel Spacing="8" Margin="8">
+              <TextBlock Text="{loc:Loc TrainerZA_MapName}" />
+              <TextBox Text="{Binding MapName}" AutomationProperties.Name="{loc:Loc TrainerZA_MapName}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_CoordX}" />
+              <TextBox Text="{Binding XText}" AutomationProperties.Name="{loc:Loc TrainerEditor_CoordX}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_CoordY}" />
+              <TextBox Text="{Binding YText}" AutomationProperties.Name="{loc:Loc TrainerEditor_CoordY}" />
+              <TextBlock Text="{loc:Loc TrainerEditor_CoordZ}" />
+              <TextBox Text="{Binding ZText}" AutomationProperties.Name="{loc:Loc TrainerEditor_CoordZ}" />
+              <TextBlock Text="{loc:Loc Trainer7_Rotation}" />
+              <NumericUpDown Value="{Binding Rotation}" AutomationProperties.Name="{loc:Loc Trainer7_Rotation}" Minimum="-360" Maximum="360" ShowButtonSpinner="False" />
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+      </TabControl>
+      <StackPanel Grid.Row="2" Spacing="8">
+        <TextBlock Text="{Binding Error}" IsVisible="{Binding HasError}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" />
+        <Button Content="{loc:Loc TrainerEditor_Reset}" Command="{Binding ResetCommand}" HorizontalAlignment="Right" />
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

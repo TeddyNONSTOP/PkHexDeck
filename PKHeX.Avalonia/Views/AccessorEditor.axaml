@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PKHeX.Presentation.ViewModels;assembly=PKHeX.Presentation"
+             xmlns:loc="using:PKHeX.Avalonia.Localization"
+             x:Class="PKHeX.Avalonia.Views.AccessorEditor"
+             x:DataType="vm:AccessorEditorViewModel">
+
+    <Border Classes="view-container">
+        <DockPanel>
+        <StackPanel IsVisible="{Binding !IsSupported}" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="{loc:Loc AccessorEditor_NotSupported}" Foreground="Red" />
+        </StackPanel>
+
+        <Grid IsVisible="{Binding IsSupported}" ColumnDefinitions="200,*" RowDefinitions="*">
+            <Border Grid.Column="0" Classes="database-filter-pane" Margin="0,0,10,0">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="{loc:Loc AccessorEditor_BlocksHeader}" FontWeight="Bold" Margin="0,0,0,5" />
+                    <ListBox ItemsSource="{Binding BlockKeys}" SelectedItem="{Binding SelectedKey}" />
+                </DockPanel>
+            </Border>
+
+            <Border Grid.Column="1" Classes="database-results-pane">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="{loc:Loc AccessorEditor_BlockDetailsHeader}" FontWeight="Bold" FontSize="14" />
+                    <TextBlock Text="{Binding BlockDetails}" FontFamily="Consolas" />
+                </StackPanel>
+            </Border>
+        </Grid>
+        </DockPanel>
+    </Border>
+</UserControl>
