@@ -13,6 +13,9 @@
   <developer id="io.pkhexdeck">
     <name>PkHexDeck contributors</name>
   </developer>
+  <url type="homepage">https://github.com/TeddyNONSTOP/PkHexDeck</url>
+  <url type="bugtracker">https://github.com/TeddyNONSTOP/PkHexDeck/issues</url>
+  <url type="vcs-browser">https://github.com/TeddyNONSTOP/PkHexDeck</url>
   <categories>
     <category>Utility</category>
   </categories>
